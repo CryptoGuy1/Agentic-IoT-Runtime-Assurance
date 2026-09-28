@@ -1,5 +1,10 @@
 # Week 1 technical reference
 
+> This document explains the Week 1 foundation. Week 2 is now implemented and
+> makes incremental evaluation the default. See [Understanding Week 2](week-two.md)
+> for the current mode selection, verification and work counters.
+
+
 For the plain-language explanation, start with [Understanding Week 1](week-one.md).
 
 This is the implementation record for the existing timeline, not a replacement

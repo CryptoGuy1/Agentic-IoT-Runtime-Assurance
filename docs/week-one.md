@@ -1,5 +1,10 @@
 # Understanding Week 1
 
+> This document explains the Week 1 foundation. Week 2 is now implemented and
+> makes incremental evaluation the default. See [Understanding Week 2](week-two.md)
+> for the current mode selection, verification and work counters.
+
+
 We built the part of our system that answers:
 
 > “Do we currently have enough usable evidence to support this conclusion, and why?”

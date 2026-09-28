@@ -2,7 +2,7 @@
 name = "dcra"
 version = "0.1.0"
 edition = "2024"
-description = "Minimal reference evaluator for evidence-bound IoT action assurance"
+description = "Evidence-bound IoT assurance and action execution lifecycle"
 publish = false
 
 [dependencies]

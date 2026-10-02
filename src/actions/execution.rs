@@ -173,6 +173,10 @@ impl ActionRuntime {
         }
         Ok(())
     }
+    /// Enable non-semantic evaluator performance records for experiment reports.
+    pub fn enable_work_log(&mut self) {
+        self.assurance.enable_work_log();
+    }
     pub fn now(&self) -> Duration {
         self.assurance.now()
     }
@@ -399,6 +403,95 @@ impl ActionRuntime {
         self.react(offset);
         Ok(())
     }
+    /// Replace only the unstarted suffix. Executed instances retain their identity
+    /// and original version; cancelled instances remain in the history.
+    pub fn replace_pending_suffix(
+        &mut self,
+        plan_id: &str,
+        version: u64,
+        additions: BTreeMap<String, String>,
+        precedence: BTreeSet<(String, String)>,
+    ) -> Result<(), ActionError> {
+        let old = self.plans.get(plan_id).ok_or(ActionError::UnknownPlan)?;
+        if version <= old.version {
+            return Err(ActionError::PlanVersion);
+        }
+        if additions.keys().any(|id| self.instances.contains_key(id)) {
+            return Err(ActionError::DuplicateIdentity);
+        }
+        let mut actions: BTreeMap<_, _> = old
+            .actions
+            .iter()
+            .filter(|(id, _)| self.instances[*id].started_at.is_some())
+            .map(|(id, action)| (id.clone(), action.clone()))
+            .collect();
+        // Preserve existing ordering between retained executions.
+        let mut edges: BTreeSet<_> = old
+            .precedence
+            .iter()
+            .filter(|(a, b)| actions.contains_key(a) && actions.contains_key(b))
+            .cloned()
+            .collect();
+        for (_, to) in &precedence {
+            if actions.contains_key(to) {
+                return Err(ActionError::Configuration(
+                    "cannot change executed predecessors".into(),
+                ));
+            }
+        }
+        actions.extend(additions.clone());
+        edges.extend(precedence);
+        let plan = Plan {
+            plan_id: plan_id.into(),
+            version,
+            actions,
+            precedence: edges,
+            created_at: self.now(),
+        };
+        // Validate the entire replacement before revoking authority or cancelling.
+        let mut validator = Self::with_mode(
+            self.assurance.graph().clone(),
+            self.definitions.values().cloned().collect(),
+            self.assurance.mode(),
+        )?;
+        validator.register_plan(plan.clone())?;
+        self.change_plan_version(plan_id, version)?;
+        for (id, action) in additions {
+            self.instances.insert(
+                id.clone(),
+                ActionInstance {
+                    instance_id: id,
+                    action_id: action,
+                    plan_id: plan_id.into(),
+                    plan_version: version,
+                    state: ActionState::Pending,
+                    created_at: self.now(),
+                    started_at: None,
+                    committed_at: None,
+                    completed_at: None,
+                    active_lease_id: None,
+                    active_command_id: None,
+                },
+            );
+        }
+        self.plans.insert(plan_id.into(), plan);
+        self.refresh_ready();
+        self.rebuild_subscriptions();
+        Ok(())
+    }
+
+    /// Request the declared controller, never force an execution to success.
+    pub fn request_stop(&mut self, id: &str, status: Status) -> Result<(), ActionError> {
+        let instance = self.instances.get(id).ok_or(ActionError::UnknownInstance)?;
+        if !instance.state.is_running() {
+            return Err(ActionError::IllegalTransition);
+        }
+        let offset = self.assurance.audit().len();
+        self.begin_recovery(id, Some(status), false);
+        self.react(offset);
+        Ok(())
+    }
+
     fn root(&self, id: &str, phase: ActionPhase) -> Result<&str, ActionError> {
         let def = self.definition(id);
         match phase {
@@ -870,55 +963,60 @@ impl ActionRuntime {
             return Err(crate::runtime::RuntimeError::TimeWentBackwards.into());
         }
         while self.now() < target {
-            let mut next = target;
-            for atom in self
-                .assurance
-                .evidence()
-                .values()
-                .filter(|a| a.status == Status::Valid && a.expires_at > self.now())
-            {
-                next = next.min(atom.expires_at);
-            }
-            for lease in self
-                .leases
-                .values()
-                .filter(|l| !l.consumed && l.revoked.is_none() && l.expires_at > self.now())
-            {
-                next = next.min(lease.expires_at);
-            }
-            for instance in self.instances.values().filter(|i| {
-                i.state.is_running()
-                    || matches!(i.state, ActionState::Aborting | ActionState::Recovering)
-            }) {
-                let def = &self.definitions[&instance.action_id];
-                if let Some(start) = instance.started_at {
-                    let min = start.saturating_add(def.min_duration);
-                    if min > self.now() {
-                        next = next.min(min);
-                    }
-                    if instance.state.is_running() {
-                        let max = start.saturating_add(def.max_duration);
-                        if max > self.now() {
-                            next = next.min(max);
-                        }
-                    }
-                }
-                if matches!(
-                    instance.state,
-                    ActionState::Aborting | ActionState::Recovering
-                ) {
-                    let command = &self.commands[instance.active_command_id.as_ref().unwrap()];
-                    let deadline = command.issued_at.saturating_add(def.max_duration);
-                    if deadline > self.now() {
-                        next = next.min(deadline);
-                    }
-                }
-            }
+            let next = self.next_deadline().unwrap_or(target).min(target);
             let offset = self.assurance.audit().len();
             self.assurance.advance_to(next)?;
             self.react(offset);
         }
         Ok(())
+    }
+    /// Next lifecycle or evidence boundary after the current virtual time.
+    pub fn next_deadline(&self) -> Option<Duration> {
+        let mut next = Duration::MAX;
+        for atom in self
+            .assurance
+            .evidence()
+            .values()
+            .filter(|a| a.status == Status::Valid && a.expires_at > self.now())
+        {
+            next = next.min(atom.expires_at);
+        }
+        for lease in self
+            .leases
+            .values()
+            .filter(|l| !l.consumed && l.revoked.is_none() && l.expires_at > self.now())
+        {
+            next = next.min(lease.expires_at);
+        }
+        for instance in self.instances.values().filter(|i| {
+            i.state.is_running()
+                || matches!(i.state, ActionState::Aborting | ActionState::Recovering)
+        }) {
+            let def = &self.definitions[&instance.action_id];
+            if let Some(start) = instance.started_at {
+                let min = start.saturating_add(def.min_duration);
+                if min > self.now() {
+                    next = next.min(min);
+                }
+                if instance.state.is_running() {
+                    let max = start.saturating_add(def.max_duration);
+                    if max > self.now() {
+                        next = next.min(max);
+                    }
+                }
+            }
+            if matches!(
+                instance.state,
+                ActionState::Aborting | ActionState::Recovering
+            ) {
+                let command = &self.commands[instance.active_command_id.as_ref().unwrap()];
+                let deadline = command.issued_at.saturating_add(def.max_duration);
+                if deadline > self.now() {
+                    next = next.min(deadline);
+                }
+            }
+        }
+        (next != Duration::MAX).then_some(next)
     }
     fn refresh_ready(&mut self) {
         let ids: Vec<_> = self

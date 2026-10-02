@@ -1,8 +1,8 @@
 # Dependency-Closed Runtime Assurance
 
-This Rust library implements the **Weeks 1–3 evidence assurance and action execution lifecycle** from the Agentic IoT Six Week Research Timeline, using Implementation
-Specification v1 sections 4–25 and 32–35, with the timeline’s counterexample tests. It models declared evidence support;
-it does not establish sensor truth or physical safety, or control physical devices. Commands are queued for a deterministic fake actuator.
+This Rust library implements the **Weeks 1–5 evidence assurance, action execution, building simulation and communication-fault experiments** from the Agentic IoT Six Week Research Timeline, using Implementation
+Specification v1 and the timeline’s counterexample tests. It models declared evidence support;
+it does not establish sensor truth or physical safety, or control physical devices. Commands are queued for a deterministic fake actuator. Week 4 adds an observation-driven safety interface, a discrete building model and terminal experiments.
 
 A validated dependency graph expresses AND, OR and k-of-n justifications. Each
 valid conclusion has a preferred witness identifying its supporting observations
@@ -17,6 +17,7 @@ With a Rust toolchain supporting edition 2024 (no external dependencies):
 cargo run --offline --example week_one
 cargo run --offline --example week_two
 cargo run --offline --example week_three
+cargo run --offline --bin sim -- --interactive
 cargo test --offline
 cargo fmt --check
 cargo clippy --offline --all-targets -- -D warnings
@@ -51,6 +52,7 @@ histories match. These counts measure evaluation work, not a timing guarantee.
 | `runtime` | Mode selection, versioned updates, epochs, expiry, audit history and work counts |
 | `incremental` (internal) | Cached evaluation with propagation through affected dependencies |
 | `actions` | Validated plans/contracts, leases, local command dispatch, running assurance and actuator results |
+| `simulation` | Building truth/observations, B0–B5 admission policies, virtual events, replanning, terminal controls and experiment reports |
 | `clock` | Monotonic virtual clock; no real sleeping or wall-clock decisions |
 
 Use `AssuranceRuntime` for evidence updates and expiry processing. `AssuranceStatus`
@@ -104,6 +106,43 @@ See the [technical reference](docs/week-three-reference.md) for exact lifecycle
 and policy defaults. The fake controller is a test adapter, not physical safety
 certification. Commands and logs are in-memory and non-durable.
 
-Week 4 adds the building simulator, physical interactions, resource-conflict
-scheduling and interactive terminal controls. The language split remains Rust for
-the runtime and Python for the later planner adapter and analysis.
+## Week 4 completion gate
+
+Read [Understanding Week 4](docs/week-four.md) to run and interact with the building.
+The [technical reference](docs/week-four-reference.md) documents comparison
+policies, modelling assumptions, event ordering and metric denominators.
+
+```sh
+cargo run --offline --bin sim -- --scenario S3 --baseline B5 --out target/s3-run
+cargo run --offline --bin sim -- --replay target/s3-run/session.commands --out target/s3-replay
+python3 scripts/verify_week_four.py
+```
+
+The verification script saves a machine-readable gate report under
+`target/week-four-verification/`; use `--out` with a new directory for later runs.
+It covers the complete test suite and batch, replay and interactive CLI paths.
+All software simulation remains Rust. Python orchestrates verification and remains
+the planned language for the later AI adapter and analysis. Week 4 uses a scripted
+planner; no AI account or external service is required.
+
+
+## Week 5 communication-fault pilot
+
+Read [Understanding Week 5](docs/week-five.md) for the end-to-end explanation and
+[the technical reference](docs/week-five-reference.md) for transport and measurement details.
+
+```sh
+cargo run --offline --bin sim -- --scenario S1 --network compound --interactive
+python3 scripts/run_week_five.py
+```
+
+The pilot runs the prerequisite gate, matched B0–B5 experiments, targeted fault
+checks, feature removals, saved-manifest replays and a full/incremental scale sweep.
+Results default to `target/week-five-pilot/`; supply `--out` with a new directory
+for subsequent runs. Read `pilot-report.md` first. Network transit uses virtual
+time; measured host processing time is reported separately. Week 6's AI planner
+is not included.
+
+
+The [first Week 5 pilot findings](docs/week-five-findings.md) document the completed
+210-run dataset, measured processing costs, and inspected neutral/adverse results.

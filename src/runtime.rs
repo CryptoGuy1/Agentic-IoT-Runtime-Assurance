@@ -60,6 +60,19 @@ pub struct AuditEntry {
     pub event: AuditEvent,
 }
 
+/// Optional host-performance diagnostics, excluded from semantic audit histories.
+#[derive(Debug, Clone)]
+pub struct EvaluationWork {
+    pub at: Duration,
+    pub epoch: u64,
+    pub changed: Vec<String>,
+    pub nodes: usize,
+    pub rules: usize,
+    pub affected_rules: usize,
+    pub stats: EvaluationStats,
+    pub elapsed_ns: u128,
+}
+
 #[derive(Debug)]
 pub struct AssuranceRuntime {
     graph: AssuranceGraph,
@@ -71,6 +84,7 @@ pub struct AssuranceRuntime {
     incremental: Option<IncrementalEvaluator>,
     last_evaluation_stats: EvaluationStats,
     operation_stats: EvaluationStats,
+    work_log: Option<Vec<EvaluationWork>>,
 }
 
 impl AssuranceRuntime {
@@ -106,7 +120,14 @@ impl AssuranceRuntime {
             incremental,
             last_evaluation_stats: EvaluationStats::default(),
             operation_stats: EvaluationStats::default(),
+            work_log: None,
         }
+    }
+    pub fn enable_work_log(&mut self) {
+        self.work_log.get_or_insert_with(Vec::new);
+    }
+    pub fn work_log(&self) -> &[EvaluationWork] {
+        self.work_log.as_deref().unwrap_or(&[])
     }
     pub fn mode(&self) -> EvaluationMode {
         if self.incremental.is_some() {
@@ -290,6 +311,7 @@ impl AssuranceRuntime {
         });
     }
     fn reevaluate(&mut self, dirty: &[String]) {
+        let timer = self.work_log.as_ref().map(|_| std::time::Instant::now());
         let (changes, stats) = if let Some(engine) = &self.incremental {
             engine.update(
                 &self.graph,
@@ -324,6 +346,36 @@ impl AssuranceRuntime {
                 },
             )
         };
+        if let Some(timer) = timer {
+            let elapsed_ns = timer.elapsed().as_nanos();
+            let mut affected: std::collections::BTreeSet<_> = dirty.iter().cloned().collect();
+            let mut rules = std::collections::BTreeSet::new();
+            // Diagnostic reachability is outside the timed evaluator operation.
+            for node in self.graph.topological_order() {
+                for (id, rule) in self
+                    .graph
+                    .justifications()
+                    .iter()
+                    .filter(|(_, r)| &r.conclusion == node)
+                {
+                    if rule.premises.iter().any(|p| affected.contains(p)) {
+                        rules.insert(id.clone());
+                        affected.insert(node.clone());
+                    }
+                }
+            }
+            let record = EvaluationWork {
+                at: self.now(),
+                epoch: self.epoch,
+                changed: dirty.to_vec(),
+                nodes: self.graph.nodes().len(),
+                rules: self.graph.justifications().len(),
+                affected_rules: rules.len(),
+                stats,
+                elapsed_ns,
+            };
+            self.work_log.as_mut().unwrap().push(record);
+        }
         self.last_evaluation_stats = stats;
         self.operation_stats.nodes_evaluated += stats.nodes_evaluated;
         self.operation_stats.justifications_evaluated += stats.justifications_evaluated;

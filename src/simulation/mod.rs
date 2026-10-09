@@ -9,3 +9,4 @@ pub use model::*;
 
 mod network;
 pub use network::*;
+pub use report::sim_json_quote;

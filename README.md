@@ -11,6 +11,11 @@ versioned observations, processes explicit expiry events, and records transition
 
 ## Run and inspect
 
+For the local browser demonstration, run `python3 scripts/run_web_demo.py` and open
+`http://127.0.0.1:8765`. See [the web demo guide](docs/web-demo.md) for the two guided
+meeting examples, controls and presenter script. The interface runs the existing
+Rust simulator; no external packages or real devices are required.
+
 With a Rust toolchain supporting edition 2024 (no external dependencies):
 
 ```sh

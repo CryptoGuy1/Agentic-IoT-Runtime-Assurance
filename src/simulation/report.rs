@@ -411,3 +411,63 @@ impl Simulation {
         Ok(())
     }
 }
+
+/// JSON string escaping shared with the local bridge protocol.
+pub fn sim_json_quote(value: &str) -> String {
+    quote(value)
+}
+
+impl Simulation {
+    /// Observation-only export. Building truth is labeled separately for the observer.
+    pub fn web_snapshot_json(&self, preset: &str) -> String {
+        let runtime = self.runtime();
+        let evaluation = runtime.assurance().evaluation();
+        let evidence = runtime.assurance().evidence().values().map(|a| format!(
+            "{{\"id\":{},\"status\":{},\"version\":{},\"observed_ms\":{},\"expires_ms\":{}}}",
+            quote(&a.evidence_id), quote(&format!("{:?}", a.value_at(self.now()).status())), a.version, a.observed_at.as_millis(), a.expires_at.as_millis()
+        )).collect::<Vec<_>>().join(",");
+        let actions = runtime.instances().values().map(|i| {
+            let def = &runtime.definitions()[&i.action_id];
+            let phases = [("START", Some(def.start_contract.as_str())), ("RUN", def.run_contract.as_deref()), ("COMMIT", def.commit_contract.as_deref()), ("OUTCOME", Some(def.outcome_contract.as_str()))].into_iter().filter_map(|(phase, root)| root.map(|root| {
+                let value = evaluation.assurance_by_node.get(root);
+                let witness = evaluation.preferred_witness_by_node.get(root);
+                let ids = witness.map_or(String::new(), |w| w.evidence_ids.iter().map(|id| quote(id)).collect::<Vec<_>>().join(","));
+                format!("{{\"phase\":{},\"root\":{},\"status\":{},\"witness\":[{}],\"horizon_ms\":{}}}", quote(phase), quote(root), quote(&value.map_or("Unknown".into(), |v| format!("{:?}", v.status()))), ids, witness.map_or("null".into(), |w| w.horizon.as_millis().to_string()))
+            })).collect::<Vec<_>>().join(",");
+            format!("{{\"id\":{},\"action\":{},\"state\":{},\"phases\":[{}]}}", quote(&i.instance_id), quote(&i.action_id), quote(&format!("{:?}", i.state)), phases)
+        }).collect::<Vec<_>>().join(",");
+        let events = self
+            .events
+            .iter()
+            .skip(self.events.len().saturating_sub(30))
+            .map(|e| {
+                format!(
+                    "{{\"sequence\":{},\"time_ms\":{},\"kind\":{},\"detail\":{}}}",
+                    e.sequence,
+                    e.at.as_millis(),
+                    quote(&e.kind),
+                    quote(&e.detail)
+                )
+            })
+            .collect::<Vec<_>>()
+            .join(",");
+        let t = self.ground_truth();
+        format!(
+            "{{\"time_ms\":{},\"preset\":{},\"baseline\":\"B5\",\"seed\":42,\"plant\":{{\"fan_high\":{},\"fan_starting\":{},\"alarm_active\":{},\"door_closed\":{},\"door_closing\":{},\"pressure\":{},\"occupied\":{},\"hazard\":{},\"egress_clear\":{}}},\"actions\":[{}],\"evidence\":[{}],\"events\":[{}]}}",
+            self.now().as_millis(),
+            quote(preset),
+            t.fan_high,
+            t.fan_starting,
+            t.alarm_active,
+            t.door_closed,
+            t.door_closing,
+            t.pressure,
+            t.occupied[1],
+            t.hazard[1],
+            t.egress_clear,
+            actions,
+            evidence,
+            events
+        )
+    }
+}

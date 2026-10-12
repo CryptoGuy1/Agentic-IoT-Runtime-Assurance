@@ -2,3 +2,5 @@
 .primary:hover{background:#e1f5b4;color:#172019}
 
 .evidence-card p{font-size:11px;min-height:48px;margin:10px 0}.evidence-card .controls{margin-top:12px}.evidence-card button{padding:7px 10px}.plant-controls{padding:14px 0;border-bottom:1px solid var(--border)}.condition{display:flex;align-items:center;gap:8px;margin-top:8px}.condition strong{font-size:12px;min-width:75px}.plantstats{flex-wrap:wrap;gap:14px}
+
+.planner-panel{margin-bottom:20px}.planner-panel>label{display:block;font-size:12px;margin-top:14px}textarea{display:block;width:100%;resize:vertical;background:#111c1f;color:var(--text);border:1px solid #465257;border-radius:7px;padding:10px;font:inherit;margin:7px 0 12px}#proposal{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:13px}#proposal small{color:var(--muted);overflow-wrap:anywhere}#planning-status{margin-left:12px;color:var(--amber);font-size:12px}

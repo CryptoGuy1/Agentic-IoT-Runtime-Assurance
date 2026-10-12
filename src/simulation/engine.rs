@@ -1057,6 +1057,82 @@ impl Simulation {
         self.drain();
         Ok(())
     }
+    /// Install a bounded sequential proposal without granting execution authority.
+    /// Started history is retained by the runtime; this adapter cannot restart it.
+    pub fn apply_planner_sequence(&mut self, names: &[String]) -> Result<()> {
+        if names.len() > 3
+            || names
+                .iter()
+                .any(|a| !["alarm", "fan", "door"].contains(&a.as_str()))
+        {
+            return Err("Planner actions must be alarm, fan or door (at most three)".into());
+        }
+        if names.iter().collect::<BTreeSet<_>>().len() != names.len() {
+            return Err("Duplicate planner action".into());
+        }
+        let old = &self.runtime.plans()["building"];
+        let version = old.version.checked_add(1).ok_or("Plan version overflow")?;
+        let mut additions = BTreeMap::new();
+        let mut ids = Vec::new();
+        let mut started = BTreeSet::new();
+        for (index, name) in names.iter().enumerate() {
+            let existing = old
+                .actions
+                .iter()
+                .find(|(id, a)| *a == name && self.runtime.instances()[*id].started_at.is_some());
+            let id = if let Some((id, _)) = existing {
+                started.insert(id.clone());
+                id.clone()
+            } else {
+                let id = format!("v{version}.{index}.{name}");
+                additions.insert(id.clone(), name.clone());
+                id
+            };
+            ids.push(id);
+        }
+        let mut precedence = BTreeSet::new();
+        for pair in ids.windows(2) {
+            let edge = (pair[0].clone(), pair[1].clone());
+            if started.contains(&pair[1]) {
+                if !old.precedence.contains(&edge) {
+                    return Err("Proposal would change the predecessors of started work".into());
+                }
+            } else {
+                precedence.insert(edge);
+            }
+        }
+        for (action, predecessor) in [("fan", "alarm"), ("door", "fan")] {
+            if let Some(index) = names.iter().position(|a| a == action) {
+                if started.contains(&ids[index]) {
+                    continue;
+                }
+                if let Some(before) = names.iter().position(|a| a == predecessor) {
+                    if before >= index {
+                        return Err("Proposal reverses the S1 predecessor order".into());
+                    }
+                    precedence.insert((ids[before].clone(), ids[index].clone()));
+                } else {
+                    let before = old.actions.iter().find(|(id, a)| a.as_str() == predecessor && self.runtime.instances()[*id].state == ActionState::Completed)
+                        .ok_or_else(|| format!("{action} requires {predecessor} in the proposal or a completed predecessor"))?;
+                    precedence.insert((before.0.clone(), ids[index].clone()));
+                }
+            }
+        }
+        self.runtime
+            .replace_pending_suffix("building", version, additions, precedence)
+            .map_err(|e| e.to_string())?;
+        self.metrics.replans += 1;
+        self.log(
+            "ExternalPlanAccepted",
+            format!(
+                "version={version} sequential_actions={names:?}; runtime admission still required"
+            ),
+        );
+        self.schedule(self.now(), Event::Wake);
+        self.flush();
+        Ok(())
+    }
+
     fn replan(&mut self) -> Result<()> {
         let version = self.runtime.plans()["building"].version + 1;
         let history: Vec<_> = self.runtime.instances().values().cloned().collect();

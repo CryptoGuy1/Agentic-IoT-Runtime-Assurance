@@ -1,8 +1,69 @@
 # Dependency-Closed Runtime Assurance
 
-This Rust library implements the **Weeks 1–5 evidence assurance, action execution, building simulation and communication-fault experiments** from the Agentic IoT Six Week Research Timeline, using Implementation
-Specification v1 and the timeline’s counterexample tests. It models declared evidence support;
-it does not establish sensor truth or physical safety, or control physical devices. Commands are queued for a deterministic fake actuator. Week 4 adds an observation-driven safety interface, a discrete building model and terminal experiments.
+This project is building a **general runtime assurance system** that uses current
+evidence to assess whether decisions are justified, monitors execution, and checks
+outcomes. Its research goal is to make appropriate decisions reliably under
+uncertainty and demonstrate improvement over the existing approaches represented
+by its benchmarks.
+
+The target is **at least 80% correct decisions within a defined benchmark scope**.
+This is a development and evaluation target, not an achieved result or a guarantee
+that every individual decision has an 80% probability of being right. Establishing
+that target requires an independent definition of the right choice, representative
+scenarios, and reporting of measurement uncertainty.
+
+Fans, doors, alarms and other building actions are the **first demonstration of
+the assurance idea**. They provide a controlled environment for testing the
+runtime; they do not define the intended limits of the system. We are building
+towards an assurance core whose evidence, decision and execution mechanisms can
+be applied through domain-specific models and adapters, with broader applicability
+validated through additional scenarios and domains.
+
+## Decision quality and benchmarking
+
+Every decision the runtime makes should be recorded and benchmarked against an
+independently defined expected response. Evaluation must cover decisions to allow
+or withhold an action, continue or abort execution, permit commitment, and accept
+an outcome. The expected response must account for the scenario's true state,
+objectives, constraints and timing; the runtime's own rules cannot serve as the
+sole judge of correctness.
+
+The benchmark documents guide this evaluation. As implementation progresses, we
+need to:
+
+- Define the decision categories, expected responses and scoring denominators,
+  including how repeated decisions and decisions to wait are counted.
+- Measure incorrect actions and missed useful actions together, so withholding
+  every action cannot satisfy the decision-quality target.
+- Compare the runtime with relevant baselines under matched scenarios and fault
+  conditions, reporting both aggregate results and results by decision category
+  and scenario.
+- Preserve decision traces, evidence, outcomes and replay instructions so results
+  can be inspected and reproduced.
+- Evaluate the 80% target with uncertainty estimates and broaden the benchmark
+  beyond the initial building demonstration.
+
+**Supported evidence is not proof of a correct decision.** Sensors, declared
+dependencies or objectives can be wrong even when the runtime follows its rules.
+Evidence assurance and independently measured decision quality are therefore
+separate parts of the research.
+
+## Current implementation and evidence
+
+This Rust library implements the **Weeks 1–5 evidence assurance, action execution,
+building simulation and communication-fault experiments** from the Agentic IoT
+Six Week Research Timeline, using Implementation Specification v1 and the
+timeline's counterexample tests. It models declared evidence support; it does not
+establish sensor truth or physical safety, or control physical devices. Commands
+are queued for a deterministic fake actuator. Week 4 adds an observation-driven
+safety interface, a discrete building model and terminal experiments.
+
+The existing pilot checks reference agreement, false-safe releases, action
+completion and processing costs. These provide evidence about the implemented
+mechanisms within the simulation, but **do not yet establish 80% decision
+correctness or general superiority over real-world systems**. See the
+[Week 5 pilot findings](docs/week-five-findings.md) for measured results and their
+limitations.
 
 A validated dependency graph expresses AND, OR and k-of-n justifications. Each
 valid conclusion has a preferred witness identifying its supporting observations
@@ -151,3 +212,5 @@ is not included.
 
 The [first Week 5 pilot findings](docs/week-five-findings.md) document the completed
 210-run dataset, measured processing costs, and inspected neutral/adverse results.
+
+The web demo also supports **AI · Ollama Qwen3 1.7B** planning using the local `qwen3:1.7b` model. Select AI mode, generate a plan, then advance virtual time. The model proposes actions; Rust/DCRA retains all execution checks. See [web demo instructions](docs/web-demo.md) for constraints and saved planner traces.

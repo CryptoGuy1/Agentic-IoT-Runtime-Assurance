@@ -69,3 +69,33 @@ Each observation card has Remove and Restore controls. Removing a reading makes 
 Thermal is a hazard-confirmation sensor in this model, not a temperature reading in degrees. B5 accepts any two of s1, s2 and thermal. Reset, remove Thermal, remove Hazard sensor 1, then advance 500 ms: the fan waits because only one hazard sensor remains. Restore Thermal: the second supporting reading lets the waiting fan start. Removing only Thermal leaves two readings and still permits the fan to start. Hazard evidence is a start requirement here; removing it after the fan starts does not by itself stop the fan.
 
 Expand Change building conditions to set hazard present/absent, occupancy, exit blockage, or pressure (20/100 model units). These change physical truth immediately; advance 500 ms for normal sensor updates. A dropped sensor remains Unknown even when the building changes. For door demonstrations, block the exit or mark the room occupied before the fan finishes, advance time to deliver observations, and inspect Door requirements. Clear the condition and advance again to allow a still-waiting door to proceed.
+
+## Local AI planner with Ollama
+
+Start Ollama with the already-installed `qwen3:1.7b` model, then launch with the same command:
+
+```sh
+python3 scripts/run_web_demo.py
+```
+
+In Action planner, change Mode to AI · Ollama Qwen3 1.7B. This creates a fresh S1/B5/seed-42 simulation with no proposed actions and delivers initial sensor observations at virtual time zero. Enter a goal and press Generate / replan with Qwen. An accepted plan only creates runtime action instances; advance time to let normal admission, authority delivery and device events occur.
+
+Try the default goal, generate a plan, then advance 500 ms. Remove pressure evidence and advance 200 ms to show DCRA requesting and confirming a stop independently of Qwen. To explore planning under missing information, reset in AI mode, remove pressure evidence first, then generate: Qwen may propose a partial response or wait. Rejected outputs are displayed and retained rather than repaired into a scripted answer.
+
+The initial adapter accepts a sequential list drawn from alarm, fan and door. S1 dependencies remain enforced: fan needs alarm proposed before it or already completed; door needs fan proposed before it or already completed. The model cannot rewrite or repeat started history. A cancelled action cannot be restarted through a new proposal. Reset starts a new experiment. Replanning replaces only pending work through the existing runtime; its existing plan-change/recovery semantics still apply to uncommitted execution.
+
+Planner input is a separate Rust observation/history export. It contains no plant truth, physical values or original event details. The UI still displays ground truth to the experiment observer. Safety contracts and evidence are never accepted from model output.
+
+The standard-library Python adapter calls only `http://127.0.0.1:11434/api/chat`. It uses JSON-schema output, `think: false`, temperature 0, seed 42, a 4096-token context and a 512-token output cap. No third-party libraries are added. Requests and controls share a lock; virtual time stays paused during inference. First inference may take longer while the model loads. A 120-second timeout or invalid response keeps the existing plan. There is no silent scripted fallback.
+
+Records are written to `output/planner-runs/<proposal_id>.json`, including model digest/quantization metadata, Ollama version, exact messages/schema/options, observation/history input, raw response, normalized proposal when valid, latency and acceptance/rejection. This development directory is git-ignored. Archive selected records separately for research; these are prototype traces, not the final paper-v2 benchmark or frozen-plan replay campaign.
+
+Offline verification:
+
+```sh
+cargo build --offline --bin web_bridge
+python3 scripts/test_web_demo.py
+python3 scripts/test_ollama_planner.py
+```
+
+The automated planner tests use recorded-style mock outputs to test enforcement independently of model quality. Live Qwen output is separately rehearsed in the browser.

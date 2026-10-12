@@ -5,10 +5,14 @@ import signal
 import select
 import subprocess
 import threading
+import uuid
+from datetime import datetime, timezone
+from ollama_planner import generate, PlannerError
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+PLANNER_LOG_DIR = ROOT / 'output' / 'planner-runs'
 COMMANDS = {
     'advance_200': 'advance 200ms', 'advance_500': 'advance 500ms',
     'advance_1000': 'advance 1s', 'advance_1200': 'advance 1200ms',
@@ -30,7 +34,8 @@ COMMANDS.update({
 
 class Bridge:
     def __init__(self):
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
+        self.last_proposal = None
         self.process = None
         self.failed = False
         self.start()
@@ -56,7 +61,7 @@ class Bridge:
 
     def exchange(self, command):
         with self.lock:
-            if command.startswith('reset ') and (self.failed or self.process.poll() is not None):
+            if command.startswith(('reset ', 'reset-ai ')) and (self.failed or self.process.poll() is not None):
                 self.close()
                 self.start()
             if self.failed:
@@ -70,10 +75,68 @@ class Bridge:
                 line = self.process.stdout.readline()
                 if not line:
                     raise RuntimeError('Simulator stopped. Press Reset to start a fresh session.')
-                return json.loads(line)
+                result = json.loads(line)
+                if command.startswith(('reset ', 'reset-ai ')) and result['ok']:
+                    self.last_proposal = None
+                result['state']['planner_mode'] = result['planner_mode']
+                result['state']['revision'] = result['revision']
+                result['state']['planner'] = self.last_proposal
+                return result
             except (OSError, ValueError, RuntimeError) as exc:
                 self.failed = True
                 raise RuntimeError('Simulator connection failed. Press Reset to start a fresh session.') from exc
+
+    def plan(self, goal):
+        with self.lock:
+            initial = self.exchange('planning')
+            if initial['planner_mode'] != 'ai':
+                raise PlannerError('Select AI planner mode first; this starts a fresh session')
+            proposal_id = str(uuid.uuid4())
+            record = {'proposal_id': proposal_id, 'created_at': datetime.now(timezone.utc).isoformat(),
+                      'goal': goal, 'context': initial['context'], 'revision': initial['revision']}
+            try:
+                proposal = generate(goal, initial['context'], record)
+                started = {a['action']: a for a in initial['context']['history'] if a['started']}
+                if any(a in started for a in proposal['actions']):
+                    raise PlannerError('Proposal repeats started work. History cannot be rewritten; reset to repeat the experiment.')
+                # This first S1 adapter preserves its required completed-predecessor chain.
+                history = {a['action']: a for a in initial['context']['history']}
+                for action, predecessor in (('fan','alarm'), ('door','fan')):
+                    if action in proposal['actions']:
+                        if predecessor in proposal['actions']:
+                            if proposal['actions'].index(predecessor) > proposal['actions'].index(action):
+                                raise PlannerError('Proposal reverses the S1 predecessor order')
+                        elif history.get(predecessor, {}).get('state') != 'Completed':
+                            raise PlannerError(f'{action} requires {predecessor} in the proposal or a completed predecessor')
+                if proposal['decision'] == 'propose':
+                    command = f"plan {initial['revision']} " + ','.join(proposal['actions'])
+                    result = self.exchange(command)
+                    if not result['ok']:
+                        raise PlannerError(result['error'])
+                    record['result'] = 'accepted'
+                else:
+                    result = self.exchange('state')
+                    record['result'] = 'waiting'
+                self.last_proposal = {'proposal_id': proposal_id, 'model': record['model'],
+                    'decision': record['result'], 'actions': proposal['actions'],
+                    'explanation': proposal['explanation'], 'latency_ms': record['latency_ms']}
+                result['state']['planner'] = self.last_proposal
+                record['state_after'] = result['state']
+                return result
+            except PlannerError as exc:
+                record['result'] = 'rejected'
+                record['error'] = str(exc)
+                self.last_proposal = {'proposal_id': proposal_id, 'model': 'qwen3:1.7b',
+                    'decision': 'rejected', 'actions': [], 'explanation': str(exc),
+                    'latency_ms': record.get('latency_ms')}
+                result = self.exchange('state')
+                record['state_after'] = result['state']
+                return {**result, 'ok': False, 'error': str(exc), 'recoverable': True}
+            finally:
+                directory = PLANNER_LOG_DIR
+                directory.mkdir(parents=True, exist_ok=True)
+                (directory / (proposal_id + '.json')).write_text(json.dumps(record, indent=2))
+
 
 class Handler(BaseHTTPRequestHandler):
     def reply(self, status, data, mime='application/json'):
@@ -109,19 +172,34 @@ class Handler(BaseHTTPRequestHandler):
             return self.reply(415, {'error': 'JSON request required'})
         try:
             length = int(self.headers.get('Content-Length', '0'))
-            if not 0 < length <= 1024:
+            if not 0 < length <= 4096:
                 raise ValueError('Invalid request size')
             obj = json.loads(self.rfile.read(length))
-            if not isinstance(obj, dict) or set(obj) - {'control', 'preset'}:
+            if not isinstance(obj, dict) or set(obj) - {'control', 'preset', 'planner_mode', 'goal'}:
                 raise ValueError('Invalid request')
             control = obj.get('control')
+            if control == 'generate_plan':
+                if set(obj) != {'control', 'goal'} or not isinstance(obj['goal'], str) or not 1 <= len(obj['goal'].strip()) <= 400:
+                    raise ValueError('Provide a goal of 1–400 characters')
+                try:
+                    result = self.server.bridge.plan(obj['goal'].strip())
+                    return self.reply(200 if result['ok'] else 422, result)
+                except PlannerError as exc:
+                    return self.reply(400, {'error': str(exc), 'recoverable': True})
+                except RuntimeError as exc:
+                    return self.reply(503, {'error': str(exc)})
             if control == 'reset':
+                if set(obj) - {'control','preset','planner_mode'}:
+                    raise ValueError('Invalid reset fields')
                 preset = obj.get('preset', 'pressure')
                 if preset not in ('pressure', 'late'):
                     raise ValueError('Unknown preset')
-                command = 'reset ' + preset
+                mode = obj.get('planner_mode', 'scripted')
+                if mode not in ('scripted', 'ai'):
+                    raise ValueError('Unknown planner mode')
+                command = ('reset-ai ' if mode == 'ai' else 'reset ') + preset
             else:
-                if not isinstance(control, str) or control not in COMMANDS or 'preset' in obj:
+                if not isinstance(control, str) or control not in COMMANDS or set(obj) != {'control'}:
                     raise ValueError('Control not allowed')
                 command = COMMANDS[control]
         except (ValueError, TypeError) as exc:

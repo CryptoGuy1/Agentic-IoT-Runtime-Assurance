@@ -418,6 +418,49 @@ pub fn sim_json_quote(value: &str) -> String {
 }
 
 impl Simulation {
+    /// Planner-visible information only: never export physical truth or event details.
+    pub fn planner_context_json(&self) -> String {
+        let sensors = [
+            "s1",
+            "s2",
+            "thermal",
+            "pressure_safe",
+            "fan_healthy",
+            "occupancy_clear",
+            "egress_clear",
+            "agent_available",
+        ];
+        let evidence = sensors.iter().map(|id| {
+            match self.runtime().assurance().evidence().get(*id) {
+                Some(a) => format!("{{\"id\":{},\"status\":{},\"version\":{},\"observed_ms\":{},\"expires_ms\":{}}}", quote(id), quote(&format!("{:?}", a.value_at(self.now()).status())), a.version, a.observed_at.as_millis(), a.expires_at.as_millis()),
+                None => format!("{{\"id\":{},\"status\":\"Unknown\",\"version\":null,\"observed_ms\":null,\"expires_ms\":null}}", quote(id)),
+            }
+        }).collect::<Vec<_>>().join(",");
+        let plan = &self.runtime().plans()["building"];
+        let history = plan
+            .actions
+            .keys()
+            .map(|id| {
+                let a = &self.runtime().instances()[id];
+                format!(
+                    "{{\"id\":{},\"action\":{},\"state\":{},\"started\":{}}}",
+                    quote(id),
+                    quote(&a.action_id),
+                    quote(&format!("{:?}", a.state)),
+                    a.started_at.is_some()
+                )
+            })
+            .collect::<Vec<_>>()
+            .join(",");
+        format!(
+            "{{\"time_ms\":{},\"plan_version\":{},\"evidence\":[{}],\"history\":[{}],\"allowed_actions\":[\"alarm\",\"fan\",\"door\"]}}",
+            self.now().as_millis(),
+            plan.version,
+            evidence,
+            history
+        )
+    }
+
     /// Observation-only export. Building truth is labeled separately for the observer.
     pub fn web_snapshot_json(&self, preset: &str) -> String {
         let runtime = self.runtime();
@@ -434,7 +477,7 @@ impl Simulation {
                 let ids = witness.map_or(String::new(), |w| w.evidence_ids.iter().map(|id| quote(id)).collect::<Vec<_>>().join(","));
                 format!("{{\"phase\":{},\"root\":{},\"status\":{},\"witness\":[{}],\"horizon_ms\":{}}}", quote(phase), quote(root), quote(&value.map_or("Unknown".into(), |v| format!("{:?}", v.status()))), ids, witness.map_or("null".into(), |w| w.horizon.as_millis().to_string()))
             })).collect::<Vec<_>>().join(",");
-            format!("{{\"id\":{},\"action\":{},\"state\":{},\"phases\":[{}]}}", quote(&i.instance_id), quote(&i.action_id), quote(&format!("{:?}", i.state)), phases)
+            format!("{{\"id\":{},\"action\":{},\"state\":{},\"current\":{},\"phases\":[{}]}}", quote(&i.instance_id), quote(&i.action_id), quote(&format!("{:?}", i.state)), runtime.plans()["building"].actions.contains_key(&i.instance_id), phases)
         }).collect::<Vec<_>>().join(",");
         let events = self
             .events

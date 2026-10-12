@@ -72,6 +72,14 @@ versioned observations, processes explicit expiry events, and records transition
 
 ## Run and inspect
 
+The planned hardware testbed uses our Raspberry Pi 5 for the assurance runtime,
+benchmark orchestration and dashboard, and our Raspberry Pi 4 for sensor inputs
+and the local actuator/gateway adapter. Start by running the existing software,
+then add the distributed communication and physical I/O adapters. See the
+[Raspberry Pi testbed and provisional shopping list](docs/raspberry-pi-testbed.md)
+for staged purchases, implementation work and benchmark requirements. The current
+implementation still uses simulated observations and a fake actuator.
+
 For the local browser demonstration, run `python3 scripts/run_web_demo.py` and open
 `http://127.0.0.1:8765`. See [the web demo guide](docs/web-demo.md) for the two guided
 meeting examples, controls and presenter script. The interface runs the existing

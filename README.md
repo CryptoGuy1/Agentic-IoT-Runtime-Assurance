@@ -70,6 +70,28 @@ valid conclusion has a preferred witness identifying its supporting observations
 and a horizon showing when that support expires. A deterministic runtime accepts
 versioned observations, processes explicit expiry events, and records transitions.
 
+## Model v1: first tested physical-model core
+
+A separate Rust experiment now estimates ranges of possible physical states,
+handles delayed readings at their original times, and checks proposed actions
+against those possibilities. An independent scorer evaluates actual simulated
+consequences. It includes sensor gaps, command delays/loss, occupancy changes,
+device failures and deliberately incorrect model assumptions.
+
+```sh
+cargo run --offline --bin model_v1 -- --scenario short-gap --seed 42 --out target/model-short-gap
+```
+
+Read the generated `report.md`, or see [the Model v1 guide and corrected
+specification](docs/model-v1.md) and the [measured results](docs/model-v1-results.md).
+Use a new output directory for each run.
+This first delivery is an isolated component experiment; its decisions do not
+yet control the existing web simulation. Full policy comparisons and the 80%
+decision-correctness target remain future evaluation work.
+
+The [research register](docs/research-register.md) consolidates the supplied
+reading list and tracks citation corrections separately from full-paper review.
+
 ## Run and inspect
 
 The planned hardware testbed uses our Raspberry Pi 5 for the assurance runtime,

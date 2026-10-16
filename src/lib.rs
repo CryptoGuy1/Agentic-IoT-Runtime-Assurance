@@ -14,3 +14,6 @@ mod incremental;
 pub mod actions;
 
 pub mod simulation;
+
+/// Isolated Model v1 experiment; does not replace the existing simulation.
+pub mod model_v1;

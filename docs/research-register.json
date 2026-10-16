@@ -1,0 +1,2916 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-10-15",
+  "source_document": "Evidra_Literature_Review_Master_List.docx",
+  "source_sha256": "00d9ef65639d380f64e1902f22f96d62a37c491af00d15f8dbffbc6bb66fd7ee",
+  "source_entry_count": 123,
+  "deduplication": "Explicit cross-references plus identified repeated works; unresolved discovery leads remain separate provisional records. No claim of an exhaustive identity audit.",
+  "records": [
+    {
+      "id": "R001",
+      "citation": "Zhu, Q. (2026). Internet of Agentic Things: Networked AI Agents for Closed-Loop IoT Orchestration. arXiv:2607.12662.",
+      "source_entries": [
+        1
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R002",
+      "citation": "Sevinç, R. H., Türkoğlu, B., & Kök, İ. (2026). Agentic IoT: Architectures, Applications, and Challenges Toward the Internet of Agents. arXiv:2607.04219.",
+      "source_entries": [
+        2
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R003",
+      "citation": "Chen, Z., Kang, M., & Li, B. (2025). ShieldAgent: Shielding Agents via Verifiable Safety Policy Reasoning. ICML 2025, PMLR 267, 8313–8344.",
+      "source_entries": [
+        3
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "selected_metadata_verified",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [
+        {
+          "url": "https://proceedings.mlr.press/v267/chen25ae.html",
+          "checked_on": "2026-10-14"
+        }
+      ],
+      "notes": [
+        "Publisher metadata verified; no full-paper review in this delivery."
+      ]
+    },
+    {
+      "id": "R004",
+      "citation": "Montanari, M., Palangi, H., Miculicich, L., Parmar, M., Pfister, T., Le, L., & Dvijotham, D. (2025). VeriGuard: Enhancing LLM Agent Safety via Verified Code Generation. Google Research / arXiv.",
+      "source_entries": [
+        4
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R005",
+      "citation": "Zhou, J., Sheng, Y., Lou, H., Yang, Y., & Fu, J. (2026). FormalJudge: A Neuro-Symbolic Paradigm for Agentic Oversight. Proceedings of ICML 2026, PMLR 306, 165723-165752.",
+      "source_entries": [
+        5
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R006",
+      "citation": "Wang, H., Poskitt, C. M., & Sun, J. (2026). AgentSpec: Customizable Runtime Enforcement for Safe and Reliable LLM Agents. ICSE 2026, 2938–2950. doi:10.1145/3744916.3764546.",
+      "source_entries": [
+        6
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "selected_metadata_verified",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [
+        {
+          "url": "https://arxiv.org/abs/2503.18666v3",
+          "checked_on": "2026-10-14"
+        }
+      ],
+      "notes": [
+        "Conference details replace vague 2025/2026 wording."
+      ]
+    },
+    {
+      "id": "R007",
+      "citation": "Ng, A. W., Han, Y., Zhang, J., & Wang, W. (2026). Agent Safety Should Be a Runtime Contract. arXiv:2608.11274.",
+      "source_entries": [
+        7
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R008",
+      "citation": "Chen, E., Wang, S., & Brinton, C. G. (2026). Fresh Memory, Stale Plans: Derivation Currency for Distributed LLM-Agent Memory. arXiv:2609.03340v2.",
+      "source_entries": [
+        8
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "selected_metadata_verified",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [
+        {
+          "url": "https://arxiv.org/abs/2609.03340v2",
+          "checked_on": "2026-10-14"
+        }
+      ],
+      "notes": [
+        "Title and exact reviewed metadata version corrected."
+      ]
+    },
+    {
+      "id": "R009",
+      "citation": "Kekatos, N., Ioannou, M., Katsaros, P., Lekidis, A., Nestoridis, T., Nianios, T., & Nikou, D. (2026). Mission-Level Runtime Assurance for LLM-Assisted ISR Swarms over a Verification-Aware Fabric. arXiv:2607.23532v3.",
+      "source_entries": [
+        9
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "selected_metadata_verified",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [
+        {
+          "url": "https://arxiv.org/abs/2607.23532v3",
+          "checked_on": "2026-10-14"
+        }
+      ],
+      "notes": [
+        "Author list corrected for v3; earlier-version author lists must not be mixed into this record."
+      ]
+    },
+    {
+      "id": "R010",
+      "citation": "Ramaswamy, S., & Miaosheng, W. (2026). Managed Autonomy at Runtime: Gear-Based Safety and Governance for Single- and Multi-Agent Cyber-Physical Systems. arXiv:2607.00334.",
+      "source_entries": [
+        10,
+        109
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+        "11. Human oversight, meaningful control, and governance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 109 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R011",
+      "citation": "Belter, B., & Głąbowski, M. (2026). Assured AI-Native Network Control Loops: State of the Art, Research Challenges and the Missing Runtime Assurance Layer. arXiv:2609.11996.",
+      "source_entries": [
+        11
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R012",
+      "citation": "Calboreanu, E. (2026). LATTICE: A Governance-First Architecture for Authorized Autonomous AI Operations. Frontiers in Artificial Intelligence.",
+      "source_entries": [
+        12,
+        110
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+        "11. Human oversight, meaningful control, and governance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 110 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R013",
+      "citation": "Syros, G., Suri, A., Ginesin, J., Nita-Rotaru, C., & Oprea, A. (2025). SAGA: A Security Architecture for Governing AI Agentic Systems. arXiv:2504.21034 / NDSS-related publication.",
+      "source_entries": [
+        13,
+        110
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+        "11. Human oversight, meaningful control, and governance"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 110 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R014",
+      "citation": "Lilienthal, D., & Hong, S. (2025). Mind the Gap: Time-of-Check to Time-of-Use Vulnerabilities in LLM-Enabled Agents. arXiv:2508.17155.",
+      "source_entries": [
+        14
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R015",
+      "citation": "Rafy, M. F. (2026). TwinGridShield: Consequence-Aware Runtime Authorization for LLM Grid-Agent Actions. arXiv:2608.15391; accepted at NAPS 2026.",
+      "source_entries": [
+        15,
+        97
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 97 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R016",
+      "citation": "Ibrahim, A., Al Machot, F., & Kyamakya, K. (2026). Cyber-Physical GraphRAG: Safe, Real-Time, and Scalable Orchestration of Large-Scale Autonomous Fleets. IEEE Access, 14, 107177-107195. doi:10.1109/ACCESS.2026.3706610.",
+      "source_entries": [
+        16
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R017",
+      "citation": "Lee, S. (2026). From Stabilization to Oversight: A Five-Stage Safety Assurance Pipeline for Autonomous Manufacturing. Reliability Engineering & System Safety, 277(3), 112944. doi:10.1016/j.ress.2026.112944.",
+      "source_entries": [
+        17
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R018",
+      "citation": "Varol, A., et al. (2026). Evil-AI Benchmark: An Evaluation Framework for Adversarial Security Assessment of LLM Agents in Smart Environments. IEEE Access, 14, 133098-133116. doi:10.1109/ACCESS.2026.3727159.",
+      "source_entries": [
+        18
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R019",
+      "citation": "Li, C., Faghfoorian, S., & Ruchkin, I. (2025). What Does It Take to Get Guarantees? Systematizing Assumptions in Cyber-Physical Systems. arXiv:2511.15952.",
+      "source_entries": [
+        19,
+        76
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 76 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R020",
+      "citation": "Li, S., Guo, Y., Yao, J., Liu, Z., & Wang, H. (2025). HomeBench: Evaluating LLMs in Smart Homes with Valid and Invalid Instructions Across Single and Multiple Devices. ACL 2025, 12230-12250. doi:10.18653/v1/2025.acl-long.597.",
+      "source_entries": [
+        20,
+        118
+      ],
+      "themes": [
+        "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 118 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R021",
+      "citation": "Debenedetti, E., Zhang, J., Balunović, M., Beurer-Kellner, L., Fischer, M., & Tramèr, F. (2024). AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents. NeurIPS 2024.",
+      "source_entries": [
+        21
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R022",
+      "citation": "Zhan, Q., Liang, Z., Ying, Z., & Kang, D. (2024). InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents. Findings of ACL 2024, 10471-10506. doi:10.18653/v1/2024.findings-acl.624.",
+      "source_entries": [
+        22
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R023",
+      "citation": "Yuan, T., et al. (2024). R-Judge: Benchmarking Safety Risk Awareness for LLM Agents. Findings of EMNLP 2024, 1467-1490. doi:10.18653/v1/2024.findings-emnlp.79.",
+      "source_entries": [
+        23
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R024",
+      "citation": "Zhang, Z., Cui, S., Lu, Y., Zhou, J., Yang, J., Wang, H., & Huang, M. (2024). Agent-SafetyBench: Evaluating the Safety of LLM Agents. arXiv:2412.14470.",
+      "source_entries": [
+        24
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R025",
+      "citation": "Yin, S., Pang, X., Ding, Y., et al. (2024). SafeAgentBench: A Benchmark for Safe Task Planning of Embodied LLM Agents. arXiv:2412.13178.",
+      "source_entries": [
+        25,
+        118
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 118 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R026",
+      "citation": "Andriushchenko, M., et al. (2025). AgentHarm: A Benchmark for Measuring Harmfulness of LLM Agents. ICLR 2025.",
+      "source_entries": [
+        26
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R027",
+      "citation": "Zhang, H., Huang, J., Mei, K., et al. (2025). Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents. ICLR 2025.",
+      "source_entries": [
+        27
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R028",
+      "citation": "Liu, X., et al. (2024). AgentBench: Evaluating LLMs as Agents. ICLR 2024.",
+      "source_entries": [
+        28,
+        122
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 122 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R029",
+      "citation": "Ruan, Y., Dong, H., Wang, A., et al. (2024). Identifying the Risks of LM Agents with an LM-Emulated Sandbox (ToolEmu). ICLR 2024.",
+      "source_entries": [
+        29,
+        117
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 117 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R030",
+      "citation": "Lu, J., Holleis, T., Zhang, Y., et al. (2024). ToolSandbox: A Stateful, Conversational, Interactive Evaluation Benchmark for LLM Tool Use Capabilities. arXiv:2408.04682.",
+      "source_entries": [
+        30,
+        123
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 123 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R031",
+      "citation": "Song, C. H., Wu, J., Washington, C., Sadler, B. M., Chao, W.-L., & Su, Y. (2023). LLM-Planner: Few-Shot Grounded Planning for Embodied Agents with Large Language Models. arXiv:2212.04088.",
+      "source_entries": [
+        31,
+        47
+      ],
+      "themes": [
+        "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+        "4. Embodied AI, LLM planning, and physical grounding"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 47 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R032",
+      "citation": "Siam, S. I., et al. (2024). Artificial Intelligence of Things: A Survey. ACM Transactions on Sensor Networks. doi:10.1145/3690639.",
+      "source_entries": [
+        32
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R033",
+      "citation": "Zhou, Z., Chen, X., Li, E., Zeng, L., Luo, K., & Zhang, J. (2019). Edge Intelligence: Paving the Last Mile of Artificial Intelligence with Edge Computing. Proceedings of the IEEE, 107(8). arXiv:1905.10083.",
+      "source_entries": [
+        33
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "B",
+      "metadata_status": "selected_metadata_verified",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [
+        {
+          "url": "https://arxiv.org/abs/1905.10083",
+          "checked_on": "2026-10-15"
+        }
+      ],
+      "notes": [
+        "Retained the work matching the stated title/authors; removed conflicting 2020 IoT-journal title, pages and DOI. Publisher issue confirms 107(8), August 2019: https://proceedingsoftheieee.ieee.org/august-2019/ . Page range/DOI not copied from secondary sources."
+      ]
+    },
+    {
+      "id": "R034",
+      "citation": "Distributed Intelligence in the Artificial Intelligence of Things: A Review of Artificial Intelligence Workload Placement Across the Device-Edge-Fog-Cloud Continuum. (2026). Future Internet, 18(6), 296. doi:10.3390/fi18060296.",
+      "source_entries": [
+        34
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R035",
+      "citation": "Lu, Z., et al. (2024). Surveying Neuro-Symbolic Approaches for Reliable Artificial Intelligence of Things. Journal of Reliable Intelligent Environments, 10, 257-279.",
+      "source_entries": [
+        35
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R036",
+      "citation": "A Survey of Industrial AIoT: Opportunities, Challenges, and Directions. (2024). IEEE Access. doi:10.1109/ACCESS.2024.3426279.",
+      "source_entries": [
+        36
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R037",
+      "citation": "Anomaly Detection Based on Artificial Intelligence of Things: A Systematic Literature Mapping. (2024). Internet of Things, 25, 101063. doi:10.1016/j.iot.2024.101063.",
+      "source_entries": [
+        37
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R038",
+      "citation": "A Survey of Recent Advances in Edge-Computing-Powered Artificial Intelligence of Things. (Recent survey). IEEE.",
+      "source_entries": [
+        38
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "C",
+      "metadata_status": "unresolved_discovery_lead",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry lacks enough author/year/identifier information for a citation. Do not cite until resolved; no identity guessed."
+      ]
+    },
+    {
+      "id": "R039",
+      "citation": "A Systematic Review of Autonomous Agentic AI Architectures and Orchestration Strategies for Edge-to-Cloud Internet of Things Deployments. (2026).",
+      "source_entries": [
+        39
+      ],
+      "themes": [
+        "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence"
+      ],
+      "priority": "C",
+      "metadata_status": "unresolved_discovery_lead",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry lacks enough author/year/identifier information for a citation. Do not cite until resolved; no identity guessed."
+      ]
+    },
+    {
+      "id": "R040",
+      "citation": "Ichter, B., Brohan, A., Chebotar, Y., et al. (2023). Do As I Can, Not As I Say: Grounding Language in Robotic Affordances. CoRL 2022/Proceedings of The 6th Conference on Robot Learning, PMLR 205, 287-318.",
+      "source_entries": [
+        40,
+        119
+      ],
+      "themes": [
+        "4. Embodied AI, LLM planning, and physical grounding",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 119 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R041",
+      "citation": "Driess, D., Xia, F., Sajjadi, M. S. M., et al. (2023). PaLM-E: An Embodied Multimodal Language Model. ICML 2023, PMLR 202, 8469-8488.",
+      "source_entries": [
+        41
+      ],
+      "themes": [
+        "4. Embodied AI, LLM planning, and physical grounding"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R042",
+      "citation": "Zitkovich, B., et al. (2023). RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control. CoRL 2023, PMLR 229, 2165-2183.",
+      "source_entries": [
+        42
+      ],
+      "themes": [
+        "4. Embodied AI, LLM planning, and physical grounding"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R043",
+      "citation": "Singh, I., Blukis, V., Mousavian, A., et al. (2023). ProgPrompt: Generating Situated Robot Task Plans using Large Language Models. IEEE ICRA 2023. doi:10.1109/ICRA48891.2023.10161317.",
+      "source_entries": [
+        43
+      ],
+      "themes": [
+        "4. Embodied AI, LLM planning, and physical grounding"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R044",
+      "citation": "Liang, J., Huang, W., Xia, F., et al. (2023). Code as Policies: Language Model Programs for Embodied Control. IEEE ICRA 2023, 9493-9500. doi:10.1109/ICRA48891.2023.10160591.",
+      "source_entries": [
+        44,
+        121
+      ],
+      "themes": [
+        "4. Embodied AI, LLM planning, and physical grounding",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 121 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R045",
+      "citation": "Huang, W., Xia, F., Xiao, T., et al. (2023). Inner Monologue: Embodied Reasoning through Planning with Language Models. CoRL, PMLR 205, 1769-1782.",
+      "source_entries": [
+        45,
+        120
+      ],
+      "themes": [
+        "4. Embodied AI, LLM planning, and physical grounding",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 120 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R046",
+      "citation": "Yao, S., Zhao, J., Yu, D., et al. (2023). ReAct: Synergizing Reasoning and Acting in Language Models. ICLR 2023.",
+      "source_entries": [
+        46
+      ],
+      "themes": [
+        "4. Embodied AI, LLM planning, and physical grounding"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R048",
+      "citation": "Seto, D., Krogh, B. H., Sha, L., & Chutinan, A. (1998). The Simplex Architecture for Safe On-Line Control System Upgrades. Proceedings of the American Control Conference, 3504-3508. doi:10.1109/ACC.1998.703255.",
+      "source_entries": [
+        48
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R049",
+      "citation": "Seto, D., Krogh, B. H., Sha, L., & Chutinan, A. (1998). Dynamic Control System Upgrade Using the Simplex Architecture. IEEE Control Systems, 18(4), 72–80. doi:10.1109/37.710880.",
+      "source_entries": [
+        49
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "A",
+      "metadata_status": "selected_metadata_verified",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [
+        {
+          "url": "https://experts.illinois.edu/en/publications/dynamic-control-system-upgrade-using-the-simplex-architecture/",
+          "checked_on": "2026-10-15"
+        }
+      ],
+      "notes": [
+        "Replaced ambiguous author attribution with the institutional publication record."
+      ]
+    },
+    {
+      "id": "R050",
+      "citation": "Mitsch, S., & Platzer, A. (2016). ModelPlex: Verified Runtime Validation of Verified Cyber-Physical System Models. Formal Methods in System Design, 49, 33-74. doi:10.1007/s10703-016-0241-z.",
+      "source_entries": [
+        50,
+        111
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 111 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R051",
+      "citation": "Phan, D., et al. (2017). A Component-Based Simplex Architecture for High-Assurance Cyber-Physical Systems. IEEE / arXiv:1704.04759.",
+      "source_entries": [
+        51
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R052",
+      "citation": "Desai, A., Ghosh, S., Seshia, S. A., Shankar, N., & Tiwari, A. (2019). SOTER: A Runtime Assurance Framework for Programming Safe Robotics Systems. DSN 2019. doi:10.1109/DSN.2019.00027.",
+      "source_entries": [
+        52
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R053",
+      "citation": "Mehmood, U., Sheikhi, S., Bak, S., Smolka, S. A., & Stoller, S. D. (2021). The Black-Box Simplex Architecture for Runtime Assurance of Autonomous CPS. arXiv:2102.12981.",
+      "source_entries": [
+        53
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R054",
+      "citation": "Phan, D. T., Grosu, R., Jansen, N., Paoletti, N., Smolka, S. A., & Stoller, S. D. (2020). Neural Simplex Architecture. NASA Formal Methods 2020, LNCS 12229, 97-114. doi:10.1007/978-3-030-55754-6_6.",
+      "source_entries": [
+        54
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R055",
+      "citation": "Mehmood, U., Roy, S., Damare, A., Grosu, R., Smolka, S. A., & Stoller, S. D. (2023). A Distributed Simplex Architecture for Multi-Agent Systems. Journal of Systems Architecture, 134, 102784. doi:10.1016/j.sysarc.2022.102784.",
+      "source_entries": [
+        55
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R056",
+      "citation": "Schierman, J. D., DeVore, M. D., Richards, N. D., & Clark, M. A. (2020). Runtime Assurance for Autonomous Aerospace Systems. Journal of Guidance, Control, and Dynamics, 43(12), 2205-2217. doi:10.2514/1.G004862.",
+      "source_entries": [
+        56
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R057",
+      "citation": "Miller, K., Zeitler, C. K., Shen, W., Viswanathan, M., & Mitra, S. (2023). RTAEval: A Framework for Evaluating Runtime Assurance Logic. ATVA 2023 / arXiv:2306.04585.",
+      "source_entries": [
+        57,
+        105
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety",
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 105 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R058",
+      "citation": "Biondi, A., Nesti, F., Cicero, G., Casini, D., & Buttazzo, G. (2020). A Safe, Secure, and Predictable Software Architecture for Deep Learning in Safety-Critical Systems. IEEE Embedded Systems Letters, 12(3), 78-82. doi:10.1109/LES.2019.2953253.",
+      "source_entries": [
+        58
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R059",
+      "citation": "Hartsell, C., Ramakrishna, S., Dubey, A., Stojcsics, D., Mahadevan, N., & Karsai, G. (2021). ReSonAte: A Runtime Risk Assessment Framework for Autonomous Systems. SEAMS 2021, 118-129. doi:10.1109/SEAMS51251.2021.00025.",
+      "source_entries": [
+        59
+      ],
+      "themes": [
+        "5. Runtime assurance and Simplex-style cyber-physical safety"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R060",
+      "citation": "Hsu, K.-C., Hu, H., & Fisac, J. F. (2024). The Safety Filter: A Unified View of Safety-Critical Control in Autonomous Systems. Annual Review of Control, Robotics, and Autonomous Systems, 7, 47-72. doi:10.1146/annurev-control-071723-102940.",
+      "source_entries": [
+        60,
+        115
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 115 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R061",
+      "citation": "Wabersich, K. P., & Zeilinger, M. N. (2021). A Predictive Safety Filter for Learning-Based Control of Constrained Nonlinear Dynamical Systems. Automatica, 129, 109597. doi:10.1016/j.automatica.2021.109597.",
+      "source_entries": [
+        61
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R062",
+      "citation": "Fisac, J. F., Akametalu, A. K., Zeilinger, M. N., Kaynama, S., Gillula, J., & Tomlin, C. J. (2019). A General Safety Framework for Learning-Based Control in Uncertain Robotic Systems. IEEE Transactions on Automatic Control, 64(7), 2737-2752. doi:10.1109/TAC.2018.2876389.",
+      "source_entries": [
+        62
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R063",
+      "citation": "Brunke, L., Greeff, M., Hall, A. W., et al. (2022). Safe Learning in Robotics: From Learning-Based Control to Safe Reinforcement Learning. Annual Review of Control, Robotics, and Autonomous Systems, 5, 411-444. doi:10.1146/annurev-control-042920-020211.",
+      "source_entries": [
+        63
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R064",
+      "citation": "Ames, A. D., Grizzle, J. W., & Tabuada, P. (2014). Control Barrier Function Based Quadratic Programs with Application to Adaptive Cruise Control. IEEE CDC 2014, 6271-6278. doi:10.1109/CDC.2014.7040372.",
+      "source_entries": [
+        64,
+        113
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 113 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R065",
+      "citation": "Alshiekh, M., Bloem, R., Ehlers, R., Könighofer, B., Niekum, S., & Topcu, U. (2018). Safe Reinforcement Learning via Shielding. AAAI 2018, 32(1). doi:10.1609/aaai.v32i1.11797.",
+      "source_entries": [
+        65
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R066",
+      "citation": "Wabersich, K. P., & Zeilinger, M. N. (2021/2022). Predictive Control Barrier Functions: Enhanced Safety Mechanisms for Learning-Based Control. arXiv:2105.10241.",
+      "source_entries": [
+        66
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R067",
+      "citation": "Lindemann, L., Zhao, Y., Yu, X., Pappas, G. J., & Deshmukh, J. V. (2025). Formal Verification and Control With Conformal Prediction: Practical Safety Guarantees for Autonomous Systems. IEEE Control Systems, 45(6), 72-122. doi:10.1109/MCS.2025.3611545.",
+      "source_entries": [
+        67
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R068",
+      "citation": "Moss, R. J., Jamgochian, A., Fischer, J., Corso, A., & Kochenderfer, M. J. (2024). ConstrainedZero: Chance-Constrained POMDP Planning Using Learned Probabilistic Failure Surrogates and Adaptive Safety Constraints. IJCAI 2024, 6752-6760. doi:10.24963/ijcai.2024/746.",
+      "source_entries": [
+        68,
+        95
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 95 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R069",
+      "citation": "Le, H. S., Juba, B., & Stern, R. (2024). Learning Safe Action Models with Partial Observability. AAAI 2024, 38(18), 20159-20167. doi:10.1609/aaai.v38i18.29995.",
+      "source_entries": [
+        69,
+        94
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 94 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R070",
+      "citation": "Learning Safe Control for Multi-Robot Systems: Methods, Verification, and Open Challenges. (2024). Annual Reviews in Control, 57, 100948. doi:10.1016/j.arcontrol.2024.100948.",
+      "source_entries": [
+        70
+      ],
+      "themes": [
+        "6. Safety filters, shielding, reachability, and safe control under uncertainty"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R071",
+      "citation": "Sokolsky, O., Zhang, T., Lee, I., & McDougall, M. (2016). Monitoring Assumptions in Assume-Guarantee Contracts. EPTCS 208, 46-53. doi:10.4204/EPTCS.208.4.",
+      "source_entries": [
+        71
+      ],
+      "themes": [
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R072",
+      "citation": "Wei, R., Foster, S., Mei, H., Yan, F., Yang, R., Habli, I., O'Halloran, C., Tudor, N., Kelly, T., & Nemouchi, Y. (2024). ACCESS: Assurance Case Centric Engineering of Safety-Critical Systems. Journal of Systems and Software, 213, 112034. doi:10.1016/j.jss.2024.112034.",
+      "source_entries": [
+        72
+      ],
+      "themes": [
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R073",
+      "citation": "Buysse, L., Habli, I., Vanoost, D., & Pissoort, D. (2025). Safe Autonomous Systems in a Changing World: Operationalising Dynamic Safety Cases. Safety Science, 191, 106965. doi:10.1016/j.ssci.2025.106965.",
+      "source_entries": [
+        73
+      ],
+      "themes": [
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R074",
+      "citation": "Bauer, A., Leucker, M., & Schallhart, C. (2011). Runtime Verification for LTL and TLTL. ACM Transactions on Software Engineering and Methodology, 20(4), Article 14. doi:10.1145/2000799.2000800.",
+      "source_entries": [
+        74
+      ],
+      "themes": [
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R075",
+      "citation": "Fox, M., & Long, D. (2003). PDDL2.1: An Extension to PDDL for Expressing Temporal Planning Domains. Journal of Artificial Intelligence Research, 20, 61-124. doi:10.1613/jair.1129.",
+      "source_entries": [
+        75,
+        112
+      ],
+      "themes": [
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 112 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R077",
+      "citation": "CRYSTAL Framework: Cybersecurity Assurance for Cyber-Physical Systems. (2024). Journal of Logical and Algebraic Methods in Programming, 139, 100965. doi:10.1016/j.jlamp.2024.100965.",
+      "source_entries": [
+        77,
+        92
+      ],
+      "themes": [
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 92 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R078",
+      "citation": "Runtime Verification of Autonomous Systems Utilizing Digital Twins as a Service. (2024). IEEE ACSOS Companion. doi:10.1109/ACSOS-C63493.2024.00042.",
+      "source_entries": [
+        78,
+        91
+      ],
+      "themes": [
+        "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 91 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R079",
+      "citation": "Doyle, J. (1979). A Truth Maintenance System. Artificial Intelligence, 12(3), 231-272. doi:10.1016/0004-3702(79)90008-0.",
+      "source_entries": [
+        79,
+        116
+      ],
+      "themes": [
+        "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 116 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R080",
+      "citation": "de Kleer, J. (1986). An Assumption-Based TMS. Artificial Intelligence, 28(2), 127-162. doi:10.1016/0004-3702(86)90080-9.",
+      "source_entries": [
+        80,
+        116
+      ],
+      "themes": [
+        "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 116 links to this record; grouped references may link to several records.",
+        "Grouped entry 116 says de Kleer (1986) without choosing between the two listed works; linked to both R080 and R081, not counted as another work."
+      ]
+    },
+    {
+      "id": "R081",
+      "citation": "de Kleer, J. (1986). Problem Solving with the ATMS. Artificial Intelligence, 28(2), 197-224. doi:10.1016/0004-3702(86)90082-2.",
+      "source_entries": [
+        81,
+        116
+      ],
+      "themes": [
+        "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 116 links to this record; grouped references may link to several records.",
+        "See R080 note about ambiguous grouped reference 116."
+      ]
+    },
+    {
+      "id": "R082",
+      "citation": "Green, T. J., Karvounarakis, G., & Tannen, V. (2007). Provenance Semirings. PODS 2007, 31-40. doi:10.1145/1265530.1265535.",
+      "source_entries": [
+        82,
+        116
+      ],
+      "themes": [
+        "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 116 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R083",
+      "citation": "Gupta, A., Mumick, I. S., & Subrahmanian, V. S. (1993). Maintaining Views Incrementally. SIGMOD 1993, 157-166. doi:10.1145/170036.170066.",
+      "source_entries": [
+        83
+      ],
+      "themes": [
+        "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R084",
+      "citation": "Buneman, P., Khanna, S., & Tan, W.-C. (2001). Why and Where: A Characterization of Data Provenance. International Conference on Database Theory (ICDT).",
+      "source_entries": [
+        84
+      ],
+      "themes": [
+        "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R085",
+      "citation": "Cui, Y., Widom, J., & Wiener, J. L. (2000). Tracing the Lineage of View Data in a Warehousing Environment. ACM Transactions on Database Systems / related SIGMOD lineage work.",
+      "source_entries": [
+        85
+      ],
+      "themes": [
+        "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking"
+      ],
+      "priority": "C",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R086",
+      "citation": "Yates, R. D., Sun, Y., Brown, D. R., Kaul, S. K., Modiano, E., & Ulukus, S. (2021). Age of Information: An Introduction and Survey. IEEE Journal on Selected Areas in Communications, 39(5), 1183-1210. doi:10.1109/JSAC.2021.3065072.",
+      "source_entries": [
+        86
+      ],
+      "themes": [
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R087",
+      "citation": "Zhang, X., Xie, X., Qiang, S., Yan, H., Pang, Z., & Yu, K. (2026). Age of Information in Industrial Cyber-Physical Systems: A Survey on Co-Design, Optimization, and Future Directions. IEEE Transactions on Industrial Cyber-Physical Systems, 4, 429-441. doi:10.1109/TICPS.2026.3700093.",
+      "source_entries": [
+        87
+      ],
+      "themes": [
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R088",
+      "citation": "Flammini, F. (2021). Digital Twins as Run-Time Predictive Models for the Resilience of Cyber-Physical Systems: A Conceptual Framework. Philosophical Transactions of the Royal Society A, 379, 20200369. doi:10.1098/rsta.2020.0369.",
+      "source_entries": [
+        88,
+        114
+      ],
+      "themes": [
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+        "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 114 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R089",
+      "citation": "Zio, E., & Miqueles, L. (2024). Digital Twins in Safety Analysis, Risk Assessment and Emergency Management. Reliability Engineering & System Safety, 246, 110040. doi:10.1016/j.ress.2024.110040.",
+      "source_entries": [
+        89
+      ],
+      "themes": [
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R090",
+      "citation": "Betzer, J. S., Boudjadar, J., Frasheri, M., & Talasila, P. (2024). Digital Twin Enabled Runtime Verification for Autonomous Mobile Robots under Uncertainty. IEEE DS-RT 2024, 10-17. doi:10.1109/DS-RT62209.2024.00012.",
+      "source_entries": [
+        90
+      ],
+      "themes": [
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R093",
+      "citation": "Devarajan, et al. (2026). A Review of Model Uncertainty, Cyber-Physical Threats and Assurance Frameworks for Safety-Critical AI in Process Industries. IET Cyber-Physical Systems: Theory & Applications. doi:10.1049/cps2.70062.",
+      "source_entries": [
+        93
+      ],
+      "themes": [
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R096",
+      "citation": "Alvaro, M. D., Novak, R., Barbosa, P. R. F., Capelo, I. C., Gallego, M., & Rodriguez-Sanchez, M. C. (2025). GUIDE2FR: A Smart Monitoring Platform with a Digital Twin of a Firefighter Training Tower for Emergency Scenarios. Internet of Things, 34, 101768. doi:10.1016/j.iot.2025.101768.",
+      "source_entries": [
+        96,
+        104
+      ],
+      "themes": [
+        "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": [
+        "Original entry 104 links to this record; grouped references may link to several records."
+      ]
+    },
+    {
+      "id": "R098",
+      "citation": "Li, G., Yang, Z., Fu, Y., O'Neill, Z., Ren, L., Pradhan, O., & Wen, J. (2024). A Hardware-in-the-Loop (HIL) Testbed for Cyber-Physical Energy Systems in Smart Commercial Buildings. Science and Technology for the Built Environment, 30(5), 415-432. doi:10.1080/23744731.2024.2336839.",
+      "source_entries": [
+        98
+      ],
+      "themes": [
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R099",
+      "citation": "Li, G., et al. (2024). Emulation and Detection of Physical Faults and Cyber-Attacks on Building Energy Systems through Real-Time Hardware-in-the-Loop Experiments. Energy and Buildings, 320, 114596. doi:10.1016/j.enbuild.2024.114596.",
+      "source_entries": [
+        99
+      ],
+      "themes": [
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "A",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R100",
+      "citation": "Li, G., et al. (2023). A Critical Review of Cyber-Physical Security for Building Automation Systems. Annual Reviews in Control, 55, 237-254. doi:10.1016/j.arcontrol.2023.02.004.",
+      "source_entries": [
+        100
+      ],
+      "themes": [
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R101",
+      "citation": "Fu, Y., et al. (2021). Modeling and Evaluation of Cyber-Attacks on Grid-Interactive Efficient Buildings. Applied Energy, 303, 117639. doi:10.1016/j.apenergy.2021.117639.",
+      "source_entries": [
+        101
+      ],
+      "themes": [
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R102",
+      "citation": "Potteiger, B., Emfinger, W., Neema, H., Koutsoukos, X., Tang, C.-Y., & Stouffer, K. (2017). Evaluating the Effects of Cyber-Attacks on Cyber Physical Systems Using a Hardware-in-the-Loop Simulation Testbed. NIST / conference publication.",
+      "source_entries": [
+        102
+      ],
+      "themes": [
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R103",
+      "citation": "Li, G., et al. (2022). Development of a Hardware-In-the-Loop (HIL) Testbed for Cyber-Physical Security in Smart Buildings. arXiv:2210.11234.",
+      "source_entries": [
+        103
+      ],
+      "themes": [
+        "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R106",
+      "citation": "Santoni de Sio, F., & van den Hoven, J. (2018). Meaningful Human Control over Autonomous Systems: A Philosophical Account. Frontiers in Robotics and AI, 5, 15. doi:10.3389/frobt.2018.00015.",
+      "source_entries": [
+        106
+      ],
+      "themes": [
+        "11. Human oversight, meaningful control, and governance"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R107",
+      "citation": "Calvert, S. C. (2025). Principles and Framework for the Operationalisation of Meaningful Human Control Over Autonomous Systems.",
+      "source_entries": [
+        107
+      ],
+      "themes": [
+        "11. Human oversight, meaningful control, and governance"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R108",
+      "citation": "Zhu, L., Lu, Q., Ding, M., Lee, S. U., et al. (2026). Designing Meaningful Human Oversight in AI. AI and Ethics, 6, article 286.",
+      "source_entries": [
+        108
+      ],
+      "themes": [
+        "11. Human oversight, meaningful control, and governance"
+      ],
+      "priority": "B",
+      "metadata_status": "unchecked",
+      "reading_status": "not_full_text_reviewed",
+      "verification_sources": [],
+      "notes": []
+    },
+    {
+      "id": "R124",
+      "citation": "Moore, R. E., Kearfott, R. B., & Cloud, M. J. (2009). Introduction to Interval Analysis. SIAM. doi:10.1137/1.9780898717716.",
+      "source_entries": [],
+      "themes": [
+        "Added foundation: numeric interval enclosures"
+      ],
+      "priority": "A",
+      "metadata_status": "selected_metadata_verified",
+      "reading_status": "front_matter_only",
+      "verification_sources": [
+        {
+          "url": "https://epubs.siam.org/doi/pdf/10.1137/1.9780898717716.fm",
+          "checked_on": "2026-10-14"
+        }
+      ],
+      "notes": [
+        "Added for outward rounding and rigorous interval enclosure; the full book has not been reviewed."
+      ]
+    }
+  ],
+  "original_entries": [
+    {
+      "entry": 1,
+      "citation": "Zhu, Q. (2026). Internet of Agentic Things: Networked AI Agents for Closed-Loop IoT Orchestration. arXiv:2607.12662.",
+      "priority": "A",
+      "annotation": "Preprint. Direct conceptual background for agentic IoT and closed-loop sensing-reasoning-actuation. Use to position Evidra inside the emerging Internet of Agentic Things research space.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R001"
+      ]
+    },
+    {
+      "entry": 2,
+      "citation": "Sevinç, R. H., Türkoğlu, B., & Kök, İ. (2026). Agentic IoT: Architectures, Applications, and Challenges Toward the Internet of Agents. arXiv:2607.04219.",
+      "priority": "A",
+      "annotation": "Preprint. Broad architecture/challenges paper for agentic IoT. Useful for motivation, terminology, and open issues in trustworthy autonomous IoT.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R002"
+      ]
+    },
+    {
+      "entry": 3,
+      "citation": "Chen, Z., Kang, M., & Li, B. (2025). ShieldAgent: Shielding Agents via Verifiable Safety Policy Reasoning. Proceedings of ICML 2025, PMLR 267, 8313-8344.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Closest agent-guardrail foundation. Important comparison because ShieldAgent reasons over explicit safety policies and action trajectories, while Evidra focuses on changing physical evidence and runtime execution state.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R003"
+      ]
+    },
+    {
+      "entry": 4,
+      "citation": "Montanari, M., Palangi, H., Miculicich, L., Parmar, M., Pfister, T., Le, L., & Dvijotham, D. (2025). VeriGuard: Enhancing LLM Agent Safety via Verified Code Generation. Google Research / arXiv.",
+      "priority": "A",
+      "annotation": "Preprint/Research release. Important for formal verification of agent behavioral policies. Helps separate policy verification from evidence-grounded physical assurance.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R004"
+      ]
+    },
+    {
+      "entry": 5,
+      "citation": "Zhou, J., Sheng, Y., Lou, H., Yang, Y., & Fu, J. (2026). FormalJudge: A Neuro-Symbolic Paradigm for Agentic Oversight. Proceedings of ICML 2026, PMLR 306, 165723-165752.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Relevant neuro-symbolic oversight baseline. Cite when explaining why Evidra uses independently defined runtime contracts instead of relying only on an LLM judge.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R005"
+      ]
+    },
+    {
+      "entry": 6,
+      "citation": "Wang, H., Poskitt, C. M., & Sun, J. (2025/2026). AgentSpec: Customizable Runtime Enforcement for Safe and Reliable LLM Agents. arXiv:2503.18666; conference publication 2026.",
+      "priority": "A",
+      "annotation": "Preprint + conference. Directly relevant to runtime enforcement of agent behavior. Compare enforcement semantics, customization, and tool-action governance with Evidra's physical-state/evidence layer.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R006"
+      ]
+    },
+    {
+      "entry": 7,
+      "citation": "Ng, A. W., Han, Y., Zhang, J., & Wang, W. (2026). Agent Safety Should Be a Runtime Contract. arXiv:2608.11274.",
+      "priority": "A",
+      "annotation": "Preprint. Very close conceptual prior art for moving safety from model prompting into the runtime. Must be discussed explicitly so Evidra's contribution is framed around model-grounded evidence and physical execution rather than the generic runtime-contract idea.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R007"
+      ]
+    },
+    {
+      "entry": 8,
+      "citation": "Chen, E., Wang, S., & Brinton, C. G. (2026). Fresh Memory, Stale Plans: Dependency-Scoped Validation for Distributed LLM-Agent Memory (PlanFence). arXiv:2609.03340.",
+      "priority": "A",
+      "annotation": "Preprint. Extremely important close competitor for revalidating pending actions when underlying state changes. Evidra must distinguish physical evidence expiry, partial observability, alternative evidence paths, and action outcomes from PlanFence's record-dependency validation.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R008"
+      ]
+    },
+    {
+      "entry": 9,
+      "citation": "Kekatos, N., Basagiannis, S., Katsaros, P., Lekidis, A., & Nianios, T. (2026). Mission-Level Runtime Assurance for LLM-Assisted ISR Swarms over a Verification-Aware Fabric. arXiv:2607.23532.",
+      "priority": "A",
+      "annotation": "Preprint. Important for cross-agent composition and explicit treatment of missing evidence as unknown rather than safe. Useful comparator for Evidra's three-valued evidence semantics.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R009"
+      ]
+    },
+    {
+      "entry": 10,
+      "citation": "Ramaswamy, S., & Miaosheng, W. (2026). Managed Autonomy at Runtime: Gear-Based Safety and Governance for Single- and Multi-Agent Cyber-Physical Systems. arXiv:2607.00334.",
+      "priority": "A",
+      "annotation": "Preprint. Close prior art for runtime authority levels, fallback, and multi-agent CPS safety. Cite to show that graded autonomy itself is not Evidra's novelty.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R010"
+      ]
+    },
+    {
+      "entry": 11,
+      "citation": "Belter, B., & Głąbowski, M. (2026). Assured AI-Native Network Control Loops: State of the Art, Research Challenges and the Missing Runtime Assurance Layer. arXiv:2609.11996.",
+      "priority": "A",
+      "annotation": "Preprint. Directly motivates dependency-aware runtime assurance and changing assumptions in AI-native control. Important for the research gap around runtime dependency validity.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R011"
+      ]
+    },
+    {
+      "entry": 12,
+      "citation": "Calboreanu, E. (2026). LATTICE: A Governance-First Architecture for Authorized Autonomous AI Operations. Frontiers in Artificial Intelligence.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Relevant to authorization boundaries, auditability, escalation, and TOCTOU-aware governance. Helps distinguish governance integrity from physical-evidence validity.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R012"
+      ]
+    },
+    {
+      "entry": 13,
+      "citation": "Syros, G., Suri, A., Ginesin, J., Nita-Rotaru, C., & Oprea, A. (2025). SAGA: A Security Architecture for Governing AI Agentic Systems. arXiv:2504.21034 / NDSS-related publication.",
+      "priority": "B",
+      "annotation": "Preprint/Conference. Security architecture for governing agentic systems. Useful when discussing trusted execution boundaries and separation between planner and enforcement kernel.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R013"
+      ]
+    },
+    {
+      "entry": 14,
+      "citation": "Lilienthal, D., & Hong, S. (2025). Mind the Gap: Time-of-Check to Time-of-Use Vulnerabilities in LLM-Enabled Agents. arXiv:2508.17155.",
+      "priority": "A",
+      "annotation": "Preprint. Critical TOCTOU reference. Evidra's expiring leases and execution-time revalidation should be situated against this threat model.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R014"
+      ]
+    },
+    {
+      "entry": 15,
+      "citation": "Rafy, M. F. (2026). TwinGridShield: Consequence-Aware Runtime Authorization for LLM Grid-Agent Actions. arXiv:2608.15391; accepted at NAPS 2026.",
+      "priority": "A",
+      "annotation": "Preprint/Accepted conference. One of the closest papers to the proposed model-grounded extension. It validates LLM actions against a deterministic physical model and exposes unsafe acceptance under model mismatch.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R015"
+      ]
+    },
+    {
+      "entry": 16,
+      "citation": "Ibrahim, A., Al Machot, F., & Kyamakya, K. (2026). Cyber-Physical GraphRAG: Safe, Real-Time, and Scalable Orchestration of Large-Scale Autonomous Fleets. IEEE Access, 14, 107177-107195. doi:10.1109/ACCESS.2026.3706610.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Important for physical-information freshness, topology-aware orchestration, and deterministic filtering. Compare its freshness treatment with Evidra's independent state model and action-phase revalidation.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R016"
+      ]
+    },
+    {
+      "entry": 17,
+      "citation": "Lee, S. (2026). From Stabilization to Oversight: A Five-Stage Safety Assurance Pipeline for Autonomous Manufacturing. Reliability Engineering & System Safety, 277(3), 112944. doi:10.1016/j.ress.2026.112944.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Very relevant to runtime safety-envelope validity, oversight, and adaptive autonomy in manufacturing. Strong related-work citation for phase-aware physical assurance.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R017"
+      ]
+    },
+    {
+      "entry": 18,
+      "citation": "Varol, A., et al. (2026). Evil-AI Benchmark: An Evaluation Framework for Adversarial Security Assessment of LLM Agents in Smart Environments. IEEE Access, 14, 133098-133116. doi:10.1109/ACCESS.2026.3727159.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Direct benchmark for unsafe actuation, prompt injection, and smart-environment attacks. Useful for scenario design and to show why a benchmark-only contribution would be insufficient.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R018"
+      ]
+    },
+    {
+      "entry": 19,
+      "citation": "Li, C., Faghfoorian, S., & Ruchkin, I. (2025). What Does It Take to Get Guarantees? Systematizing Assumptions in Cyber-Physical Systems. arXiv:2511.15952.",
+      "priority": "A",
+      "annotation": "Preprint. Foundational for the new modeling direction. It systematizes assumptions behind CPS guarantees and highlights gaps in sensing, perception, initialization, and uncertainty.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R019"
+      ]
+    },
+    {
+      "entry": 20,
+      "citation": "Li, S., Guo, Y., Yao, J., Liu, Z., & Wang, H. (2025). HomeBench: Evaluating LLMs in Smart Homes with Valid and Invalid Instructions Across Single and Multiple Devices. ACL 2025, 12230-12250. doi:10.18653/v1/2025.acl-long.597.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Highly relevant smart-home benchmark for valid/invalid instructions across multiple devices. Useful for scenario design and comparison with Evidra's safety layer.",
+      "theme": "1. Closest prior art: agentic runtime assurance, execution governance, and cyber-physical agent safety",
+      "canonical_ids": [
+        "R020"
+      ]
+    },
+    {
+      "entry": 21,
+      "citation": "Debenedetti, E., Zhang, J., Balunović, M., Beurer-Kellner, L., Fischer, M., & Tramèr, F. (2024). AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents. NeurIPS 2024.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Dynamic benchmark for agent tasks, untrusted tool outputs, attacks, and defenses. Strong source for adversarial benchmark design.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R021"
+      ]
+    },
+    {
+      "entry": 22,
+      "citation": "Zhan, Q., Liang, Z., Ying, Z., & Kang, D. (2024). InjecAgent: Benchmarking Indirect Prompt Injections in Tool-Integrated Large Language Model Agents. Findings of ACL 2024, 10471-10506. doi:10.18653/v1/2024.findings-acl.624.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Major benchmark for indirect prompt injection through tool-integrated agents. Relevant to malicious sensor/device metadata and tool-output attacks.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R022"
+      ]
+    },
+    {
+      "entry": 23,
+      "citation": "Yuan, T., et al. (2024). R-Judge: Benchmarking Safety Risk Awareness for LLM Agents. Findings of EMNLP 2024, 1467-1490. doi:10.18653/v1/2024.findings-emnlp.79.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Useful benchmark of agent risk awareness. Supports the argument that safety cannot depend solely on the planner's ability to recognize risk.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R023"
+      ]
+    },
+    {
+      "entry": 24,
+      "citation": "Zhang, Z., Cui, S., Lu, Y., Zhou, J., Yang, J., Wang, H., & Huang, M. (2024). Agent-SafetyBench: Evaluating the Safety of LLM Agents. arXiv:2412.14470.",
+      "priority": "A",
+      "annotation": "Preprint. Comprehensive agent-safety benchmark across interactive environments and failure modes. Useful for benchmark taxonomy and metrics.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R024"
+      ]
+    },
+    {
+      "entry": 25,
+      "citation": "Yin, S., Pang, X., Ding, Y., et al. (2024). SafeAgentBench: A Benchmark for Safe Task Planning of Embodied LLM Agents. arXiv:2412.13178.",
+      "priority": "A",
+      "annotation": "Preprint. Especially relevant because it evaluates hazardous versus safe embodied tasks and execution-aware planning.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R025"
+      ]
+    },
+    {
+      "entry": 26,
+      "citation": "Andriushchenko, M., et al. (2025). AgentHarm: A Benchmark for Measuring Harmfulness of LLM Agents. ICLR 2025.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Benchmarks harmful multi-step agent execution and jailbreak robustness. Supports discussion of planner compromise and why the assurance kernel must remain model-independent.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R026"
+      ]
+    },
+    {
+      "entry": 27,
+      "citation": "Zhang, H., Huang, J., Mei, K., et al. (2025). Agent Security Bench (ASB): Formalizing and Benchmarking Attacks and Defenses in LLM-based Agents. ICLR 2025.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Large security benchmark spanning prompt injection, memory poisoning, backdoors, tools, and defenses. Useful for threat-model completeness.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R027"
+      ]
+    },
+    {
+      "entry": 28,
+      "citation": "Liu, X., et al. (2024). AgentBench: Evaluating LLMs as Agents. ICLR 2024.",
+      "priority": "C",
+      "annotation": "Peer-reviewed. General agent benchmark across interactive environments. Useful background for agent evaluation methodology, though not safety-specific.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R028"
+      ]
+    },
+    {
+      "entry": 29,
+      "citation": "Ruan, Y., Dong, H., Wang, A., et al. (2024). Identifying the Risks of LM Agents with an LM-Emulated Sandbox (ToolEmu). ICLR 2024.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Important methodological precedent for software-only safety experiments before physical deployment. Directly relevant to Evidra's simulator-first validation strategy.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R029"
+      ]
+    },
+    {
+      "entry": 30,
+      "citation": "Lu, J., Holleis, T., Zhang, Y., et al. (2024). ToolSandbox: A Stateful, Conversational, Interactive Evaluation Benchmark for LLM Tool Use Capabilities. arXiv:2408.04682.",
+      "priority": "B",
+      "annotation": "Preprint. Useful for stateful tool dependencies, insufficient information, and dynamic evaluation of intermediate milestones.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R030"
+      ]
+    },
+    {
+      "entry": 31,
+      "citation": "Song, C. H., Wu, J., Washington, C., Sadler, B. M., Chao, W.-L., & Su, Y. (2023). LLM-Planner: Few-Shot Grounded Planning for Embodied Agents with Large Language Models. arXiv:2212.04088.",
+      "priority": "C",
+      "annotation": "Preprint. Relevant to the AI planner component and grounded replanning. Use mainly as background, since planning is not Evidra's core novelty.",
+      "theme": "2. Agent safety, tool-use, prompt-injection, and benchmark literature",
+      "canonical_ids": [
+        "R031"
+      ]
+    },
+    {
+      "entry": 32,
+      "citation": "Siam, S. I., et al. (2024). Artificial Intelligence of Things: A Survey. ACM Transactions on Sensor Networks. doi:10.1145/3690639.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Broad AIoT survey. Useful for positioning the project within AI + sensing + edge/cloud systems.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R032"
+      ]
+    },
+    {
+      "entry": 33,
+      "citation": "Zhou, Z., Chen, X., Li, E., Zeng, L., Luo, K., & Zhang, J. (2020). Edge Intelligence: Paving the Last Mile of Artificial Intelligence With Edge Computing. Proceedings of the IEEE / related IEEE publication; commonly cited as Edge Intelligence: The Confluence of Edge Computing and Artificial Intelligence. IEEE Internet of Things Journal, 7(8), 7457-7469. doi:10.1109/JIOT.2020.2984887.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Foundational edge intelligence reference for distributing AI workloads close to sensors and actuators.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R033"
+      ]
+    },
+    {
+      "entry": 34,
+      "citation": "Distributed Intelligence in the Artificial Intelligence of Things: A Review of Artificial Intelligence Workload Placement Across the Device-Edge-Fog-Cloud Continuum. (2026). Future Internet, 18(6), 296. doi:10.3390/fi18060296.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Direct background for cloud-to-thing placement, edge/cloud roles, and deployment tradeoffs.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R034"
+      ]
+    },
+    {
+      "entry": 35,
+      "citation": "Lu, Z., et al. (2024). Surveying Neuro-Symbolic Approaches for Reliable Artificial Intelligence of Things. Journal of Reliable Intelligent Environments, 10, 257-279.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Useful because Evidra combines symbolic runtime rules with AI planning; supports a neuro-symbolic reliability framing.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R035"
+      ]
+    },
+    {
+      "entry": 36,
+      "citation": "A Survey of Industrial AIoT: Opportunities, Challenges, and Directions. (2024). IEEE Access. doi:10.1109/ACCESS.2024.3426279.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Industrial AIoT background for critical deployment constraints and distributed edge intelligence.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R036"
+      ]
+    },
+    {
+      "entry": 37,
+      "citation": "Anomaly Detection Based on Artificial Intelligence of Things: A Systematic Literature Mapping. (2024). Internet of Things, 25, 101063. doi:10.1016/j.iot.2024.101063.",
+      "priority": "C",
+      "annotation": "Peer-reviewed. Useful context for sensing reliability and AIoT anomaly monitoring; not central but supports related-work breadth.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R037"
+      ]
+    },
+    {
+      "entry": 38,
+      "citation": "A Survey of Recent Advances in Edge-Computing-Powered Artificial Intelligence of Things. (Recent survey). IEEE.",
+      "priority": "C",
+      "annotation": "Peer-reviewed. Supporting review of AIoT architectures, edge intelligence, and resource constraints.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R038"
+      ]
+    },
+    {
+      "entry": 39,
+      "citation": "A Systematic Review of Autonomous Agentic AI Architectures and Orchestration Strategies for Edge-to-Cloud Internet of Things Deployments. (2026).",
+      "priority": "C",
+      "annotation": "Review / lower-priority venue. Supporting recent review of agentic orchestration in edge-to-cloud IoT. Use cautiously and prioritize stronger archival sources.",
+      "theme": "3. Agentic IoT, AIoT, edge-cloud continuum, and distributed intelligence",
+      "canonical_ids": [
+        "R039"
+      ]
+    },
+    {
+      "entry": 40,
+      "citation": "Ichter, B., Brohan, A., Chebotar, Y., et al. (2023). Do As I Can, Not As I Say: Grounding Language in Robotic Affordances. CoRL 2022/Proceedings of The 6th Conference on Robot Learning, PMLR 205, 287-318.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Important physical-grounding paper showing that language plans must be constrained by available skills and real-world feasibility.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R040"
+      ]
+    },
+    {
+      "entry": 41,
+      "citation": "Driess, D., Xia, F., Sajjadi, M. S. M., et al. (2023). PaLM-E: An Embodied Multimodal Language Model. ICML 2023, PMLR 202, 8469-8488.",
+      "priority": "C",
+      "annotation": "Peer-reviewed. Background for embodied multimodal reasoning and combining language with continuous sensor/state information.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R041"
+      ]
+    },
+    {
+      "entry": 42,
+      "citation": "Zitkovich, B., et al. (2023). RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control. CoRL 2023, PMLR 229, 2165-2183.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Shows direct language-to-action models and why independent execution assurance becomes important for physical systems.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R042"
+      ]
+    },
+    {
+      "entry": 43,
+      "citation": "Singh, I., Blukis, V., Mousavian, A., et al. (2023). ProgPrompt: Generating Situated Robot Task Plans using Large Language Models. IEEE ICRA 2023. doi:10.1109/ICRA48891.2023.10161317.",
+      "priority": "C",
+      "annotation": "Peer-reviewed. Relevant to constrained plan generation from executable action specifications.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R043"
+      ]
+    },
+    {
+      "entry": 44,
+      "citation": "Liang, J., Huang, W., Xia, F., et al. (2023). Code as Policies: Language Model Programs for Embodied Control. IEEE ICRA 2023, 9493-9500. doi:10.1109/ICRA48891.2023.10160591.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Important example of LLM-generated executable robot policies; motivates a trusted enforcement boundary below the planner.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R044"
+      ]
+    },
+    {
+      "entry": 45,
+      "citation": "Huang, W., Xia, F., Xiao, T., et al. (2023). Inner Monologue: Embodied Reasoning through Planning with Language Models. CoRL, PMLR 205, 1769-1782.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Relevant to closed-loop replanning using environmental feedback and action outcomes.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R045"
+      ]
+    },
+    {
+      "entry": 46,
+      "citation": "Yao, S., Zhao, J., Yu, D., et al. (2023). ReAct: Synergizing Reasoning and Acting in Language Models. ICLR 2023.",
+      "priority": "C",
+      "annotation": "Peer-reviewed. Foundational agent reasoning/action loop reference; useful background for the planner-tool interaction paradigm.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R046"
+      ]
+    },
+    {
+      "entry": 47,
+      "citation": "Song, C. H., et al. (2022/2023). LLM-Planner: Few-Shot Grounded Planning for Embodied Agents with Large Language Models. arXiv:2212.04088.",
+      "priority": "C",
+      "annotation": "Preprint. Grounded plan generation and updating from environmental state; supportive for the planning layer.",
+      "theme": "4. Embodied AI, LLM planning, and physical grounding",
+      "canonical_ids": [
+        "R031"
+      ]
+    },
+    {
+      "entry": 48,
+      "citation": "Seto, D., Krogh, B. H., Sha, L., & Chutinan, A. (1998). The Simplex Architecture for Safe On-Line Control System Upgrades. Proceedings of the American Control Conference, 3504-3508. doi:10.1109/ACC.1998.703255.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Foundational runtime-assurance architecture: advanced controller plus verified safe fallback. Essential historical citation.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R048"
+      ]
+    },
+    {
+      "entry": 49,
+      "citation": "Sha, L., et al. / Seto et al. (1998). Dynamic Control System Upgrade Using the Simplex Architecture. IEEE Control Systems, 18(4), 72-80. doi:10.1109/37.710880.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Classic Simplex exposition and basis for separating high-performance autonomy from trusted safety control.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R049"
+      ]
+    },
+    {
+      "entry": 50,
+      "citation": "Mitsch, S., & Platzer, A. (2016). ModelPlex: Verified Runtime Validation of Verified Cyber-Physical System Models. Formal Methods in System Design, 49, 33-74. doi:10.1007/s10703-016-0241-z.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Core model-grounding foundation. Critical for arguing that formal guarantees transfer to deployment only while runtime observations remain consistent with model assumptions.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R050"
+      ]
+    },
+    {
+      "entry": 51,
+      "citation": "Phan, D., et al. (2017). A Component-Based Simplex Architecture for High-Assurance Cyber-Physical Systems. IEEE / arXiv:1704.04759.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Combines Simplex with compositional assume-guarantee reasoning. Important for distributed/component-based runtime assurance.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R051"
+      ]
+    },
+    {
+      "entry": 52,
+      "citation": "Desai, A., Ghosh, S., Seshia, S. A., Shankar, N., & Tiwari, A. (2019). SOTER: A Runtime Assurance Framework for Programming Safe Robotics Systems. DSN 2019. doi:10.1109/DSN.2019.00027.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Direct RTA framework for robotics; useful for architecture and safe-controller switching.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R052"
+      ]
+    },
+    {
+      "entry": 53,
+      "citation": "Mehmood, U., Sheikhi, S., Bak, S., Smolka, S. A., & Stoller, S. D. (2021). The Black-Box Simplex Architecture for Runtime Assurance of Autonomous CPS. arXiv:2102.12981.",
+      "priority": "A",
+      "annotation": "Preprint. Relevant when the advanced controller/agent is treated as a black box, similar to Evidra's model-independent planner boundary.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R053"
+      ]
+    },
+    {
+      "entry": 54,
+      "citation": "Phan, D. T., Grosu, R., Jansen, N., Paoletti, N., Smolka, S. A., & Stoller, S. D. (2020). Neural Simplex Architecture. NASA Formal Methods 2020, LNCS 12229, 97-114. doi:10.1007/978-3-030-55754-6_6.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Bridges neural controllers and Simplex-style safety; useful when discussing AI-based advanced controllers.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R054"
+      ]
+    },
+    {
+      "entry": 55,
+      "citation": "Mehmood, U., Roy, S., Damare, A., Grosu, R., Smolka, S. A., & Stoller, S. D. (2023). A Distributed Simplex Architecture for Multi-Agent Systems. Journal of Systems Architecture, 134, 102784. doi:10.1016/j.sysarc.2022.102784.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Direct distributed/multi-agent extension of RTA. Important comparator for cloud-edge and multiple-device deployments.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R055"
+      ]
+    },
+    {
+      "entry": 56,
+      "citation": "Schierman, J. D., DeVore, M. D., Richards, N. D., & Clark, M. A. (2020). Runtime Assurance for Autonomous Aerospace Systems. Journal of Guidance, Control, and Dynamics, 43(12), 2205-2217. doi:10.2514/1.G004862.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Strong systems-level RTA example spanning guidance, mission planning, and multiple feedback levels.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R056"
+      ]
+    },
+    {
+      "entry": 57,
+      "citation": "Miller, K., Zeitler, C. K., Shen, W., Viswanathan, M., & Mitra, S. (2023). RTAEval: A Framework for Evaluating Runtime Assurance Logic. ATVA 2023 / arXiv:2306.04585.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Highly relevant benchmarking methodology for RTA logic; useful for Evidra's baseline evaluation design.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R057"
+      ]
+    },
+    {
+      "entry": 58,
+      "citation": "Biondi, A., Nesti, F., Cicero, G., Casini, D., & Buttazzo, G. (2020). A Safe, Secure, and Predictable Software Architecture for Deep Learning in Safety-Critical Systems. IEEE Embedded Systems Letters, 12(3), 78-82. doi:10.1109/LES.2019.2953253.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Useful architectural precedent for isolating untrusted AI from trusted safety-critical execution.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R058"
+      ]
+    },
+    {
+      "entry": 59,
+      "citation": "Hartsell, C., Ramakrishna, S., Dubey, A., Stojcsics, D., Mahadevan, N., & Karsai, G. (2021). ReSonAte: A Runtime Risk Assessment Framework for Autonomous Systems. SEAMS 2021, 118-129. doi:10.1109/SEAMS51251.2021.00025.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Dynamic runtime risk estimation using system/environment state and assurance-case knowledge. Important related work for model-grounded changing risk.",
+      "theme": "5. Runtime assurance and Simplex-style cyber-physical safety",
+      "canonical_ids": [
+        "R059"
+      ]
+    },
+    {
+      "entry": 60,
+      "citation": "Hsu, K.-C., Hu, H., & Fisac, J. F. (2024). The Safety Filter: A Unified View of Safety-Critical Control in Autonomous Systems. Annual Review of Control, Robotics, and Autonomous Systems, 7, 47-72. doi:10.1146/annurev-control-071723-102940.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Excellent survey unifying safety filters, uncertainty, imperfect perception, and runtime action filtering.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R060"
+      ]
+    },
+    {
+      "entry": 61,
+      "citation": "Wabersich, K. P., & Zeilinger, M. N. (2021). A Predictive Safety Filter for Learning-Based Control of Constrained Nonlinear Dynamical Systems. Automatica, 129, 109597. doi:10.1016/j.automatica.2021.109597.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Important predictive safety-filter baseline for safely wrapping learning-based controllers.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R061"
+      ]
+    },
+    {
+      "entry": 62,
+      "citation": "Fisac, J. F., Akametalu, A. K., Zeilinger, M. N., Kaynama, S., Gillula, J., & Tomlin, C. J. (2019). A General Safety Framework for Learning-Based Control in Uncertain Robotic Systems. IEEE Transactions on Automatic Control, 64(7), 2737-2752. doi:10.1109/TAC.2018.2876389.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Strong foundation for robust safety under model and environmental uncertainty.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R062"
+      ]
+    },
+    {
+      "entry": 63,
+      "citation": "Brunke, L., Greeff, M., Hall, A. W., et al. (2022). Safe Learning in Robotics: From Learning-Based Control to Safe Reinforcement Learning. Annual Review of Control, Robotics, and Autonomous Systems, 5, 411-444. doi:10.1146/annurev-control-042920-020211.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Comprehensive safety review useful for situating Evidra beyond LLM-specific literature.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R063"
+      ]
+    },
+    {
+      "entry": 64,
+      "citation": "Ames, A. D., Grizzle, J. W., & Tabuada, P. (2014). Control Barrier Function Based Quadratic Programs with Application to Adaptive Cruise Control. IEEE CDC 2014, 6271-6278. doi:10.1109/CDC.2014.7040372.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Foundational control-barrier-function reference for formal physical safety constraints.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R064"
+      ]
+    },
+    {
+      "entry": 65,
+      "citation": "Alshiekh, M., Bloem, R., Ehlers, R., Könighofer, B., Niekum, S., & Topcu, U. (2018). Safe Reinforcement Learning via Shielding. AAAI 2018, 32(1). doi:10.1609/aaai.v32i1.11797.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Classic shielding paper; useful conceptual parallel to action interception before unsafe execution.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R065"
+      ]
+    },
+    {
+      "entry": 66,
+      "citation": "Wabersich, K. P., & Zeilinger, M. N. (2021/2022). Predictive Control Barrier Functions: Enhanced Safety Mechanisms for Learning-Based Control. arXiv:2105.10241.",
+      "priority": "C",
+      "annotation": "Preprint. Useful extension linking predictive filters and barrier-function safety.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R066"
+      ]
+    },
+    {
+      "entry": 67,
+      "citation": "Lindemann, L., Zhao, Y., Yu, X., Pappas, G. J., & Deshmukh, J. V. (2025). Formal Verification and Control With Conformal Prediction: Practical Safety Guarantees for Autonomous Systems. IEEE Control Systems, 45(6), 72-122. doi:10.1109/MCS.2025.3611545.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Important recent reference for combining statistical uncertainty quantification with formal control/verification.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R067"
+      ]
+    },
+    {
+      "entry": 68,
+      "citation": "Moss, R. J., Jamgochian, A., Fischer, J., Corso, A., & Kochenderfer, M. J. (2024). ConstrainedZero: Chance-Constrained POMDP Planning Using Learned Probabilistic Failure Surrogates and Adaptive Safety Constraints. IJCAI 2024, 6752-6760. doi:10.24963/ijcai.2024/746.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Directly relevant to planning safely under partial observability and probabilistic failure risk.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R068"
+      ]
+    },
+    {
+      "entry": 69,
+      "citation": "Le, H. S., Juba, B., & Stern, R. (2024). Learning Safe Action Models with Partial Observability. AAAI 2024, 38(18), 20159-20167. doi:10.1609/aaai.v38i18.29995.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Important for formally safe action models when the world is only partially observed.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R069"
+      ]
+    },
+    {
+      "entry": 70,
+      "citation": "Learning Safe Control for Multi-Robot Systems: Methods, Verification, and Open Challenges. (2024). Annual Reviews in Control, 57, 100948. doi:10.1016/j.arcontrol.2024.100948.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Useful survey for distributed physical-agent safety and multi-agent verification methods.",
+      "theme": "6. Safety filters, shielding, reachability, and safe control under uncertainty",
+      "canonical_ids": [
+        "R070"
+      ]
+    },
+    {
+      "entry": 71,
+      "citation": "Sokolsky, O., Zhang, T., Lee, I., & McDougall, M. (2016). Monitoring Assumptions in Assume-Guarantee Contracts. EPTCS 208, 46-53. doi:10.4204/EPTCS.208.4.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Extremely important foundation for monitoring environmental assumptions at runtime rather than assuming design-time conditions remain true.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R071"
+      ]
+    },
+    {
+      "entry": 72,
+      "citation": "Wei, R., Foster, S., Mei, H., Yan, F., Yang, R., Habli, I., O'Halloran, C., Tudor, N., Kelly, T., & Nemouchi, Y. (2024). ACCESS: Assurance Case Centric Engineering of Safety-Critical Systems. Journal of Systems and Software, 213, 112034. doi:10.1016/j.jss.2024.112034.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Model-based assurance cases that can be evaluated at development time and runtime. Strong related work for evidence-backed assurance arguments.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R072"
+      ]
+    },
+    {
+      "entry": 73,
+      "citation": "Buysse, L., Habli, I., Vanoost, D., & Pissoort, D. (2025). Safe Autonomous Systems in a Changing World: Operationalising Dynamic Safety Cases. Safety Science, 191, 106965. doi:10.1016/j.ssci.2025.106965.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Important for continuous assurance as environments and evidence change after deployment.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R073"
+      ]
+    },
+    {
+      "entry": 74,
+      "citation": "Bauer, A., Leucker, M., & Schallhart, C. (2011). Runtime Verification for LTL and TLTL. ACM Transactions on Software Engineering and Methodology, 20(4), Article 14. doi:10.1145/2000799.2000800.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Canonical source for three-valued runtime-verification semantics: true, false, inconclusive. Essential foundation for VALID/INVALID/UNKNOWN.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R074"
+      ]
+    },
+    {
+      "entry": 75,
+      "citation": "Fox, M., & Long, D. (2003). PDDL2.1: An Extension to PDDL for Expressing Temporal Planning Domains. Journal of Artificial Intelligence Research, 20, 61-124. doi:10.1613/jair.1129.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Foundational for start, invariant/over-all, and end conditions of durative actions. Important precedent for Evidra's start/run/commit/outcome phases.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R075"
+      ]
+    },
+    {
+      "entry": 76,
+      "citation": "Li, C., Faghfoorian, S., & Ruchkin, I. (2025). What Does It Take to Get Guarantees? Systematizing Assumptions in Cyber-Physical Systems. arXiv:2511.15952.",
+      "priority": "A",
+      "annotation": "Preprint. Systematic survey of assumptions/guarantees in CPS; useful for designing and reporting Evidra's trusted assumptions explicitly.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R019"
+      ]
+    },
+    {
+      "entry": 77,
+      "citation": "CRYSTAL Framework: Cybersecurity Assurance for Cyber-Physical Systems. (2024). Journal of Logical and Algebraic Methods in Programming, 139, 100965. doi:10.1016/j.jlamp.2024.100965.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Runtime cybersecurity assurance using formal models and a Tiny Digital Twin. Relevant to model-based monitoring and attack detection.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R077"
+      ]
+    },
+    {
+      "entry": 78,
+      "citation": "Runtime Verification of Autonomous Systems Utilizing Digital Twins as a Service. (2024). IEEE ACSOS Companion. doi:10.1109/ACSOS-C63493.2024.00042.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Combines digital twins and runtime verification for autonomous systems; useful for model-grounded monitoring design.",
+      "theme": "7. Formal verification, assume-guarantee contracts, runtime verification, and dynamic assurance",
+      "canonical_ids": [
+        "R078"
+      ]
+    },
+    {
+      "entry": 79,
+      "citation": "Doyle, J. (1979). A Truth Maintenance System. Artificial Intelligence, 12(3), 231-272. doi:10.1016/0004-3702(79)90008-0.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Foundational dependency-directed belief maintenance. Essential intellectual ancestor for updating conclusions when supporting assumptions change.",
+      "theme": "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+      "canonical_ids": [
+        "R079"
+      ]
+    },
+    {
+      "entry": 80,
+      "citation": "de Kleer, J. (1986). An Assumption-Based TMS. Artificial Intelligence, 28(2), 127-162. doi:10.1016/0004-3702(86)90080-9.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Foundational for maintaining multiple alternative sets of assumptions/justifications. Highly relevant to alternative evidence witnesses.",
+      "theme": "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+      "canonical_ids": [
+        "R080"
+      ]
+    },
+    {
+      "entry": 81,
+      "citation": "de Kleer, J. (1986). Problem Solving with the ATMS. Artificial Intelligence, 28(2), 197-224. doi:10.1016/0004-3702(86)90082-2.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Shows how ATMS structures support practical reasoning over changing assumptions and multiple justifications.",
+      "theme": "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+      "canonical_ids": [
+        "R081"
+      ]
+    },
+    {
+      "entry": 82,
+      "citation": "Green, T. J., Karvounarakis, G., & Tannen, V. (2007). Provenance Semirings. PODS 2007, 31-40. doi:10.1145/1265530.1265535.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Important formal basis for tracing how outputs depend on combinations of inputs; useful for Evidra's support witnesses and provenance argument.",
+      "theme": "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+      "canonical_ids": [
+        "R082"
+      ]
+    },
+    {
+      "entry": 83,
+      "citation": "Gupta, A., Mumick, I. S., & Subrahmanian, V. S. (1993). Maintaining Views Incrementally. SIGMOD 1993, 157-166. doi:10.1145/170036.170066.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Classic incremental recomputation reference. Use to avoid overclaiming basic dependency-update algorithms as novel.",
+      "theme": "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+      "canonical_ids": [
+        "R083"
+      ]
+    },
+    {
+      "entry": 84,
+      "citation": "Buneman, P., Khanna, S., & Tan, W.-C. (2001). Why and Where: A Characterization of Data Provenance. International Conference on Database Theory (ICDT).",
+      "priority": "C",
+      "annotation": "Peer-reviewed. Classic provenance reference for explaining data lineage and why derivations depend on particular input evidence.",
+      "theme": "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+      "canonical_ids": [
+        "R084"
+      ]
+    },
+    {
+      "entry": 85,
+      "citation": "Cui, Y., Widom, J., & Wiener, J. L. (2000). Tracing the Lineage of View Data in a Warehousing Environment. ACM Transactions on Database Systems / related SIGMOD lineage work.",
+      "priority": "C",
+      "annotation": "Peer-reviewed. Supporting lineage literature for tracing derived evidence back to source observations.",
+      "theme": "8. Evidence reasoning, provenance, truth maintenance, and incremental dependency tracking",
+      "canonical_ids": [
+        "R085"
+      ]
+    },
+    {
+      "entry": 86,
+      "citation": "Yates, R. D., Sun, Y., Brown, D. R., Kaul, S. K., Modiano, E., & Ulukus, S. (2021). Age of Information: An Introduction and Survey. IEEE Journal on Selected Areas in Communications, 39(5), 1183-1210. doi:10.1109/JSAC.2021.3065072.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Canonical freshness metric literature. Important for treating timeliness as a first-class property rather than just timestamp bookkeeping.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R086"
+      ]
+    },
+    {
+      "entry": 87,
+      "citation": "Zhang, X., Xie, X., Qiang, S., Yan, H., Pang, Z., & Yu, K. (2026). Age of Information in Industrial Cyber-Physical Systems: A Survey on Co-Design, Optimization, and Future Directions. IEEE Transactions on Industrial Cyber-Physical Systems, 4, 429-441. doi:10.1109/TICPS.2026.3700093.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Very relevant recent industrial CPS survey connecting information age to control and communication performance.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R087"
+      ]
+    },
+    {
+      "entry": 88,
+      "citation": "Flammini, F. (2021). Digital Twins as Run-Time Predictive Models for the Resilience of Cyber-Physical Systems: A Conceptual Framework. Philosophical Transactions of the Royal Society A, 379, 20200369. doi:10.1098/rsta.2020.0369.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Key conceptual reference for digital twins as runtime models for dependability, resilience, and trustworthy autonomy.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R088"
+      ]
+    },
+    {
+      "entry": 89,
+      "citation": "Zio, E., & Miqueles, L. (2024). Digital Twins in Safety Analysis, Risk Assessment and Emergency Management. Reliability Engineering & System Safety, 246, 110040. doi:10.1016/j.ress.2024.110040.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Strong review of DT use for safety, risk, and emergency management; useful for Evidra's model-grounded public-safety framing.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R089"
+      ]
+    },
+    {
+      "entry": 90,
+      "citation": "Betzer, J. S., Boudjadar, J., Frasheri, M., & Talasila, P. (2024). Digital Twin Enabled Runtime Verification for Autonomous Mobile Robots under Uncertainty. IEEE DS-RT 2024, 10-17. doi:10.1109/DS-RT62209.2024.00012.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Very close methodological precedent: DT as runtime watch-dog, state estimation, uncertainty, MQTT, and action approval/denial.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R090"
+      ]
+    },
+    {
+      "entry": 91,
+      "citation": "Kristensen, M. H., Bonizzi, A., Gomes, C., Hansen, S. T., et al. (2024). Runtime Verification of Autonomous Systems Utilizing Digital Twins as a Service. IEEE ACSOS-C 2024. doi:10.1109/ACSOS-C63493.2024.00042.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Supports DT-as-a-service and runtime verification architecture.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R078"
+      ]
+    },
+    {
+      "entry": 92,
+      "citation": "CRYSTAL Framework: Cybersecurity Assurance for Cyber-Physical Systems. (2024). Journal of Logical and Algebraic Methods in Programming, 139, 100965. doi:10.1016/j.jlamp.2024.100965.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Uses a Tiny Digital Twin as an abstract runtime behavioral reference model; highly relevant to independent model/oracle design.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R077"
+      ]
+    },
+    {
+      "entry": 93,
+      "citation": "Devarajan, et al. (2026). A Review of Model Uncertainty, Cyber-Physical Threats and Assurance Frameworks for Safety-Critical AI in Process Industries. IET Cyber-Physical Systems: Theory & Applications. doi:10.1049/cps2.70062.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Useful cautionary review: digital twins are conditional evidence and can create circular assurance if used as unquestioned ground truth. Important for Evidra's model-validation limitations section.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R093"
+      ]
+    },
+    {
+      "entry": 94,
+      "citation": "Le, H. S., Juba, B., & Stern, R. (2024). Learning Safe Action Models with Partial Observability. AAAI 2024, 38(18), 20159-20167. doi:10.1609/aaai.v38i18.29995.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Directly relevant to safe decisions when the world state is only partially observed.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R069"
+      ]
+    },
+    {
+      "entry": 95,
+      "citation": "Moss, R. J., Jamgochian, A., Fischer, J., Corso, A., & Kochenderfer, M. J. (2024). ConstrainedZero: Chance-Constrained POMDP Planning Using Learned Probabilistic Failure Surrogates and Adaptive Safety Constraints. IJCAI 2024. doi:10.24963/ijcai.2024/746.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Useful for belief-state safety under uncertainty and for benchmarking conservative versus useful action choices.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R068"
+      ]
+    },
+    {
+      "entry": 96,
+      "citation": "Alvaro, M. D., Novak, R., Barbosa, P. R. F., Capelo, I. C., Gallego, M., & Rodriguez-Sanchez, M. C. (2025). GUIDE2FR: A Smart Monitoring Platform with a Digital Twin of a Firefighter Training Tower for Emergency Scenarios. Internet of Things, 34, 101768. doi:10.1016/j.iot.2025.101768.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Excellent application reference because it combines IoT sensing, digital twins, smart buildings, and emergency response in the target journal.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R096"
+      ]
+    },
+    {
+      "entry": 97,
+      "citation": "TwinGridShield (Rafy, 2026) - see Section 1.",
+      "priority": "A",
+      "annotation": "Cross-reference. Cross-reference: its model-mismatch results are especially important for motivating uncertainty-aware model-grounded Evidra.",
+      "theme": "9. Evidence freshness, partial observability, state uncertainty, digital twins, and model-grounded assurance",
+      "canonical_ids": [
+        "R015"
+      ]
+    },
+    {
+      "entry": 98,
+      "citation": "Li, G., Yang, Z., Fu, Y., O'Neill, Z., Ren, L., Pradhan, O., & Wen, J. (2024). A Hardware-in-the-Loop (HIL) Testbed for Cyber-Physical Energy Systems in Smart Commercial Buildings. Science and Technology for the Built Environment, 30(5), 415-432. doi:10.1080/23744731.2024.2336839.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. One of the best methodology references for combining simulated building physics with real controllers and communication hardware.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R098"
+      ]
+    },
+    {
+      "entry": 99,
+      "citation": "Li, G., et al. (2024). Emulation and Detection of Physical Faults and Cyber-Attacks on Building Energy Systems through Real-Time Hardware-in-the-Loop Experiments. Energy and Buildings, 320, 114596. doi:10.1016/j.enbuild.2024.114596.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Directly useful for designing repeatable faults and cyber-attacks in a building HIL environment.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R099"
+      ]
+    },
+    {
+      "entry": 100,
+      "citation": "Li, G., et al. (2023). A Critical Review of Cyber-Physical Security for Building Automation Systems. Annual Reviews in Control, 55, 237-254. doi:10.1016/j.arcontrol.2023.02.004.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Strong review of building automation attack surfaces, security mechanisms, and CPS experimentation.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R100"
+      ]
+    },
+    {
+      "entry": 101,
+      "citation": "Fu, Y., et al. (2021). Modeling and Evaluation of Cyber-Attacks on Grid-Interactive Efficient Buildings. Applied Energy, 303, 117639. doi:10.1016/j.apenergy.2021.117639.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Useful for controlled attack modeling and building-system response.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R101"
+      ]
+    },
+    {
+      "entry": 102,
+      "citation": "Potteiger, B., Emfinger, W., Neema, H., Koutsoukos, X., Tang, C.-Y., & Stouffer, K. (2017). Evaluating the Effects of Cyber-Attacks on Cyber Physical Systems Using a Hardware-in-the-Loop Simulation Testbed. NIST / conference publication.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Foundational HIL cyber-physical attack-testing reference; useful for experimental methodology.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R102"
+      ]
+    },
+    {
+      "entry": 103,
+      "citation": "Li, G., et al. (2022). Development of a Hardware-In-the-Loop (HIL) Testbed for Cyber-Physical Security in Smart Buildings. arXiv:2210.11234.",
+      "priority": "B",
+      "annotation": "Preprint. Earlier detailed version of the smart-building HIL methodology; useful for implementation detail.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R103"
+      ]
+    },
+    {
+      "entry": 104,
+      "citation": "Alvaro, M. D., et al. (2025). GUIDE2FR: A Smart Monitoring Platform with a Digital Twin of a Firefighter Training Tower for Emergency Scenarios. Internet of Things, 34, 101768.",
+      "priority": "A",
+      "annotation": "Peer-reviewed. Application-specific benchmark for public-safety/smart-building testbed design.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R096"
+      ]
+    },
+    {
+      "entry": 105,
+      "citation": "RTAEval (Miller et al., 2023) - see Section 5.",
+      "priority": "A",
+      "annotation": "Cross-reference. Cross-reference: useful specifically for evaluating RTA logic independent of a particular plant.",
+      "theme": "10. Hardware-in-the-loop, smart buildings, cyber-physical testbeds, and fault injection",
+      "canonical_ids": [
+        "R057"
+      ]
+    },
+    {
+      "entry": 106,
+      "citation": "Santoni de Sio, F., & van den Hoven, J. (2018). Meaningful Human Control over Autonomous Systems: A Philosophical Account. Frontiers in Robotics and AI, 5, 15. doi:10.3389/frobt.2018.00015.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Foundational conceptual reference for meaningful human control and responsibility in autonomous systems.",
+      "theme": "11. Human oversight, meaningful control, and governance",
+      "canonical_ids": [
+        "R106"
+      ]
+    },
+    {
+      "entry": 107,
+      "citation": "Calvert, S. C. (2025). Principles and Framework for the Operationalisation of Meaningful Human Control Over Autonomous Systems.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Useful for operationalizing human oversight rather than treating it as a vague ethical requirement.",
+      "theme": "11. Human oversight, meaningful control, and governance",
+      "canonical_ids": [
+        "R107"
+      ]
+    },
+    {
+      "entry": 108,
+      "citation": "Zhu, L., Lu, Q., Ding, M., Lee, S. U., et al. (2026). Designing Meaningful Human Oversight in AI. AI and Ethics, 6, article 286.",
+      "priority": "B",
+      "annotation": "Peer-reviewed. Recent framework for meaningful oversight, confidence signals, circuit breakers, and escalation. Relevant if human availability becomes part of Evidra's assurance model.",
+      "theme": "11. Human oversight, meaningful control, and governance",
+      "canonical_ids": [
+        "R108"
+      ]
+    },
+    {
+      "entry": 109,
+      "citation": "Managed Autonomy at Runtime (Ramaswamy & Miaosheng, 2026) - see Section 1.",
+      "priority": "A",
+      "annotation": "Cross-reference. Cross-reference for runtime governance states and authority transitions.",
+      "theme": "11. Human oversight, meaningful control, and governance",
+      "canonical_ids": [
+        "R010"
+      ]
+    },
+    {
+      "entry": 110,
+      "citation": "LATTICE (Calboreanu, 2026) and SAGA (Syros et al., 2025) - see Section 1.",
+      "priority": "B",
+      "annotation": "Cross-reference. Cross-reference for authorization, governance boundaries, auditability, and trusted execution architecture.",
+      "theme": "11. Human oversight, meaningful control, and governance",
+      "canonical_ids": [
+        "R012",
+        "R013"
+      ]
+    },
+    {
+      "entry": 111,
+      "citation": "Mitsch, S., & Platzer, A. (2016). ModelPlex: Verified Runtime Validation of Verified Cyber-Physical System Models. Formal Methods in System Design, 49, 33-74.",
+      "priority": "A",
+      "annotation": "Cross-reference. Re-read alongside the modeling work; it is central enough to appear twice in a working reading plan even though it should be cited once in the manuscript.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R050"
+      ]
+    },
+    {
+      "entry": 112,
+      "citation": "Fox, M., & Long, D. (2003). PDDL2.1: An Extension to PDDL for Expressing Temporal Planning Domains. Journal of Artificial Intelligence Research, 20, 61-124.",
+      "priority": "A",
+      "annotation": "Cross-reference. Re-read when formalizing action phases, duration, concurrency, and invariants.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R075"
+      ]
+    },
+    {
+      "entry": 113,
+      "citation": "Ames, A. D., Grizzle, J. W., & Tabuada, P. (2014). Control Barrier Function Based Quadratic Programs with Application to Adaptive Cruise Control. IEEE CDC.",
+      "priority": "C",
+      "annotation": "Cross-reference. General physical-safety constraint mechanism that can inform the independent oracle even if Evidra does not implement a CBF.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R064"
+      ]
+    },
+    {
+      "entry": 114,
+      "citation": "Flammini, F. (2021). Digital Twins as Run-Time Predictive Models for the Resilience of Cyber-Physical Systems. Philosophical Transactions of the Royal Society A.",
+      "priority": "B",
+      "annotation": "Cross-reference. Use in Discussion to frame digital/state models as runtime assurance artifacts rather than visualization-only twins.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R088"
+      ]
+    },
+    {
+      "entry": 115,
+      "citation": "Hsu, K.-C., Hu, H., & Fisac, J. F. (2024). The Safety Filter: A Unified View of Safety-Critical Control in Autonomous Systems. Annual Review of Control, Robotics, and Autonomous Systems.",
+      "priority": "A",
+      "annotation": "Cross-reference. Excellent source for terminology and for explaining how Evidra differs from continuous-control safety filters.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R060"
+      ]
+    },
+    {
+      "entry": 116,
+      "citation": "Doyle (1979), de Kleer (1986), and Green et al. (2007) - see Section 8.",
+      "priority": "A",
+      "annotation": "Cross-reference. Read together to understand dependency maintenance, alternative justifications, and provenance; these works prevent us from overstating the graph machinery as novel.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R079",
+        "R080",
+        "R081",
+        "R082"
+      ]
+    },
+    {
+      "entry": 117,
+      "citation": "ToolEmu (Ruan et al., 2024) - see Section 2.",
+      "priority": "A",
+      "annotation": "Cross-reference. Especially useful when justifying the software-only stage before hardware and the use of simulated rare failures.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R029"
+      ]
+    },
+    {
+      "entry": 118,
+      "citation": "HomeBench and SafeAgentBench - see Sections 1 and 2.",
+      "priority": "A",
+      "annotation": "Cross-reference. Useful together for smart-home/embodied safety task design and evaluation metrics.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R020",
+        "R025"
+      ]
+    },
+    {
+      "entry": 119,
+      "citation": "Ahn, M., et al. / Ichter, B., et al. (2022/2023). Do As I Can, Not As I Say: Grounding Language in Robotic Affordances. CoRL.",
+      "priority": "C",
+      "annotation": "Cross-reference. Affordance grounding is a useful conceptual precursor to separating what an agent wants to do from what the system can safely do.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R040"
+      ]
+    },
+    {
+      "entry": 120,
+      "citation": "Huang, W., et al. (2023). Inner Monologue: Embodied Reasoning through Planning with Language Models. CoRL.",
+      "priority": "C",
+      "annotation": "Cross-reference. Closed-loop feedback and replanning background.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R045"
+      ]
+    },
+    {
+      "entry": 121,
+      "citation": "Liang, J., et al. (2023). Code as Policies: Language Model Programs for Embodied Control. ICRA.",
+      "priority": "C",
+      "annotation": "Cross-reference. Executable LLM policies background; reinforces the need for an independent enforcement kernel.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R044"
+      ]
+    },
+    {
+      "entry": 122,
+      "citation": "AgentBench (Liu et al., 2024) - see Section 2.",
+      "priority": "C",
+      "annotation": "Cross-reference. General agent evaluation background and failure-analysis methodology.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R028"
+      ]
+    },
+    {
+      "entry": 123,
+      "citation": "ToolSandbox (Lu et al., 2024) - see Section 2.",
+      "priority": "B",
+      "annotation": "Cross-reference. State dependencies and insufficient information are particularly relevant to Evidra's benchmark design.",
+      "theme": "12. Supplementary background: dependable autonomy, temporal action execution, and broader methods",
+      "canonical_ids": [
+        "R030"
+      ]
+    }
+  ]
+}

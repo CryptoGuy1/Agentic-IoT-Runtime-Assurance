@@ -23,6 +23,7 @@ pub struct Estimator {
     sources: BTreeMap<(String, Variable), (u64, Duration)>,
     commands: Vec<Command>,
     inconsistent: bool,
+    revision: u64,
 }
 impl Estimator {
     pub fn new(
@@ -43,7 +44,14 @@ impl Estimator {
             sources: BTreeMap::new(),
             commands: vec![],
             inconsistent: false,
+            revision: 1,
         })
+    }
+    pub fn revision(&self) -> u64 {
+        self.revision
+    }
+    pub fn initial_inputs(&self) -> Inputs {
+        self.initial_inputs
     }
     pub fn state(&self) -> &StateBox {
         &self.state
@@ -53,6 +61,13 @@ impl Estimator {
     }
     pub fn inconsistent(&self) -> bool {
         self.inconsistent
+    }
+    /// All accepted messages, including missing/inconsistent quality, in ID order.
+    pub fn accepted_observations(&self) -> impl Iterator<Item = &Observation> {
+        self.seen.values()
+    }
+    pub fn initial_state(&self) -> &StateBox {
+        &self.initial
     }
     pub fn observations(&self) -> &[Observation] {
         &self.observations
@@ -66,6 +81,12 @@ impl Estimator {
             || at.saturating_sub(self.initial.at) > Duration::from_secs(3600)
         {
             return Err("time must advance on the 100 ms grid within a one-hour experiment".into());
+        }
+        if self.state.at < at {
+            self.revision = self
+                .revision
+                .checked_add(1)
+                .ok_or("model revision overflow")?;
         }
         while self.state.at < at {
             self.state = predict(
@@ -93,6 +114,10 @@ impl Estimator {
                     .into(),
             );
         }
+        self.revision = self
+            .revision
+            .checked_add(1)
+            .ok_or("model revision overflow")?;
         self.commands.push(command);
         Ok(())
     }
@@ -123,6 +148,10 @@ impl Estimator {
         if self.state.at >= obs.generated_at + obs.max_age {
             return Ok(Update::Expired);
         }
+        self.revision = self
+            .revision
+            .checked_add(1)
+            .ok_or("model revision overflow")?;
         self.seen.insert(obs.id.clone(), obs.clone());
         self.sources.insert(key, (obs.version, obs.generated_at));
         match obs.quality {
@@ -175,6 +204,113 @@ impl Estimator {
             );
         }
         self.state = state;
+    }
+    /// Delivery-aware candidate safety; this does not establish physical success.
+    pub fn check_point_delivery(&self, action: Action, delay: Duration) -> CheckResult {
+        let state = self.state.point_projection();
+        let mut assumptions = self.assumptions.clone();
+        assumptions.disturbance_scale = 0.0;
+        assumptions.faults_may_start = false;
+        assumptions.source =
+            Interval::point(assumptions.source.midpoint()).expect("validated midpoint");
+        super::check::check_window(
+            &state,
+            &assumptions,
+            self.initial_inputs,
+            &self.commands,
+            &self.observations,
+            self.inconsistent,
+            action,
+            Some((delay, false)),
+            action.horizon(),
+        )
+    }
+    pub fn check_delivery(&self, action: Action, delay: Duration, may_drop: bool) -> CheckResult {
+        super::check::check_window(
+            &self.state,
+            &self.assumptions,
+            self.initial_inputs,
+            &self.commands,
+            &self.observations,
+            self.inconsistent,
+            action,
+            Some((delay, may_drop)),
+            action.horizon(),
+        )
+    }
+    /// Monitor the existing command history without pretending to resend a command.
+    pub fn check_continuation(&self, action: Action) -> CheckResult {
+        super::check::check_window(
+            &self.state,
+            &self.assumptions,
+            self.initial_inputs,
+            &self.commands,
+            &self.observations,
+            self.inconsistent,
+            action,
+            None,
+            action.horizon(),
+        )
+    }
+    /// Check recovery from the enclosure at the next monitoring boundary, including
+    /// commands already in transit. This is a finite feasibility test, not a proof
+    /// of indefinite recoverability. The target must be enclosed by its deadline.
+    pub fn check_recovery(
+        &self,
+        candidate: Option<Command>,
+        recovery: Action,
+        delay: Duration,
+        may_drop: bool,
+    ) -> Result<CheckResult, String> {
+        let mut future = self.clone();
+        if let Some(command) = candidate {
+            future.note_command(command)?;
+        }
+        future.advance_to(future.state.at.checked_add(TICK).ok_or("time overflow")?)?;
+        future.check_recovery_delivery(recovery, delay, may_drop)
+    }
+    /// Safety and target feasibility for a recovery released at the current time.
+    pub fn check_recovery_delivery(
+        &self,
+        recovery: Action,
+        delay: Duration,
+        may_drop: bool,
+    ) -> Result<CheckResult, String> {
+        let mut future = self.clone();
+        let mut check = future.check_delivery(recovery, delay, may_drop);
+        let command = Command {
+            id: future
+                .commands
+                .last()
+                .map_or(Some(1), |c| c.id.checked_add(1))
+                .ok_or("command IDs exhausted")?,
+            action: recovery,
+            issued_at: future.state.at,
+            max_delay: delay,
+            may_drop,
+        };
+        future.note_command(command)?;
+        future.advance_to(
+            future
+                .state
+                .at
+                .checked_add(recovery.deadline())
+                .ok_or("time overflow")?,
+        )?;
+        let target = match recovery {
+            Action::AlarmOn => future.state.alarm == BoolSet::True,
+            Action::FanStart => future.state.fan.lo() >= 0.90,
+            Action::FanStop => future.state.fan.hi() <= 0.05,
+            Action::DoorClose => future.state.door.lo() >= 0.95,
+            Action::DoorOpen => future.state.door.hi() <= 0.05,
+        };
+        if !target {
+            if check.decision == Decision::Supported {
+                check.decision = Decision::Unknown;
+            }
+            check.reasons.push("Recovery target is not guaranteed by its deadline under the declared delivery and fault bounds.".into());
+        }
+        Ok(check)
     }
     pub fn check(&self, action: Action) -> CheckResult {
         check_action(

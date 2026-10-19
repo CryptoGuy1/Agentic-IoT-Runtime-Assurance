@@ -1,3 +1,6 @@
 /target/
 tmp/
 /output
+
+# Local Word documents and generated client reports
+*.[dD][oO][cC][xX]

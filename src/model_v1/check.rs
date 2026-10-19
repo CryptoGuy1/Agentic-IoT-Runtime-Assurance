@@ -30,11 +30,37 @@ pub fn check_action(
     inconsistent: bool,
     action: Action,
 ) -> CheckResult {
+    check_window(
+        state,
+        assumptions,
+        initial,
+        commands,
+        observations,
+        inconsistent,
+        action,
+        Some((Duration::ZERO, false)),
+        action.horizon(),
+    )
+}
+
+/// Shared conservative trajectory check. A missing candidate monitors existing inputs.
+#[allow(clippy::too_many_arguments)]
+pub(crate) fn check_window(
+    state: &StateBox,
+    assumptions: &Assumptions,
+    initial: Inputs,
+    commands: &[Command],
+    observations: &[Observation],
+    inconsistent: bool,
+    action: Action,
+    delivery: Option<(Duration, bool)>,
+    window: Duration,
+) -> CheckResult {
     let mut result = CheckResult {
         decision: Decision::Supported,
         action,
         checked_at: state.at,
-        horizon_end: state.at.saturating_add(action.horizon()),
+        horizon_end: state.at.saturating_add(window),
         reasons: vec![],
         observations: observations
             .iter()
@@ -58,7 +84,18 @@ pub fn check_action(
         || state.validate().is_err()
         || assumptions.validate().is_err()
         || initial.validate().is_err()
-        || state.at.checked_add(action.horizon()).is_none()
+        || !grid(window)
+        || window.is_zero()
+        || window > Duration::from_secs(60)
+        || delivery.is_some_and(|(delay, _)| {
+            !grid(delay)
+                || delay > Duration::from_secs(60)
+                || state
+                    .at
+                    .checked_add(delay + Duration::from_millis(200))
+                    .is_none()
+        })
+        || state.at.checked_add(window).is_none()
     {
         result.decision = Decision::Unknown;
         result
@@ -78,13 +115,15 @@ pub fn check_action(
         return result;
     };
     let mut future_commands = commands.to_vec();
-    future_commands.push(Command {
-        id: next_id,
-        action,
-        issued_at: state.at,
-        max_delay: Duration::ZERO,
-        may_drop: false,
-    });
+    if let Some((max_delay, may_drop)) = delivery {
+        future_commands.push(Command {
+            id: next_id,
+            action,
+            issued_at: state.at,
+            max_delay,
+            may_drop,
+        });
+    }
     let mut s = state.clone();
     let mut uncertain = false;
     let mut definite = false;

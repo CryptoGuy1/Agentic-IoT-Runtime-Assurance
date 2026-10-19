@@ -8,6 +8,7 @@ import threading
 import uuid
 from datetime import datetime, timezone
 from ollama_planner import generate, PlannerError
+from model_dashboard import ModelService
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -152,7 +153,13 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/api/state':
             return self.call('state')
-        assets = {'/': ('index.html', 'text/html; charset=utf-8'),
+        if self.path == '/api/model/benchmark':
+            try:return self.reply(200,self.server.model_service.benchmark())
+            except (RuntimeError,OSError,ValueError) as exc:return self.reply(503,{'error':str(exc)})
+        assets = {'/model': ('model.html','text/html; charset=utf-8'),
+                  '/model.js': ('model.js','text/javascript; charset=utf-8'),
+                  '/model.css': ('model.css','text/css; charset=utf-8'),
+                  '/': ('index.html', 'text/html; charset=utf-8'),
                   '/app.js': ('app.js', 'text/javascript; charset=utf-8'),
                   '/style.css': ('style.css', 'text/css; charset=utf-8')}
         if self.path not in assets:
@@ -161,7 +168,7 @@ class Handler(BaseHTTPRequestHandler):
         self.reply(200, (ROOT / 'web' / filename).read_bytes(), mime)
 
     def do_POST(self):
-        if self.path != '/api/control':
+        if self.path not in ('/api/control','/api/model/run'):
             return self.reply(404, {'error': 'Not found'})
         # Only our same-origin browser interface may make state-changing requests.
         if self.headers.get('Origin') not in (None, 'http://127.0.0.1:8765'):
@@ -175,6 +182,10 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < length <= 4096:
                 raise ValueError('Invalid request size')
             obj = json.loads(self.rfile.read(length))
+            if self.path == '/api/model/run':
+                try:return self.reply(200,self.server.model_service.run(obj))
+                except RuntimeError as exc:return self.reply(503,{'error':str(exc)})
+                except subprocess.TimeoutExpired:return self.reply(503,{'error':'Experiment timed out'})
             if not isinstance(obj, dict) or set(obj) - {'control', 'preset', 'planner_mode', 'goal'}:
                 raise ValueError('Invalid request')
             control = obj.get('control')
@@ -217,12 +228,13 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 def main():
-    subprocess.run(['cargo', 'build', '--offline', '--bin', 'web_bridge'], cwd=ROOT, check=True)
+    subprocess.run(['cargo', 'build', '--offline', '--bin', 'web_bridge', '--bin', 'model_demo'], cwd=ROOT, check=True)
     bridge = Bridge()
     try:
         server = ThreadingHTTPServer(('127.0.0.1', 8765), Handler)
         server.bridge = bridge
-        print('DCRA web demo: http://127.0.0.1:8765\nVirtual time starts paused. Press Ctrl+C to stop.', flush=True)
+        server.model_service = ModelService()
+        print('Evidra model dashboard: http://127.0.0.1:8765/model\nOriginal demo: http://127.0.0.1:8765\nVirtual time starts paused. Press Ctrl+C to stop.', flush=True)
         signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
         server.serve_forever()
     except KeyboardInterrupt:

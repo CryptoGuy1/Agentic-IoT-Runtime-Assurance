@@ -942,6 +942,22 @@ impl ActionRuntime {
         self.react(offset);
         Ok(())
     }
+    /// Internal producer boundary: publish related claims before lifecycle reactions.
+    pub(crate) fn update_model_claims(
+        &mut self,
+        atoms: Vec<EvidenceAtom>,
+    ) -> Result<(), ActionError> {
+        if atoms
+            .iter()
+            .any(|a| self.reserved.contains_key(&a.evidence_id))
+        {
+            return Err(ActionError::ReservedEvidence);
+        }
+        let offset = self.assurance.audit().len();
+        self.assurance.update_batch(atoms)?;
+        self.react(offset);
+        Ok(())
+    }
     pub fn update(&mut self, atom: EvidenceAtom) -> Result<(), ActionError> {
         if self.reserved.contains_key(&atom.evidence_id) {
             return Err(ActionError::ReservedEvidence);

@@ -86,8 +86,38 @@ Read the generated `report.md`, or see [the Model v1 guide and corrected
 specification](docs/model-v1.md) and the [measured results](docs/model-v1-results.md).
 Use a new output directory for each run.
 This first delivery is an isolated component experiment; its decisions do not
-yet control the existing web simulation. Full policy comparisons and the 80%
-decision-correctness target remain future evaluation work.
+yet control the existing web simulation. These component diagnostics do not establish the 80%
+decision-correctness target. The newer refinement-v1 software campaign is documented below.
+
+An optional [model/runtime integration](docs/model-runtime-integration.md) now gates
+leases, dispatch and physical command release, checks finite recovery feasibility,
+and supervises persistent effects after task completion. Run
+`cargo run --offline --example model_runtime` for a reproducible walkthrough.
+The existing browser policy path is unchanged. A [simple client review draft](docs/client-step-two-review.md)
+explains this delivery and its limits.
+
+[Versioned physical claims](docs/physical-claims.md) can now replace explicitly
+selected direct physical predicates while preserving permissions and outcome
+requirements. Run `cargo run --offline --example physical_claims` for the
+[controlled comparison](docs/physical-claims-comparison.md), or read the
+[Step 3 client explanation](docs/client-step-three-review.md). These fixtures
+are not the full historical B5/B6 policy campaign.
+
+The new [end-to-end simulation demonstration](docs/closed-loop-demo.md) connects
+model-backed claims and runtime authority to the scalar plant, delayed command
+application, measured device feedback and independent post-run execution scoring.
+Run `cargo build --offline --bins`, then
+`python3 scripts/run_model_demo.py --out target/NEW_DEMO_DIRECTORY`.
+Read the [Step 4 client explanation](docs/client-step-four-review.md).
+The new browser presentation and registered software policy campaign are documented in the 19 October delivery below.
+
+The [19 October software delivery](docs/software-refinement-delivery.md) adds
+`http://127.0.0.1:8765/model` to the existing web server, seven explicitly versioned
+comparison policies, frozen pilot/confirmatory collection, authorized recovery
+alternatives and bounded event-driven replanning. Run
+`python3 scripts/run_refinement_benchmarks.py --out output/NEW_BENCHMARK_DIRECTORY`
+for the full software campaign after building the binaries. The controlled
+contract corpus is distinct from a general decision-accuracy claim.
 
 The [research register](docs/research-register.md) consolidates the supplied
 reading list and tracks citation corrections separately from full-paper review.
@@ -102,10 +132,33 @@ then add the distributed communication and physical I/O adapters. See the
 for staged purchases, implementation work and benchmark requirements. The current
 implementation still uses simulated observations and a fake actuator.
 
-For the local browser demonstration, run `python3 scripts/run_web_demo.py` and open
-`http://127.0.0.1:8765`. See [the web demo guide](docs/web-demo.md) for the two guided
-meeting examples, controls and presenter script. The interface runs the existing
-Rust simulator; no external packages or real devices are required.
+### Start the browser demo server
+
+Requirements: Python 3 and a Rust toolchain supporting edition 2024, with `cargo`
+available in your terminal. No third-party Python packages or real devices are
+required.
+
+From the repository root, run:
+
+```sh
+python3 scripts/run_web_demo.py
+```
+
+The script builds the Rust demo binaries offline, then starts the local server.
+Wait for the dashboard URL to appear, then open:
+
+- [Model dashboard](http://127.0.0.1:8765/model): physical estimates, recovery,
+  autonomous replanning and policy benchmark results.
+- [Original guided demo](http://127.0.0.1:8765): the earlier meeting examples.
+
+Keep that terminal running during the demonstration. Press **Ctrl+C** to stop
+the server; rerun the same command to start it again. If the browser reports a
+connection failure, check the terminal for startup errors and restart the server.
+If startup reports that port 8765 is already in use, stop the previous server
+with Ctrl+C in its terminal before retrying. Use `127.0.0.1` in the URL because
+the demo validates the request host and origin.
+
+See [the web demo guide](docs/web-demo.md) for controls and presenter instructions.
 
 With a Rust toolchain supporting edition 2024 (no external dependencies):
 

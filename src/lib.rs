@@ -15,5 +15,6 @@ pub mod actions;
 
 pub mod simulation;
 
-/// Isolated Model v1 experiment; does not replace the existing simulation.
+/// Bounded physical model, component experiments and an optional action-runtime gate.
+/// The existing browser simulation retains its original policy path.
 pub mod model_v1;

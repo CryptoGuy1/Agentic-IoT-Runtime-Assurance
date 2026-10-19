@@ -6,7 +6,7 @@ Version: `evidra-model-v1.1`, 15 October 2026. This is the corrected, executable
 
 The simulated world knows the actual state. The estimator sees only delivered observations, issued commands, its initial assumptions and declared limits. It maintains a range of possible states. The checker asks whether all those possibilities satisfy the configured action constraints over a limited future window. An independent scorer evaluates an applied-now candidate using the actual simulated world.
 
-The experiment runner performs scripted interventions. Its checker is not yet connected to the existing action-execution runtime or the browser. The saved comparisons are component diagnostics, not new B0–B6 results. Qwen3 and hardware are not needed to reproduce them.
+The experiment runner performs scripted interventions. Its saved comparisons are component diagnostics, not new B0–B6 results. An optional [Step 2 integration](model-runtime-integration.md) now connects the checker to action execution; this component runner and the existing browser retain their separate paths. Qwen3 and hardware are not needed to reproduce these experiments.
 
 ## Run an example
 
@@ -106,4 +106,14 @@ Tests cover arithmetic enclosures, hand calculations, delayed history updates, i
 
 See the [measured results and limitations](model-v1-results.md) for the completed 13-scenario seed-42 run and verification totals.
 
-The next delivery connects model-backed physical claims to the runtime, retains separate permissions/outcome evidence, and checks feasible recovery and persistent device effects. It must add candidate-delivery windows and phase-specific guarantees before these component verdicts can control actions. Full policy comparisons, the browser display, autonomous planning and Pi I/O follow that work.
+The optional Step 2 delivery below adds model-backed runtime gates, separate permissions/outcome evidence, candidate-delivery windows, finite recovery checks and supervision of persistent device effects. Full policy comparisons, the browser display, autonomous planning and Pi I/O remain subsequent work.
+
+
+## Step 2 integration delivery
+
+The next boundary described above now has an optional implementation through
+`ModelRuntime`. See [the integration guide](model-runtime-integration.md) for
+release/phase gates, finite recovery checks, persistent-effect monitoring,
+configuration assumptions and reproducible verification. The original component
+runner and browser policy path retain their separate roles. The [client review
+draft](client-step-two-review.md) explains the resulting behavior in plain language.

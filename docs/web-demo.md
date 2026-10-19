@@ -99,3 +99,12 @@ python3 scripts/test_ollama_planner.py
 ```
 
 The automated planner tests use recorded-style mock outputs to test enforcement independently of model quality. Live Qwen output is separately rehearsed in the browser.
+
+
+## Model and refinement dashboard
+
+The new `/model` page uses the connected physical-model experiment path. It offers
+fresh experiment runs, timeline playback, certificate and feedback inspection,
+refinement-v1 policy selection, recovery alternatives and bounded autonomous
+replanning. See [the software delivery guide](software-refinement-delivery.md).
+The original page and its historical benchmark definitions remain available.

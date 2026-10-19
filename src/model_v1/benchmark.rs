@@ -47,7 +47,7 @@ impl TrueState {
             response_required: true,
         }
     }
-    fn value(&self, variable: Variable) -> Reading {
+    pub(crate) fn value(&self, variable: Variable) -> Reading {
         match variable {
             Variable::Hazard => Reading::Number(self.hazard),
             Variable::Pressure => Reading::Number(self.pressure),
@@ -178,7 +178,7 @@ impl TruePlant {
     }
 }
 
-fn hash(bytes: &[u8]) -> u64 {
+pub(crate) fn hash(bytes: &[u8]) -> u64 {
     bytes.iter().fold(0xcbf29ce484222325, |h, b| {
         (h ^ u64::from(*b)).wrapping_mul(0x100000001b3)
     })
@@ -201,7 +201,7 @@ fn source_id() -> String {
 fn signed(seed: u64, key: &str) -> f64 {
     ((hash(format!("{seed}:{key}").as_bytes()) % 2001) as f64 - 1000.0) / 1000.0
 }
-fn noise(seed: u64, at: Duration) -> [f64; 4] {
+pub(crate) fn noise(seed: u64, at: Duration) -> [f64; 4] {
     [0.01, 0.02, 0.02, 0.01]
         .map(|bound| bound * signed(seed, &format!("disturbance:{bound}:{}", at.as_millis())))
 }
@@ -411,7 +411,7 @@ pub struct ExperimentReport {
     pub decision: Decision,
 }
 
-fn interval_json(i: Interval) -> String {
+pub(crate) fn interval_json(i: Interval) -> String {
     format!("[{},{}]", i.lo(), i.hi())
 }
 fn set_json(s: BoolSet) -> String {
@@ -423,7 +423,7 @@ fn set_json(s: BoolSet) -> String {
             .join(",")
     )
 }
-fn box_json(s: &StateBox) -> String {
+pub(crate) fn box_json(s: &StateBox) -> String {
     format!(
         "{{\"time_ms\":{},\"hazard\":{},\"pressure\":{},\"fan\":{},\"door\":{},\"occupied\":{},\"alarm\":{},\"fan_failed\":{},\"door_jammed\":{},\"response_required\":{}}}",
         s.at.as_millis(),
@@ -438,7 +438,7 @@ fn box_json(s: &StateBox) -> String {
         set_json(s.response_required)
     )
 }
-fn truth_json(s: &TrueState) -> String {
+pub(crate) fn truth_json(s: &TrueState) -> String {
     format!(
         "{{\"time_ms\":{},\"hazard\":{},\"pressure\":{},\"fan\":{},\"door\":{},\"occupied\":{},\"alarm\":{},\"fan_failed\":{},\"door_jammed\":{},\"response_required\":{}}}",
         s.at.as_millis(),
@@ -453,7 +453,7 @@ fn truth_json(s: &TrueState) -> String {
         s.response_required
     )
 }
-fn check_json(c: &CheckResult) -> String {
+pub(crate) fn check_json(c: &CheckResult) -> String {
     format!(
         "{{\"decision\":{},\"action\":{},\"checked_at_ms\":{},\"horizon_end_ms\":{},\"reasons\":[{}],\"observation_ids\":[{}],\"pressure_envelope\":{}}}",
         quote(&format!("{:?}", c.decision)),
@@ -473,7 +473,7 @@ fn check_json(c: &CheckResult) -> String {
         interval_json(c.pressure_envelope)
     )
 }
-fn observation_json(o: &Observation, update: Update) -> String {
+pub(crate) fn observation_json(o: &Observation, update: Update) -> String {
     let value = match o.value {
         Reading::Number(v) => v.to_string(),
         Reading::Boolean(v) => v.to_string(),
@@ -494,7 +494,7 @@ fn observation_json(o: &Observation, update: Update) -> String {
     )
 }
 
-fn dynamics_json(d: &Dynamics) -> String {
+pub(crate) fn dynamics_json(d: &Dynamics) -> String {
     format!(
         "{{\"hazard_decay\":{},\"fan_removal\":{},\"fan_tau\":{},\"pressure_decay\":{},\"pressure_coupling\":{},\"door_speed\":{}}}",
         d.hazard_decay,

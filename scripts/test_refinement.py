@@ -11,7 +11,7 @@ from model_dashboard import ModelService
 from run_refinement_benchmarks import wilson, oracle_summary
 ROOT=Path(__file__).resolve().parents[1]
 class RefinementTests(unittest.TestCase):
-    def test_oracle_v2_metrics_keep_denominators_and_null_zero_denominators(self):
+    def test_refinement_oracle_metrics_keep_denominators_and_null_zero_denominators(self):
         rows=[
           {'oracle_label':'SafeUseful','policy_response':'Withheld','target_achieved':None},
           {'oracle_label':'Unsafe','policy_response':'Released','target_achieved':True}]
@@ -40,7 +40,10 @@ class RefinementTests(unittest.TestCase):
             def request(body,origin='http://127.0.0.1:8765'):
                 return urllib.request.Request(base+'/api/model/run',data=json.dumps(body).encode(),headers={'Host':'127.0.0.1:8765','Origin':origin,'Content-Type':'application/json'})
             with urllib.request.urlopen(request({'scenario':'short-gap','policy':'B6','seed':42})) as response:data=json.load(response)
-            self.assertEqual(data['policy_schema'],'refinement-v1');self.assertEqual(data['final_runtime_state'],'Completed')
+            self.assertEqual(data['policy_schema'],'refinement');self.assertEqual(data['final_runtime_state'],'Completed')
+            self.assertTrue(data['candidate_evaluations'])
+            self.assertIn(data['candidate_evaluations'][0]['oracle_label'],('SafeUseful','SafeUnnecessary','Unsafe'))
+            self.assertIn('overall',data['oracle_summary'])
             self.assertEqual(len(data['trace']),121)
             for body in [{'scenario':'../bad'},{'seed':-1},{'seed':True},{'autonomous':'yes'},{'shell':'anything'}]:
                 with self.assertRaises(urllib.error.HTTPError) as error:urllib.request.urlopen(request(body))

@@ -25,8 +25,8 @@ pub use claims::{
     PhysicalClaimBinding, PhysicalPredicate, substitute_physical_claims,
 };
 pub use closed_loop::{
-    CLOSED_LOOP_SCENARIOS, CLOSED_LOOP_SCHEMA, ClosedLoopReport, ORACLE_POLICY_SCHEMA, RunOptions,
-    run_closed_loop, run_closed_loop_with_options,
+    CLOSED_LOOP_SCENARIOS, CLOSED_LOOP_SCHEMA, ClosedLoopReport, RunOptions, run_closed_loop,
+    run_closed_loop_with_options,
 };
 pub use estimate::{Estimator, Update};
 pub use execution_score::{AppliedCommandScore, ExecutionScore};

@@ -9,7 +9,7 @@ pub enum RefinementPolicy {
     B5,
     B6,
 }
-pub const POLICY_SCHEMA: &str = "refinement-v1";
+pub const POLICY_SCHEMA: &str = "refinement";
 pub const REFINEMENT_POLICIES: [RefinementPolicy; 7] = [
     RefinementPolicy::B0,
     RefinementPolicy::B1,
@@ -46,7 +46,7 @@ impl RefinementPolicy {
         REFINEMENT_POLICIES
             .into_iter()
             .find(|p| p.id() == id)
-            .ok_or_else(|| "policy must be B0 through B6 in refinement-v1".into())
+            .ok_or_else(|| "policy must be B0 through B6 in the refinement schema".into())
     }
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

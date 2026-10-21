@@ -8,16 +8,9 @@ fn options(policy: RefinementPolicy) -> RunOptions {
     }
 }
 #[test]
-fn oracle_v2_labels_blocked_candidates_and_keeps_counterfactuals_out_of_outcomes() {
-    let report = run_closed_loop_with_options(
-        "uncertain",
-        42,
-        RunOptions {
-            oracle_v2: true,
-            ..options(RefinementPolicy::B6)
-        },
-    )
-    .unwrap();
+fn refinement_labels_blocked_candidates_and_keeps_counterfactuals_out_of_outcomes() {
+    let report =
+        run_closed_loop_with_options("uncertain", 42, options(RefinementPolicy::B6)).unwrap();
     assert_eq!(report.candidates.len(), 1);
     let candidate = &report.candidates[0];
     assert_eq!(candidate.response, PolicyResponse::Withheld);
@@ -39,20 +32,12 @@ fn oracle_v2_labels_blocked_candidates_and_keeps_counterfactuals_out_of_outcomes
             .denominator,
         1
     );
-    assert!(report.json.contains("\"policy_schema\":\"refinement-v2\""));
+    assert!(report.json.contains("\"policy_schema\":\"refinement\""));
 }
 
 #[test]
-fn oracle_v2_joins_released_candidate_to_actual_execution_only() {
-    let report = run_closed_loop_with_options(
-        "normal",
-        42,
-        RunOptions {
-            oracle_v2: true,
-            ..options(RefinementPolicy::B6)
-        },
-    )
-    .unwrap();
+fn refinement_joins_released_candidate_to_actual_execution_only() {
+    let report = run_closed_loop_with_options("normal", 42, options(RefinementPolicy::B6)).unwrap();
     let primary = report
         .candidates
         .iter()

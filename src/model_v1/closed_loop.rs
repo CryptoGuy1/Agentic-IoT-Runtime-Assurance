@@ -14,7 +14,6 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::time::Duration;
 
 pub const CLOSED_LOOP_SCHEMA: &str = "model-closed-loop-v1";
-pub const ORACLE_POLICY_SCHEMA: &str = "refinement-v2";
 pub const CLOSED_LOOP_SCENARIOS: &[&str] = &[
     "normal",
     "short-gap",
@@ -32,7 +31,6 @@ pub struct RunOptions {
     pub autonomous: bool,
     pub broader_recovery: bool,
     pub benchmark: bool,
-    pub oracle_v2: bool,
 }
 impl Default for RunOptions {
     fn default() -> Self {
@@ -41,7 +39,6 @@ impl Default for RunOptions {
             autonomous: false,
             broader_recovery: false,
             benchmark: false,
-            oracle_v2: false,
         }
     }
 }
@@ -1216,11 +1213,7 @@ pub fn run_closed_loop_with_options(
     );
     let json = format!(
         "{{\"policy_schema\":{},\"policy\":{},\"policy_name\":{},\"autonomous\":{},\"broader_recovery\":{},\"benchmark_ttl_ms\":{},{}",
-        quote(if options.oracle_v2 {
-            ORACLE_POLICY_SCHEMA
-        } else {
-            POLICY_SCHEMA
-        }),
+        quote(POLICY_SCHEMA),
         quote(options.policy.id()),
         quote(options.policy.name()),
         options.autonomous,

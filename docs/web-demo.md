@@ -105,6 +105,6 @@ The automated planner tests use recorded-style mock outputs to test enforcement 
 
 The new `/model` page uses the connected physical-model experiment path. It offers
 fresh experiment runs, timeline playback, certificate and feedback inspection,
-refinement-v1 policy selection, recovery alternatives and bounded autonomous
+the current refinement policy selection, recovery alternatives and bounded autonomous
 replanning. See [the software delivery guide](software-refinement-delivery.md).
 The original page and its historical benchmark definitions remain available.

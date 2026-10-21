@@ -8,6 +8,65 @@ fn options(policy: RefinementPolicy) -> RunOptions {
     }
 }
 #[test]
+fn oracle_v2_labels_blocked_candidates_and_keeps_counterfactuals_out_of_outcomes() {
+    let report = run_closed_loop_with_options(
+        "uncertain",
+        42,
+        RunOptions {
+            oracle_v2: true,
+            ..options(RefinementPolicy::B6)
+        },
+    )
+    .unwrap();
+    assert_eq!(report.candidates.len(), 1);
+    let candidate = &report.candidates[0];
+    assert_eq!(candidate.response, PolicyResponse::Withheld);
+    assert_eq!(candidate.oracle.label, OracleLabel::SafeUseful);
+    assert_eq!(candidate.target_achieved, None);
+    assert_eq!(
+        report
+            .oracle_summary
+            .overall
+            .unnecessary_block_rate
+            .numerator,
+        1
+    );
+    assert_eq!(
+        report
+            .oracle_summary
+            .overall
+            .unnecessary_block_rate
+            .denominator,
+        1
+    );
+    assert!(report.json.contains("\"policy_schema\":\"refinement-v2\""));
+}
+
+#[test]
+fn oracle_v2_joins_released_candidate_to_actual_execution_only() {
+    let report = run_closed_loop_with_options(
+        "normal",
+        42,
+        RunOptions {
+            oracle_v2: true,
+            ..options(RefinementPolicy::B6)
+        },
+    )
+    .unwrap();
+    let primary = report
+        .candidates
+        .iter()
+        .find(|c| c.role == CandidateRole::Primary)
+        .unwrap();
+    assert_eq!(primary.response, PolicyResponse::Released);
+    assert_eq!(primary.oracle.label, OracleLabel::SafeUseful);
+    assert_eq!(primary.target_achieved, Some(true));
+    assert_eq!(
+        report.oracle_summary.overall.useful_completion_rate.rate,
+        Some(1.0)
+    );
+}
+#[test]
 fn versioned_policies_keep_the_short_gap_difference_and_correlated_outcomes() {
     for policy in REFINEMENT_POLICIES {
         let report = run_closed_loop_with_options("short-gap", 42, options(policy)).unwrap();

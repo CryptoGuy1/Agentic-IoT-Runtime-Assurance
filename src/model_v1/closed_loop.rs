@@ -3,6 +3,7 @@
 use super::{
     benchmark::{self, TruePlant, TrueState},
     execution_score::{self, CompletionClaim, ExecutionBoundary},
+    oracle::{self, GroundTruthOracle},
     *,
 };
 use crate::actions::*;
@@ -13,6 +14,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::time::Duration;
 
 pub const CLOSED_LOOP_SCHEMA: &str = "model-closed-loop-v1";
+pub const ORACLE_POLICY_SCHEMA: &str = "refinement-v2";
 pub const CLOSED_LOOP_SCENARIOS: &[&str] = &[
     "normal",
     "short-gap",
@@ -30,6 +32,7 @@ pub struct RunOptions {
     pub autonomous: bool,
     pub broader_recovery: bool,
     pub benchmark: bool,
+    pub oracle_v2: bool,
 }
 impl Default for RunOptions {
     fn default() -> Self {
@@ -38,6 +41,7 @@ impl Default for RunOptions {
             autonomous: false,
             broader_recovery: false,
             benchmark: false,
+            oracle_v2: false,
         }
     }
 }
@@ -432,6 +436,69 @@ fn score_json(score: &ExecutionScore) -> String {
         score.objective_achieved
     )
 }
+fn rate_json(r: &RateMetric) -> String {
+    format!(
+        "{{\"numerator\":{},\"denominator\":{},\"rate\":{}}}",
+        r.numerator,
+        r.denominator,
+        r.rate.map_or("null".into(), |v| v.to_string())
+    )
+}
+fn metrics_json(m: &OracleMetrics) -> String {
+    format!(
+        "{{\"unsafe_release_rate\":{},\"false_safe_authorization_rate\":{},\"useful_completion_rate\":{},\"unnecessary_block_rate\":{},\"safe_unnecessary_release_rate\":{}}}",
+        rate_json(&m.unsafe_release_rate),
+        rate_json(&m.false_safe_authorization_rate),
+        rate_json(&m.useful_completion_rate),
+        rate_json(&m.unnecessary_block_rate),
+        rate_json(&m.safe_unnecessary_release_rate)
+    )
+}
+fn summary_json(s: &OracleSummary) -> String {
+    let actions = s
+        .by_action
+        .iter()
+        .map(|(k, v)| format!("{}:{}", quote(k), metrics_json(v)))
+        .collect::<Vec<_>>()
+        .join(",");
+    let roles = s
+        .by_role
+        .iter()
+        .map(|(k, v)| format!("{}:{}", quote(k), metrics_json(v)))
+        .collect::<Vec<_>>()
+        .join(",");
+    format!(
+        "{{\"overall\":{},\"by_action\":{{{actions}}},\"by_role\":{{{roles}}}}}",
+        metrics_json(&s.overall)
+    )
+}
+fn candidate_json(c: &CandidateEvaluation) -> String {
+    format!(
+        "{{\"candidate_id\":{},\"action\":{},\"role\":{},\"phase\":{},\"decided_ms\":{},\"policy_response\":{},\"oracle_label\":{},\"physically_safe\":{},\"constraint_safe\":{},\"useful\":{},\"counterfactual_target\":{},\"counterfactual_deadline_met\":{},\"safety_reason\":{},\"usefulness_reason\":{},\"physical_command_id\":{},\"released_ms\":{},\"applied_ms\":{},\"target_achieved\":{},\"deadline_met\":{},\"outcome_confirmed\":{},\"window_complete\":{}}}",
+        quote(&c.candidate_id),
+        quote(&format!("{:?}", c.action)),
+        quote(&format!("{:?}", c.role)),
+        quote(&c.phase),
+        c.decided_at.as_millis(),
+        quote(&format!("{:?}", c.response)),
+        quote(&format!("{:?}", c.oracle.label)),
+        c.oracle.physically_safe,
+        c.oracle.constraint_safe,
+        c.oracle.useful,
+        c.oracle.counterfactual_target,
+        c.oracle.counterfactual_deadline_met,
+        quote(&c.oracle.safety_reason),
+        quote(&c.oracle.usefulness_reason),
+        c.physical_command_id
+            .map_or("null".into(), |v| v.to_string()),
+        maybe_time(c.released_at),
+        maybe_time(c.applied_at),
+        c.target_achieved.map_or("null".into(), |v| v.to_string()),
+        c.deadline_met.map_or("null".into(), |v| v.to_string()),
+        c.outcome_confirmed.map_or("null".into(), |v| v.to_string()),
+        c.window_complete
+    )
+}
 fn certificate_json(c: &PhysicalCertificate) -> String {
     let references = c
         .observations
@@ -472,6 +539,8 @@ pub struct ClosedLoopReport {
     pub markdown: String,
     pub events_jsonl: String,
     pub score: ExecutionScore,
+    pub candidates: Vec<CandidateEvaluation>,
+    pub oracle_summary: OracleSummary,
     pub final_state: ActionState,
     pub contained_ticks: usize,
     pub total_ticks: usize,
@@ -513,6 +582,7 @@ pub fn run_closed_loop_with_options(
     let mut feedback_queue: Vec<Feedback> = vec![];
     let mut boundaries: Vec<ExecutionBoundary> = vec![];
     let mut completions: Vec<CompletionClaim> = vec![];
+    let mut candidates: Vec<CandidateEvaluation> = vec![];
     let mut truth = vec![];
     let mut events = vec![];
     let mut rows = vec![];
@@ -771,7 +841,7 @@ pub fn run_closed_loop_with_options(
                 runtime.runtime().assurance().evaluation().assurance_by_node["pressure.direct"]
                     .status()
             );
-            match runtime.request_lease("fan-1", ActionPhase::Start) {
+            let response = match runtime.request_lease("fan-1", ActionPhase::Start) {
                 Ok(token) => {
                     runtime
                         .dispatch("fan-1", ActionPhase::Start, &token)
@@ -782,20 +852,49 @@ pub fn run_closed_loop_with_options(
                         "proposal-allowed",
                         format!("{{\"direct_pressure_status\":{}}}", quote(&proposal_status)),
                     ));
+                    PolicyResponse::PendingCensored
                 }
-                Err(IntegratedError::Blocked(check)) => events.push(event(
-                    now,
-                    "proposal-withheld",
-                    benchmark::check_json(&check),
-                )),
-                Err(IntegratedError::Runtime(ActionError::ContractUnavailable(status))) => events
-                    .push(event(
+                Err(IntegratedError::Blocked(check)) => {
+                    events.push(event(
+                        now,
+                        "proposal-withheld",
+                        benchmark::check_json(&check),
+                    ));
+                    PolicyResponse::Withheld
+                }
+                Err(IntegratedError::Runtime(ActionError::ContractUnavailable(status))) => {
+                    events.push(event(
                         now,
                         "proposal-withheld",
                         format!("{{\"contract_status\":{}}}", quote(&format!("{status:?}"))),
-                    )),
+                    ));
+                    PolicyResponse::Withheld
+                }
                 Err(e) => return Err(error(e)),
-            }
+            };
+            // The policy response above is fixed before the hidden-state oracle is called.
+            candidates.push(CandidateEvaluation {
+                candidate_id: "fan-1:start:1".into(),
+                action: Action::FanStart,
+                role: CandidateRole::Primary,
+                phase: "START".into(),
+                decided_at: now,
+                response,
+                oracle: GroundTruthOracle::evaluate_with_need(
+                    &plant,
+                    seed,
+                    Action::FanStart,
+                    Some(true),
+                    |_| {},
+                ),
+                physical_command_id: None,
+                released_at: None,
+                applied_at: None,
+                target_achieved: None,
+                deadline_met: None,
+                outcome_confirmed: None,
+                window_complete: false,
+            });
         }
         if options.autonomous && now > config.propose_at {
             match supervisor.decide(&runtime) {
@@ -815,9 +914,40 @@ pub fn run_closed_loop_with_options(
                     events.push(event(now,"planner-plan-installed","{\"actions\":[\"DoorOpen\",\"FanStart\"],\"max_replans\":1,\"max_attempts\":4}".into()));
                 }
                 PlanningIntent::Try(id) => {
+                    let action = if id.starts_with("open-") {
+                        Action::DoorOpen
+                    } else {
+                        Action::FanStart
+                    };
                     let attempt = runtime
                         .request_lease(&id, ActionPhase::Start)
                         .and_then(|token| runtime.dispatch(&id, ActionPhase::Start, &token));
+                    candidates.push(CandidateEvaluation {
+                        candidate_id: format!("{id}:start:{}", supervisor.attempts()),
+                        action,
+                        role: CandidateRole::Replanned,
+                        phase: "START".into(),
+                        decided_at: now,
+                        response: if attempt.is_ok() {
+                            PolicyResponse::PendingCensored
+                        } else {
+                            PolicyResponse::Withheld
+                        },
+                        oracle: GroundTruthOracle::evaluate_with_need(
+                            &plant,
+                            seed,
+                            action,
+                            (action == Action::FanStart).then_some(true),
+                            |_| {},
+                        ),
+                        physical_command_id: None,
+                        released_at: None,
+                        applied_at: None,
+                        target_achieved: None,
+                        deadline_met: None,
+                        outcome_confirmed: None,
+                        window_complete: false,
+                    });
                     events.push(event(
                         now,
                         "planner-proposal",
@@ -840,6 +970,41 @@ pub fn run_closed_loop_with_options(
             match runtime.take_command() {
                 Ok(Some(command)) => {
                     let c = &command.model_command;
+                    let existing = candidates.iter_mut().find(|row| {
+                        row.action == c.action
+                            && row.response == PolicyResponse::PendingCensored
+                            && row.physical_command_id.is_none()
+                    });
+                    if let Some(row) = existing {
+                        row.response = PolicyResponse::Released;
+                        row.physical_command_id = Some(c.id);
+                        row.released_at = Some(now);
+                    } else {
+                        let role = if command.runtime_command.as_ref().is_some_and(|r| {
+                            r.command_id.contains("fan-2") || r.command_id.contains("open-1")
+                        }) {
+                            CandidateRole::Replanned
+                        } else {
+                            CandidateRole::Recovery
+                        };
+                        let id = format!("{}:release:{}", format!("{:?}", c.action), c.id);
+                        candidates.push(CandidateEvaluation {
+                            candidate_id: id,
+                            action: c.action,
+                            role,
+                            phase: "RUN/RECOVERY".into(),
+                            decided_at: now,
+                            response: PolicyResponse::Released,
+                            oracle: GroundTruthOracle::evaluate(&plant, seed, c.action, |_| {}),
+                            physical_command_id: Some(c.id),
+                            released_at: Some(now),
+                            applied_at: None,
+                            target_achieved: None,
+                            deadline_met: None,
+                            outcome_confirmed: None,
+                            window_complete: false,
+                        });
+                    }
                     events.push(event(now, "physical-command-released", format!("{{\"id\":{},\"action\":{},\"runtime_command_id\":{},\"max_delay_ms\":{},\"may_drop\":{},\"scheduled_receipt_ms\":{}}}", c.id, quote(&format!("{:?}", c.action)), command.runtime_command.as_ref().map_or("null".into(), |r| quote(&r.command_id)), c.max_delay.as_millis(), c.may_drop, (now + config.command_delay).as_millis())));
                     boundaries.push(ExecutionBoundary {
                         id: c.id,
@@ -852,6 +1017,12 @@ pub fn run_closed_loop_with_options(
                 }
                 Ok(None) => break,
                 Err(IntegratedError::Blocked(check)) => {
+                    if let Some(row) = candidates.iter_mut().find(|r| {
+                        r.response == PolicyResponse::PendingCensored
+                            && r.physical_command_id.is_none()
+                    }) {
+                        row.response = PolicyResponse::Withheld;
+                    }
                     events.push(event(
                         now,
                         "command-release-blocked",
@@ -958,6 +1129,24 @@ pub fn run_closed_loop_with_options(
     // This is the first scorer call, after every runtime/plant decision is fixed.
     let score =
         execution_score::score_execution(&truth, &boundaries, &completions, Action::FanStart);
+    for candidate in &mut candidates {
+        if let Some(id) = candidate.physical_command_id {
+            if let Some(actual) = score.commands.iter().find(|c| c.id == id) {
+                candidate.applied_at = actual.applied_at;
+                candidate.target_achieved = actual
+                    .target_by_deadline
+                    .map(|_| actual.physical_target_at.is_some());
+                candidate.deadline_met = actual.target_by_deadline;
+                candidate.outcome_confirmed = Some(actual.feedback_confirmed_at.is_some());
+                candidate.window_complete = actual.window_complete;
+            }
+        } else {
+            candidate.window_complete = truth
+                .last()
+                .is_some_and(|s| s.at >= candidate.decided_at + candidate.action.horizon());
+        }
+    }
+    let oracle_summary = oracle::summarize(&candidates);
     let final_state = runtime
         .runtime()
         .instances()
@@ -999,8 +1188,13 @@ pub fn run_closed_loop_with_options(
                 "one fixed FanStart proposal"
             },
         );
+    let candidate_rows = candidates
+        .iter()
+        .map(candidate_json)
+        .collect::<Vec<_>>()
+        .join(",");
     let json = format!(
-        "{{\"schema\":{},\"model_version\":{},\"scenario\":{},\"seed\":{},\"source_id\":{},\"config_id\":{},\"configuration\":{},\"start_allowed\":{},\"direct_pressure_status_at_proposal\":{},\"final_runtime_state\":{},\"coverage\":{{\"contained_ticks\":{},\"total_ticks\":{}}},\"score\":{},\"delivered_observations\":[{}],\"events\":[{}],\"trace\":[{}]}}\n",
+        "{{\"schema\":{},\"model_version\":{},\"scenario\":{},\"seed\":{},\"source_id\":{},\"config_id\":{},\"configuration\":{},\"start_allowed\":{},\"direct_pressure_status_at_proposal\":{},\"final_runtime_state\":{},\"coverage\":{{\"contained_ticks\":{},\"total_ticks\":{}}},\"score\":{},\"candidate_evaluations\":[{}],\"oracle_summary\":{},\"delivered_observations\":[{}],\"events\":[{}],\"trace\":[{}]}}\n",
         quote(CLOSED_LOOP_SCHEMA),
         quote(MODEL_VERSION),
         quote(name),
@@ -1014,13 +1208,19 @@ pub fn run_closed_loop_with_options(
         contained,
         rows.len(),
         score_json(&score),
+        candidate_rows,
+        summary_json(&oracle_summary),
         observations.join(","),
         events.join(","),
         rows.join(",")
     );
     let json = format!(
         "{{\"policy_schema\":{},\"policy\":{},\"policy_name\":{},\"autonomous\":{},\"broader_recovery\":{},\"benchmark_ttl_ms\":{},{}",
-        quote(POLICY_SCHEMA),
+        quote(if options.oracle_v2 {
+            ORACLE_POLICY_SCHEMA
+        } else {
+            POLICY_SCHEMA
+        }),
         quote(options.policy.id()),
         quote(options.policy.name()),
         options.autonomous,
@@ -1116,6 +1316,8 @@ pub fn run_closed_loop_with_options(
         markdown,
         events_jsonl: events.join("\n") + "\n",
         score,
+        candidates,
+        oracle_summary,
         final_state,
         contained_ticks: contained,
         total_ticks: rows.len(),

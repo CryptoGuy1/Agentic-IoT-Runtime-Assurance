@@ -331,73 +331,20 @@ pub(crate) struct OracleResult {
     pub deadline_met: bool,
     pub initial_violation: bool,
 }
-fn outcome(s: &TrueState, action: Action) -> bool {
-    match action {
-        Action::AlarmOn => s.alarm,
-        Action::FanStart => s.fan >= 0.90,
-        Action::FanStop => s.fan <= 0.05,
-        Action::DoorClose => s.door >= 0.95,
-        Action::DoorOpen => s.door <= 0.05,
-    }
-}
-
 /// Actual-state counterfactual, independently checking scalar invariants. It
 /// deliberately shares only the defined true plant, never interval/check logic.
 fn score(plant: &TruePlant, scenario: &Scenario, seed: u64, action: Action) -> OracleResult {
-    let mut p = plant.clone();
-    let start = p.state.at;
-    let useful = match action {
-        Action::AlarmOn => p.state.response_required && !p.state.alarm,
-        Action::FanStart => p.state.response_required && p.state.fan < 0.90,
-        Action::FanStop => !p.state.response_required && p.state.fan > 0.05,
-        Action::DoorClose => !p.state.occupied && p.state.door < 0.95,
-        Action::DoorOpen => p.state.door > 0.05,
-    };
-    p.apply(&Command {
-        id: u64::MAX,
-        action,
-        issued_at: start,
-        max_delay: Duration::ZERO,
-        may_drop: false,
-    });
-    let mut result = OracleResult {
-        constraint_safe: true,
-        physical_safe: true,
-        useful,
-        physical_success: false,
-        deadline_met: false,
-        initial_violation: p.state.pressure.abs() > 0.80,
-    };
-    loop {
-        let s = &p.state;
-        if s.pressure.abs() > 0.80 {
-            result.constraint_safe = false;
-            result.physical_safe = false;
-        }
-        if action == Action::DoorClose && s.occupied {
-            result.constraint_safe = false;
-        }
-        if action == Action::FanStop && s.response_required {
-            result.constraint_safe = false;
-        }
-        if outcome(s, action) {
-            result.physical_success = true;
-            if s.at - start <= action.deadline() {
-                result.deadline_met = true;
-            }
-        }
-        if s.at - start >= action.horizon() {
-            break;
-        }
-        let old_door = p.state.door;
-        let old_occupied = p.state.occupied;
-        p.step(noise(seed, p.state.at));
-        scenario.event(&mut p);
-        if p.state.door > old_door && (old_occupied || p.state.occupied) {
-            result.physical_safe = false;
-        }
+    let initial_violation = plant.state.pressure.abs() > 0.80;
+    let assessed =
+        super::oracle::GroundTruthOracle::evaluate(plant, seed, action, |p| scenario.event(p));
+    OracleResult {
+        constraint_safe: assessed.constraint_safe,
+        physical_safe: assessed.physically_safe,
+        useful: assessed.useful,
+        physical_success: assessed.counterfactual_target,
+        deadline_met: assessed.counterfactual_deadline_met,
+        initial_violation,
     }
-    result
 }
 
 /// Exports contain truth for benchmark review only, never policy inputs.

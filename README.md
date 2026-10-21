@@ -129,8 +129,15 @@ benchmark orchestration and dashboard, and our Raspberry Pi 4 for sensor inputs
 and the local actuator/gateway adapter. Start by running the existing software,
 then add the distributed communication and physical I/O adapters. See the
 [Raspberry Pi testbed and provisional shopping list](docs/raspberry-pi-testbed.md)
-for staged purchases, implementation work and benchmark requirements. The current
+for the complete purchase design, implementation work and benchmark requirements. The current
 implementation still uses simulated observations and a fake actuator.
+Use the separate [hardware procurement validation plan](docs/hardware-procurement-validation.md)
+to convert that design inventory into item-level `BUY`, `REUSE`, `EXCLUDE` or
+`UNRESOLVED` decisions backed by test cases, simulation limits and receipt tests.
+The [consolidated one-order BOM](docs/hardware-consolidated-bom.md) puts all
+validated non-owned requirements into one purchase, while the
+[Pi practitioner brief](docs/evidra-pi-practitioner-brief.md) explains the system,
+the role of each board and the alternatives to physical testing.
 
 ### Start the browser demo server
 

@@ -11,7 +11,23 @@ We already own a Pi 5 and a Pi 4 and will use both. The Pi 5 will host the
 assurance runtime, experiment orchestration and dashboard. The Pi 4 will host
 sensor acquisition and the local actuator/gateway adapter. This is the planned
 architecture; live GPIO and distributed adapters still need implementation.
+Both boards will run headless without a desktop GUI, monitor, keyboard or Wi-Fi.
+Administration and all experiment traffic will use wired Ethernet and SSH.
+We also own one power adapter for each Pi, confirmed by the owner and the supplied
+inventory photograph. Their labels still need a rating check before use, but no
+Pi power adapter is included in the purchase request.
+We own one male-to-male pack, one female-to-female pack and three male-to-female
+wires. After a continuity check, reuse them and buy one additional male-to-female
+pack for the complete bench.
+Each Pi already has a 32 GB microSD card. This is sufficient for the operating
+system, software and routine experiment logs, so storage is excluded from the
+purchase request.
 Purchase quantities below are total requirements: subtract equipment already owned.
+Before submitting the single coordinated order, apply the item-level evidence
+packet in the [hardware procurement validation plan](hardware-procurement-validation.md)
+and reconcile it against the
+[consolidated bill of materials](hardware-consolidated-bom.md). The list below is
+a design inventory until exact parts and owned quantities are recorded.
 
 ## Two-board purchase specification
 
@@ -19,28 +35,32 @@ Purchase quantities below are total requirements: subtract equipment already own
 
 | Item | Quantity | Purchase specification and purpose |
 | --- | --- | --- |
-| Pi 5 supply | 1 | Official 27W USB-C supply, 5.1 V / 5 A profile; appropriate mains plug |
-| Pi 4 supply | 1 | Official 15W USB-C supply, 5.1 V / 3 A; appropriate mains plug |
 | Pi 5 cooling | 1 | Official Active Cooler plus a case explicitly compatible with it, or a suitable fan-equipped case instead |
 | Pi 4 cooling/case | 1 set | Pi 4-specific ventilated case with heatsinks and fan; GPIO must remain accessible |
-| microSD cards | 2 | 64 GB each, reputable brand, A1/A2 and Class 10/U1 or better; one per board |
 | USB microSD reader | 1 | Compatible with the development laptop's USB port |
-| Ethernet cables | 3 | Cat5e or Cat6: two Pis and a laptop/uplink connection |
-| Gigabit Ethernet switch | 1 if needed | Five ports, unmanaged, supplied with its power adapter; reuse existing router LAN ports instead if available |
+| Ethernet cables | 3 | Cat5e or Cat6: one each for Pi 4, Pi 5 and the administration laptop |
+| Gigabit Ethernet switch | 1 if needed | Five ports, unmanaged, supplied with its power adapter; required for an isolated three-device network unless an existing router has three suitable LAN ports |
 | Power strip | 1 | At least six sockets for both Pis, actuator supply, network switch and development equipment |
 
-Verified supply references: [Pi 5 supply](https://www.raspberrypi.com/products/27w-power-supply/)
-and [Pi 4 supply](https://www.raspberrypi.com/products/type-c-power-supply/).
-Card capacity and networking choices are project recommendations, not minimum
-manufacturer requirements. A separate router is unnecessary if an existing router
-provides DHCP; an isolated switch network can also use configured static addresses.
+The owned adapter labels should be checked against the official
+[Pi 5 supply](https://www.raspberrypi.com/products/27w-power-supply/) and
+[Pi 4 supply](https://www.raspberrypi.com/products/type-c-power-supply/)
+requirements before use. Networking means the local Ethernet path carrying
+observations, commands, feedback and logs between the Pi 4, Pi 5 and development
+laptop; it does not mean buying internet service. A separate router is unnecessary
+if an existing router provides three suitable LAN ports and DHCP; an isolated
+switch network can also use configured static addresses.
+Before the first headless boot, configure a hostname, user, SSH access and wired
+network settings on each existing card. Prefer SSH keys. Static addresses make an
+isolated switch-only setup predictable; a router may instead provide DHCP
+reservations.
 
 ### Wiring, controlled inputs and measurement
 
 | Item | Quantity | Purchase specification and purpose |
 | --- | --- | --- |
 | Full-size solderless breadboards | 2 | Approximately 830 tie points each; low-current signal circuits |
-| Jumper wires | 3 packs | One pack each male-male, male-female and female-female; approximately 40 wires per pack |
+| Jumper wires | 1 pack | Male-to-female, approximately 40 wires; male-to-male and female-to-female packs plus three male-to-female wires are already owned |
 | Pi GPIO breakout | 1 set | Labelled 40-pin breakout and matching ribbon cable for Pi 4; keyed connector preferred |
 | Toggle switches | 6 | Simple maintained SPST/SPDT contacts: occupancy, fault states and manual test conditions |
 | Pushbuttons | 6 | Momentary buttons for scenario controls and acknowledgement inputs |
@@ -155,5 +175,6 @@ Hardware purchase does not by itself establish the 80% target.
 5. Re-run matched comparisons and evaluate decision correctness with uncertainty
    estimates. A successful hardware demonstration does not replace that evaluation.
 
-Purchase the two-board essentials, evidence inputs and selected physical-action kit above.
-Final fan, servo, driver and power specifications must be checked together before ordering.
+Purchase all validated, non-owned requirements in one coordinated order. Final
+fan, servo, driver, supply, fuse and feedback specifications must be checked
+together before that order is submitted.

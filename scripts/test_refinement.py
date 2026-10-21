@@ -8,9 +8,17 @@ from http.server import ThreadingHTTPServer
 from pathlib import Path
 from run_web_demo import Handler
 from model_dashboard import ModelService
-from run_refinement_benchmarks import wilson
+from run_refinement_benchmarks import wilson, oracle_summary
 ROOT=Path(__file__).resolve().parents[1]
 class RefinementTests(unittest.TestCase):
+    def test_oracle_v2_metrics_keep_denominators_and_null_zero_denominators(self):
+        rows=[
+          {'oracle_label':'SafeUseful','policy_response':'Withheld','target_achieved':None},
+          {'oracle_label':'Unsafe','policy_response':'Released','target_achieved':True}]
+        score=oracle_summary(rows)
+        self.assertEqual(score['unnecessary_block_rate'],{'numerator':1,'denominator':1,'rate':1.0})
+        self.assertEqual(score['unsafe_release_rate'],{'numerator':1,'denominator':1,'rate':1.0})
+        self.assertIsNone(score['safe_unnecessary_release_rate']['rate'])
     def test_reference_corpus_is_balanced_and_outcome_handling_stays_required(self):
         data=json.loads(subprocess.check_output([str(ROOT/'target/debug/policy_cases')],text=True))
         self.assertEqual(len(data['cases']),32)

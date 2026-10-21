@@ -11,7 +11,7 @@ fn run() -> Result<(), String> {
     while let Some(arg) = args.next() {
         if arg == "--help" {
             println!(
-                "model_demo --scenario NAME --seed N --out NEW_DIRECTORY [--policy B0..B6] [--autonomous] [--broader-recovery]\n--policy selects refinement-v1 with the frozen benchmark timing.\nScenarios: {}",
+                "model_demo --scenario NAME --seed N --out NEW_DIRECTORY [--policy B0..B6] [--oracle-v2] [--autonomous] [--broader-recovery]\n--policy selects frozen benchmark timing; --oracle-v2 emits client-specified independent candidate labels.\nScenarios: {}",
                 CLOSED_LOOP_SCENARIOS.join(", ")
             );
             return Ok(());
@@ -22,6 +22,11 @@ fn run() -> Result<(), String> {
         }
         if arg == "--broader-recovery" {
             options.broader_recovery = true;
+            continue;
+        }
+        if arg == "--oracle-v2" {
+            options.oracle_v2 = true;
+            options.benchmark = true;
             continue;
         }
         let value = args

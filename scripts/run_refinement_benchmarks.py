@@ -15,11 +15,12 @@ ROOT = Path(__file__).resolve().parents[1]
 SCENARIOS = ('normal','short-gap','recovery','uncertain','lost-feedback','delayed-command','delayed-reading')
 POLICIES = tuple('B'+str(i) for i in range(7))
 
-def source_paths():
-    return sorted((ROOT/'src').rglob('*.rs')) + [ROOT/'Cargo.toml', ROOT/'Cargo.lock', Path(__file__).resolve(), ROOT/'docs/refinement-benchmark-protocol.md']
+def source_paths(schema='refinement-v1'):
+    protocol='refinement-oracle-v2-protocol.md' if schema=='refinement-v2' else 'refinement-benchmark-protocol.md'
+    return sorted((ROOT/'src').rglob('*.rs')) + [ROOT/'Cargo.toml', ROOT/'Cargo.lock', Path(__file__).resolve(), ROOT/'docs'/protocol]
 
-def fingerprint():
-    paths = source_paths()
+def fingerprint(schema='refinement-v1'):
+    paths = source_paths(schema)
     digest=hashlib.sha256()
     for path in paths:
         digest.update(str(path.relative_to(ROOT)).encode());digest.update(path.read_bytes())
@@ -39,8 +40,21 @@ def wilson(success,total):
     half=z*((p*(1-p)/total+z*z/(4*total*total))**.5)/den
     return [max(0,center-half),min(1,center+half)]
 
+def oracle_metric(rows,label=None,response=None,target=None,den_label=None,den_response=None):
+    denominator=[r for r in rows if (den_label is None or r['oracle_label']==den_label) and (den_response is None or r['policy_response']==den_response)]
+    numerator=[r for r in denominator if (label is None or r['oracle_label']==label) and (response is None or r['policy_response']==response) and (target is None or r['target_achieved']==target)]
+    return {'numerator':len(numerator),'denominator':len(denominator),'rate':len(numerator)/len(denominator) if denominator else None}
+
+def oracle_summary(rows):
+    return {
+      'unsafe_release_rate':oracle_metric(rows,response='Released',den_label='Unsafe'),
+      'false_safe_authorization_rate':oracle_metric(rows,label='Unsafe',den_response='Released'),
+      'useful_completion_rate':oracle_metric(rows,target=True,den_label='SafeUseful'),
+      'unnecessary_block_rate':oracle_metric(rows,response='Withheld',den_label='SafeUseful'),
+      'safe_unnecessary_release_rate':oracle_metric(rows,response='Released',den_label='SafeUnnecessary')}
+
 def summarize(rows,cases,freeze):
-    result={'schema':'refinement-v1','freeze':freeze,'decision_corpus':{},'closed_loop':{},'paired_confirmatory':{},
+    result={'schema':freeze['schema'],'freeze':freeze,'decision_corpus':{},'closed_loop':{},'paired_confirmatory':{},
             'limits':['32 hand-authored contract fixtures are a finite conformance corpus, not a population sample.',
                       'Seed-block intervals are exploratory and conditional on the fixed seven-scenario mix.',
                       'No non-inferiority, general safety superiority or general 80 percent correctness claim.']}
@@ -66,6 +80,11 @@ def summarize(rows,cases,freeze):
             'runs_with_containment_failure':sum(r['coverage']['contained_ticks']!=r['coverage']['total_ticks'] for r in selected),
             'confirmatory_unsafe_seed_blocks':unsafe_blocks,'confirmatory_seed_blocks':len(blocks),
             'unsafe_seed_block_rate_interval95':wilson(unsafe_blocks,len(blocks))}
+        if freeze['schema']=='refinement-v2':
+            candidates=[c for r in selected for c in r['candidate_evaluations']]
+            result['closed_loop'][policy]['oracle']={'overall':oracle_summary(candidates),
+                'by_role':{role:oracle_summary([c for c in candidates if c['role']==role]) for role in ('Primary','Recovery','Replanned')},
+                'by_action':{action:oracle_summary([c for c in candidates if c['action']==action]) for action in ('AlarmOn','FanStart','FanStop','DoorClose','DoorOpen')}}
     lookup={(r['policy'],r['scenario'],r['seed']):r for r in rows if r['stage']=='confirmatory'}
     seeds=sorted({r['seed'] for r in rows if r['stage']=='confirmatory'})
     for comparator in ('B5','B4'):
@@ -83,44 +102,51 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--pilot-only',action='store_true')
+    parser.add_argument('--oracle-v2',action='store_true',help='run the client-specified independent physical-oracle protocol')
     args=parser.parse_args();out=args.out.resolve()
     if out.exists() or not out.parent.is_dir():parser.error('choose a new output directory with an existing parent')
     subprocess.run(['cargo','build','--offline','--bin','model_demo','--bin','policy_cases'],cwd=ROOT,check=True)
-    frozen=fingerprint()
-    freeze={'schema':'refinement-v1','source_protocol_sha256':frozen,'pilot_seeds':list(range(8)),
+    schema='refinement-v2' if args.oracle_v2 else 'refinement-v1'
+    frozen=fingerprint(schema)
+    freeze={'schema':schema,'source_protocol_sha256':frozen,'pilot_seeds':list(range(8)),
             'confirmatory_seeds':[] if args.pilot_only else list(range(8,24)),
             'scenarios':SCENARIOS,'policies':POLICIES,'primary_contrasts':['B6-minus-B5','B6-minus-B4'],'autonomous':False,'broader_recovery':False}
     out.mkdir();(out/'freeze.json').write_text(json.dumps(freeze,indent=2)+'\n')
     archive=out/'frozen-source';archive.mkdir()
     archived=hashlib.sha256()
-    for path in source_paths():
+    for path in source_paths(schema):
         relative=path.relative_to(ROOT);destination=archive/relative
         destination.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(path,destination)
         archived.update(str(relative).encode());archived.update(destination.read_bytes())
     if archived.hexdigest()!=frozen:raise RuntimeError('source changed while creating the frozen archive')
-    (out/'frozen-source-manifest.json').write_text(json.dumps({'source_protocol_sha256':frozen,'files':[str(p.relative_to(ROOT)) for p in source_paths()]},indent=2)+'\n')
+    (out/'frozen-source-manifest.json').write_text(json.dumps({'source_protocol_sha256':frozen,'files':[str(p.relative_to(ROOT)) for p in source_paths(schema)]},indent=2)+'\n')
 
     cases=json.loads(subprocess.check_output([str(ROOT/'target/debug/policy_cases')],text=True))
     (out/'decision-cases.json').write_text(json.dumps(cases,indent=2)+'\n')
     rows=[];seeds=freeze['pilot_seeds']+freeze['confirmatory_seeds']
     with (out/'runs.jsonl').open('w') as log:
         for seed in seeds:
-            if fingerprint()!=frozen:raise RuntimeError('source/protocol changed after freeze; use a new version/output')
+            if fingerprint(schema)!=frozen:raise RuntimeError('source/protocol changed after freeze; use a new version/output')
             for scenario in SCENARIOS:
                 for policy in POLICIES:
                     with tempfile.TemporaryDirectory(prefix='refinement-bench-') as temp:
                         run=Path(temp)/'run'
-                        subprocess.run([str(ROOT/'target/debug/model_demo'),'--scenario',scenario,'--seed',str(seed),'--policy',policy,'--out',str(run)],check=True,capture_output=True,text=True)
+                        argv=[str(ROOT/'target/debug/model_demo'),'--scenario',scenario,'--seed',str(seed),'--policy',policy]
+                        if args.oracle_v2:argv.append('--oracle-v2')
+                        argv += ['--out',str(run)]
+                        subprocess.run(argv,check=True,capture_output=True,text=True)
                         data=json.loads((run/'results.json').read_text())
-                    row={k:data[k] for k in ('scenario','seed','policy','policy_name','source_id','config_id','score','coverage','start_allowed','final_runtime_state')}
+                    keys=['scenario','seed','policy','policy_name','source_id','config_id','score','coverage','start_allowed','final_runtime_state']
+                    if args.oracle_v2:keys.append('candidate_evaluations')
+                    row={k:data[k] for k in keys}
                     row['stage']='pilot' if seed<8 else 'confirmatory'
                     row['replay_argv']=['model_demo','--scenario',scenario,'--seed',str(seed),'--policy',policy,'--out','NEW_DIRECTORY']
                     rows.append(row);log.write(json.dumps(row)+'\n');log.flush()
             print(f"{'Pilot' if seed<8 else 'Confirmatory'} seed {seed}: {len(rows)} runs saved",flush=True)
-    if fingerprint()!=frozen:raise RuntimeError('source/protocol changed during collection')
+    if fingerprint(schema)!=frozen:raise RuntimeError('source/protocol changed during collection')
     result=summarize(rows,cases,freeze)
     (out/'summary.json').write_text(json.dumps(result,indent=2)+'\n')
-    lines=['# Refinement policy benchmark results','','Schema refinement-v1. Historical B0–B5 are unchanged.','',
+    lines=['# Refinement policy benchmark results','',f'Schema {schema}. Historical B0–B5 are unchanged.','',
            f"Collected {len(rows)} closed-loop runs and {len(cases['cases'])} fixed decision cases per policy.",'',
            '| Policy | Contract corpus agreement | Runs | Goals achieved | Runs with pressure violation | False completion |',
            '| --- | --- | --- | --- | --- | --- |']
@@ -134,6 +160,7 @@ def main():
             'The source/protocol was hashed before pilot collection and checked through confirmation. '
             'Use runs.jsonl replay arguments with the frozen source to reconstruct any full trace.']
     (out/'report.md').write_text('\n'.join(lines)+'\n')
-    (ROOT/'output/refinement-latest.json').write_text(json.dumps({'summary_path':str(out/'summary.json')})+'\n')
+    pointer='refinement-v2-latest.json' if args.oracle_v2 else 'refinement-latest.json'
+    (ROOT/'output'/pointer).write_text(json.dumps({'summary_path':str(out/'summary.json')})+'\n')
     print(out/'report.md')
 if __name__=='__main__':main()

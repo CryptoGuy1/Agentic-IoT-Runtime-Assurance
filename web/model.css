@@ -2,3 +2,5 @@
 
 .setup summary{cursor:pointer;font-size:12px;color:var(--green);font-weight:600;padding:4px 0 10px}
 #score{overflow-x:auto}
+
+.outcomes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.outcomes article{min-width:0;padding-top:10px;border-top:2px solid var(--line)}.outcomes h3{margin:0 0 8px;color:var(--muted)}.outcomes strong{display:block;font-size:18px}.outcomes p{font-size:13px;margin-bottom:0}@media(max-width:1050px){.outcomes{grid-template-columns:1fr}}

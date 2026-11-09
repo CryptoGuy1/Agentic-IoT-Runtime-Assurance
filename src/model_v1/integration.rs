@@ -50,6 +50,9 @@ pub struct ModelRuntime {
     audit: Vec<ModelAudit>,
     claim_configuration: Option<ClaimConfiguration>,
     certificates: Vec<PhysicalCertificate>,
+    atomic_monitor: bool,
+    claim_revision: Option<u64>,
+    claim_versions: BTreeMap<String, u64>,
     policy: RefinementPolicy,
     recovery_alternatives: BTreeMap<String, Vec<Action>>,
 }
@@ -87,6 +90,9 @@ impl ModelRuntime {
             audit: vec![],
             claim_configuration: None,
             certificates: vec![],
+            atomic_monitor: false,
+            claim_revision: None,
+            claim_versions: BTreeMap::new(),
             policy: RefinementPolicy::B6,
             recovery_alternatives: BTreeMap::new(),
         })
@@ -98,6 +104,23 @@ impl ModelRuntime {
         estimator: Estimator,
         bindings: BTreeMap<String, ModelBinding>,
         configuration: ClaimConfiguration,
+    ) -> Result<Self, IntegratedError> {
+        Self::with_claim_mode(runtime, estimator, bindings, configuration, false)
+    }
+    pub(crate) fn with_atomic_monitor(
+        runtime: ActionRuntime,
+        estimator: Estimator,
+        bindings: BTreeMap<String, ModelBinding>,
+        configuration: ClaimConfiguration,
+    ) -> Result<Self, IntegratedError> {
+        Self::with_claim_mode(runtime, estimator, bindings, configuration, true)
+    }
+    fn with_claim_mode(
+        runtime: ActionRuntime,
+        estimator: Estimator,
+        bindings: BTreeMap<String, ModelBinding>,
+        configuration: ClaimConfiguration,
+        atomic_monitor: bool,
     ) -> Result<Self, IntegratedError> {
         let definitions: Vec<_> = runtime.definitions().values().cloned().collect();
         super::claims::validate_mapping(
@@ -118,6 +141,7 @@ impl ModelRuntime {
             ));
         }
         let mut owner = Self::new(runtime, estimator, bindings)?;
+        owner.atomic_monitor = atomic_monitor;
         owner.claim_configuration = Some(configuration);
         owner.refresh_claims()?;
         Ok(owner)
@@ -135,11 +159,7 @@ impl ModelRuntime {
         let Some(config) = &self.claim_configuration else {
             return Ok(());
         };
-        if self
-            .certificates
-            .last()
-            .is_some_and(|c| c.state_revision == self.estimator.revision())
-        {
+        if self.claim_revision == Some(self.estimator.revision()) {
             return Ok(());
         }
         let roots: Vec<_> = self
@@ -155,10 +175,13 @@ impl ModelRuntime {
             .collect();
         let graph = self.runtime.assurance().graph();
         let mut certificates = vec![];
+        let mut atoms = vec![];
+        let mut versions = BTreeMap::new();
         for binding in &config.replacements {
             let version = self
-                .certificate(&binding.model_evidence)
-                .map_or(Some(1), |c| c.version.checked_add(1))
+                .claim_versions
+                .get(&binding.model_evidence)
+                .map_or(Some(1), |v| v.checked_add(1))
                 .ok_or_else(|| {
                     IntegratedError::Configuration("certificate version overflow".into())
                 })?;
@@ -169,13 +192,23 @@ impl ModelRuntime {
                 })
                 .cloned()
                 .collect();
-            certificates.push(
-                super::claims::produce(&self.estimator, config, binding, version, affected)
-                    .map_err(IntegratedError::Configuration)?,
-            );
+            if self.atomic_monitor {
+                atoms.push(
+                    super::claims::monitor_atom(&self.estimator, binding, version)
+                        .map_err(IntegratedError::Configuration)?,
+                );
+            } else {
+                let certificate =
+                    super::claims::produce(&self.estimator, config, binding, version, affected)
+                        .map_err(IntegratedError::Configuration)?;
+                atoms.push(certificate.atom());
+                certificates.push(certificate);
+            }
+            versions.insert(binding.model_evidence.clone(), version);
         }
-        self.runtime
-            .update_model_claims(certificates.iter().map(PhysicalCertificate::atom).collect())?;
+        self.runtime.update_model_claims(atoms)?;
+        self.claim_versions = versions;
+        self.claim_revision = Some(self.estimator.revision());
         self.certificates.extend(certificates);
         Ok(())
     }

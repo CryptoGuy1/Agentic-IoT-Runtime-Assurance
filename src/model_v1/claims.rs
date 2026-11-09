@@ -221,36 +221,7 @@ pub(crate) fn produce(
     version: u64,
     affected_contracts: Vec<String>,
 ) -> Result<PhysicalCertificate, String> {
-    let until = estimator
-        .state()
-        .at
-        .checked_add(TICK * 2)
-        .ok_or("claim time overflow")?;
-    let mut validation = estimator.clone();
-    validation.advance_to(until)?;
-    let mut state = estimator.state().clone();
-    let mut status = AssuranceStatus::Valid;
-    loop {
-        match binding.predicate.status(&state) {
-            AssuranceStatus::Invalid => status = AssuranceStatus::Invalid,
-            AssuranceStatus::Unknown if status != AssuranceStatus::Invalid => {
-                status = AssuranceStatus::Unknown
-            }
-            _ => {}
-        }
-        if state.at == until {
-            break;
-        }
-        state = predict(
-            &state,
-            estimator.assumptions(),
-            estimator.initial_inputs(),
-            estimator.commands(),
-        );
-    }
-    if estimator.inconsistent() {
-        status = AssuranceStatus::Unknown;
-    }
+    let (until, status) = evaluate_claim(estimator, binding)?;
     Ok(PhysicalCertificate {
         schema: CLAIM_SCHEMA,
         model_version: MODEL_VERSION,
@@ -294,6 +265,65 @@ pub(crate) fn produce(
             )
         },
     })
+}
+
+/// Comparison monitor computes the same bounded predicate without constructing
+/// or retaining a PhysicalCertificate. Versioned evidence remains necessary for
+/// the matched runtime's identity, revision, horizon and lease semantics.
+pub(crate) fn monitor_atom(
+    estimator: &Estimator,
+    binding: &PhysicalClaimBinding,
+    version: u64,
+) -> Result<EvidenceAtom, String> {
+    let (until, status) = evaluate_claim(estimator, binding)?;
+    Ok(EvidenceAtom {
+        evidence_id: binding.model_evidence.clone(),
+        evidence_type: "atomic-model-monitor".into(),
+        predicate: format!("{:?}", binding.predicate),
+        source_id: "atomic-model-monitor".into(),
+        version,
+        observed_at: estimator.state().at,
+        expires_at: until,
+        status,
+        payload_hash: None,
+    })
+}
+
+fn evaluate_claim(
+    estimator: &Estimator,
+    binding: &PhysicalClaimBinding,
+) -> Result<(Duration, AssuranceStatus), String> {
+    let until = estimator
+        .state()
+        .at
+        .checked_add(TICK * 2)
+        .ok_or("claim time overflow")?;
+    let mut validation = estimator.clone();
+    validation.advance_to(until)?;
+    let mut state = estimator.state().clone();
+    let mut status = AssuranceStatus::Valid;
+    loop {
+        match binding.predicate.status(&state) {
+            AssuranceStatus::Invalid => status = AssuranceStatus::Invalid,
+            AssuranceStatus::Unknown if status != AssuranceStatus::Invalid => {
+                status = AssuranceStatus::Unknown
+            }
+            _ => {}
+        }
+        if state.at == until {
+            break;
+        }
+        state = predict(
+            &state,
+            estimator.assumptions(),
+            estimator.initial_inputs(),
+            estimator.commands(),
+        );
+    }
+    if estimator.inconsistent() {
+        status = AssuranceStatus::Unknown;
+    }
+    Ok((until, status))
 }
 
 #[cfg(test)]

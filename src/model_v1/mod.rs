@@ -11,6 +11,7 @@ mod claims;
 mod closed_loop;
 mod estimate;
 mod execution_score;
+mod generator;
 mod integration;
 mod interval;
 mod oracle;
@@ -30,6 +31,7 @@ pub use closed_loop::{
 };
 pub use estimate::{Estimator, Update};
 pub use execution_score::{AppliedCommandScore, ExecutionScore};
+pub use generator::{BUILDING_GENERATOR_VERSION, BuildingVariant};
 pub use integration::{IntegratedError, ModelAudit, ModelBinding, ModelRuntime, PhysicalCommand};
 pub use interval::Interval;
 pub use oracle::{

@@ -32,13 +32,15 @@ class RefinementTests(unittest.TestCase):
         self.assertIsNone(wilson(0,0))
     def test_dashboard_runs_rust_and_serves_model_assets_and_validates_input(self):
         server=ThreadingHTTPServer(('127.0.0.1',0),Handler);server.model_service=ModelService()
+        server.allowed_host=f'127.0.0.1:{server.server_port}'
+        server.allowed_origin=f'http://{server.allowed_host}'
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         base=f'http://127.0.0.1:{server.server_port}'
         try:
             for path,mime in [('/model','text/html'),('/model.js','text/javascript'),('/model.css','text/css')]:
                 with urllib.request.urlopen(base+path) as response:self.assertIn(mime,response.headers['Content-Type'])
-            def request(body,origin='http://127.0.0.1:8765'):
-                return urllib.request.Request(base+'/api/model/run',data=json.dumps(body).encode(),headers={'Host':'127.0.0.1:8765','Origin':origin,'Content-Type':'application/json'})
+            def request(body,origin=server.allowed_origin):
+                return urllib.request.Request(base+'/api/model/run',data=json.dumps(body).encode(),headers={'Host':server.allowed_host,'Origin':origin,'Content-Type':'application/json'})
             with urllib.request.urlopen(request({'scenario':'short-gap','policy':'B6','seed':42})) as response:data=json.load(response)
             self.assertEqual(data['policy_schema'],'refinement');self.assertEqual(data['final_runtime_state'],'Completed')
             self.assertTrue(data['candidate_evaluations'])

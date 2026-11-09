@@ -1,0 +1,25 @@
+[Unit]
+Description=Evidra Pi 5 assurance dashboard (simulation mode)
+After=network.target
+
+[Service]
+Type=simple
+User=evidra
+Group=evidra
+WorkingDirectory=/opt/evidra
+ExecStart=/usr/bin/python3 /opt/evidra/scripts/run_web_demo.py --profile release --skip-build --output-dir /var/lib/evidra
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=10
+StateDirectory=evidra
+StateDirectoryMode=0750
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/evidra
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

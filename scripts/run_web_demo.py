@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Local meeting demo: python3 scripts/run_web_demo.py. No third-party packages."""
+import argparse
 import json
+import time
 import signal
 import select
 import subprocess
@@ -34,7 +36,8 @@ COMMANDS.update({
 })
 
 class Bridge:
-    def __init__(self):
+    def __init__(self, bin_dir=None):
+        self.bin_dir = Path(bin_dir) if bin_dir else ROOT / 'target/debug'
         self.lock = threading.RLock()
         self.last_proposal = None
         self.process = None
@@ -42,7 +45,7 @@ class Bridge:
         self.start()
 
     def start(self):
-        self.process = subprocess.Popen([str(ROOT / 'target/debug/web_bridge')], cwd=ROOT,
+        self.process = subprocess.Popen([str(self.bin_dir / 'web_bridge')], cwd=ROOT,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1)
         self.failed = False
 
@@ -151,6 +154,13 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
+        if self.path == '/health/ready':
+            ready = not self.server.bridge.failed and self.server.bridge.process.poll() is None
+            return self.reply(200 if ready else 503, {
+                'ready': ready, 'role': 'pi5-assurance-host', 'mode': 'simulation',
+                'gateway_connected': False,
+                'uptime_seconds': round(time.monotonic() - self.server.started_at, 3),
+            })
         if self.path == '/api/state':
             return self.call('state')
         if self.path == '/api/model/benchmark':
@@ -171,9 +181,9 @@ class Handler(BaseHTTPRequestHandler):
         if self.path not in ('/api/control','/api/model/run'):
             return self.reply(404, {'error': 'Not found'})
         # Only our same-origin browser interface may make state-changing requests.
-        if self.headers.get('Origin') not in (None, 'http://127.0.0.1:8765'):
+        if self.headers.get('Origin') not in (None, self.server.allowed_origin):
             return self.reply(403, {'error': 'Origin not allowed'})
-        if self.headers.get('Host') != '127.0.0.1:8765':
+        if self.headers.get('Host') != self.server.allowed_host:
             return self.reply(403, {'error': 'Host not allowed'})
         if self.headers.get('Content-Type', '').split(';')[0] != 'application/json':
             return self.reply(415, {'error': 'JSON request required'})
@@ -227,14 +237,42 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *_):
         pass
 
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--port', type=int, default=8765)
+    parser.add_argument('--profile', choices=('debug', 'release'), default='debug')
+    parser.add_argument('--skip-build', action='store_true')
+    parser.add_argument('--output-dir', type=Path, default=ROOT / 'output')
+    args = parser.parse_args(argv)
+    if not 1 <= args.port <= 65535:
+        parser.error('port must be between 1 and 65535')
+    return args
+
+
 def main():
-    subprocess.run(['cargo', 'build', '--offline', '--bin', 'web_bridge', '--bin', 'model_demo'], cwd=ROOT, check=True)
-    bridge = Bridge()
+    global PLANNER_LOG_DIR
+    args = parse_args()
+    output_dir = args.output_dir.resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    PLANNER_LOG_DIR = output_dir / 'planner-runs'
+    bin_dir = ROOT / 'target' / args.profile
+    if not args.skip_build:
+        command = ['cargo', 'build', '--offline', '--bin', 'web_bridge', '--bin', 'model_demo']
+        if args.profile == 'release':
+            command.append('--release')
+        subprocess.run(command, cwd=ROOT, check=True)
+    for name in ('web_bridge', 'model_demo'):
+        if not (bin_dir / name).is_file():
+            raise SystemExit(f'Missing binary: {bin_dir / name}; build before using --skip-build')
+    bridge = Bridge(bin_dir)
     try:
-        server = ThreadingHTTPServer(('127.0.0.1', 8765), Handler)
+        server = ThreadingHTTPServer(('127.0.0.1', args.port), Handler)
         server.bridge = bridge
-        server.model_service = ModelService()
-        print('Evidra model dashboard: http://127.0.0.1:8765/model\nOriginal demo: http://127.0.0.1:8765\nVirtual time starts paused. Press Ctrl+C to stop.', flush=True)
+        server.model_service = ModelService(bin_dir, output_dir)
+        server.allowed_host = f'127.0.0.1:{args.port}'
+        server.allowed_origin = f'http://{server.allowed_host}'
+        server.started_at = time.monotonic()
+        print(f'Evidra model dashboard: {server.allowed_origin}/model\nOriginal demo: {server.allowed_origin}\nMode: simulation; Pi 4 gateway is not connected. Press Ctrl+C to stop.', flush=True)
         signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
         server.serve_forever()
     except KeyboardInterrupt:

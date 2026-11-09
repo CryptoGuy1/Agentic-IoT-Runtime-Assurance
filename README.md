@@ -139,6 +139,13 @@ validated non-owned requirements into one purchase, while the
 [Pi practitioner brief](docs/evidra-pi-practitioner-brief.md) explains the system,
 the role of each board and the alternatives to physical testing.
 
+### Raspberry Pi 5 software deployment
+
+Use the [Pi 5 deployment and readiness guide](docs/pi5-software.md) for release
+builds, host preflight, a restricted boot service, persistent results and SSH
+dashboard access. This packages simulation mode; live Pi 4 transport and physical
+I/O integration remain pending and are listed explicitly in that guide.
+
 ### Start the browser demo server
 
 Requirements: Python 3 and a Rust toolchain supporting edition 2024, with `cargo`

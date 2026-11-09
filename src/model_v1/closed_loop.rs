@@ -31,6 +31,9 @@ pub struct RunOptions {
     pub autonomous: bool,
     pub broader_recovery: bool,
     pub benchmark: bool,
+    /// Matched zero-window comparator; no PhysicalCertificate construction.
+    pub atomic_monitor: bool,
+    pub variant: Option<BuildingVariant>,
 }
 impl Default for RunOptions {
     fn default() -> Self {
@@ -39,6 +42,8 @@ impl Default for RunOptions {
             autonomous: false,
             broader_recovery: false,
             benchmark: false,
+            atomic_monitor: false,
+            variant: None,
         }
     }
 }
@@ -59,6 +64,8 @@ fn source_id() -> String {
         &[
             include_str!("closed_loop.rs"),
             include_str!("policies.rs"),
+            include_str!("generator.rs"),
+            include_str!("oracle.rs"),
             include_str!("planning.rs"),
             include_str!("execution_score.rs"),
             include_str!("benchmark.rs"),
@@ -95,6 +102,7 @@ struct Configuration {
     sensor_delay: Duration,
     feedback_delay: Duration,
     end: Duration,
+    variant: Option<BuildingVariant>,
 }
 impl Configuration {
     fn new(name: &str) -> Result<Self, String> {
@@ -156,6 +164,7 @@ impl Configuration {
             sensor_delay: ms(if name == "delayed-reading" { 300 } else { 0 }),
             feedback_delay: ms(100),
             end: ms(8000),
+            variant: None,
         };
         if name == "uncertain" {
             config.prior.pressure = Interval::new(0.76, 0.82)?;
@@ -175,9 +184,13 @@ impl Configuration {
         Ok(config)
     }
     fn drop_sensor(&self, variable: Variable, now: Duration) -> bool {
-        self.name == "short-gap"
+        (self.name == "short-gap"
             && variable == Variable::Pressure
-            && (ms(500)..ms(4000)).contains(&now)
+            && (ms(500)..ms(4000)).contains(&now))
+            || self.variant.is_some_and(|v| {
+                variable == Variable::Pressure
+                    && (ms(v.pressure_gap_start_ms)..ms(v.pressure_gap_end_ms)).contains(&now)
+            })
     }
 }
 fn setup(config: &Configuration, options: RunOptions) -> Result<ModelRuntime, String> {
@@ -312,7 +325,11 @@ fn setup(config: &Configuration, options: RunOptions) -> Result<ModelRuntime, St
         config.assumptions.clone(),
     )?;
     let mut runtime = if options.policy == RefinementPolicy::B6 {
-        ModelRuntime::with_claims(runtime, estimator, bindings, claims)
+        if options.atomic_monitor {
+            ModelRuntime::with_atomic_monitor(runtime, estimator, bindings, claims)
+        } else {
+            ModelRuntime::with_claims(runtime, estimator, bindings, claims)
+        }
     } else {
         ModelRuntime::new(runtime, estimator, bindings)
     }
@@ -552,10 +569,31 @@ pub fn run_closed_loop_with_options(
     seed: u64,
     mut options: RunOptions,
 ) -> Result<ClosedLoopReport, String> {
+    if options.atomic_monitor && options.policy != RefinementPolicy::B6 {
+        return Err("atomic monitor requires matched B6 estimator and recovery semantics".into());
+    }
     if options.policy != RefinementPolicy::B6 {
         options.benchmark = true;
     }
     let mut config = Configuration::new(name)?;
+    if let Some(v) = options.variant {
+        if name != "normal" || v != BuildingVariant::draw(v.generator_seed, v.no_invalidation) {
+            return Err(
+                "generated variants require normal fixture and canonical generator parameters"
+                    .into(),
+            );
+        }
+        config.propose_at = ms(v.propose_ms);
+        config.sensor_delay = ms(v.sensor_delay_ms);
+        config.actual.pressure = v.initial_pressure;
+        config.prior.pressure =
+            Interval::new(v.initial_pressure - 0.05, v.initial_pressure + 0.05)?;
+        config.actual.door = v.initial_door;
+        config.prior.door = p(v.initial_door);
+        config.variant = Some(v);
+        // Resolve candidate scoring windows even for the latest proposal/recovery.
+        config.end = ms(14000);
+    }
     if options.benchmark {
         config.end = ms(12000);
     }
@@ -654,6 +692,7 @@ pub fn run_closed_loop_with_options(
             }
         }
         sensor_queue.sort_by(|a, b| (a.received_at, &a.id).cmp(&(b.received_at, &b.id)));
+        events.push(event(now, "sensor-delivery-stage-start", "{}".into()));
         let due: Vec<_> = sensor_queue
             .extract_if(.., |o| o.received_at <= now)
             .collect();
@@ -692,6 +731,7 @@ pub fn run_closed_loop_with_options(
                     .map_err(error)?;
             }
         }
+        events.push(event(now, "sensor-delivery-stage-end", "{}".into()));
         if options.policy == RefinementPolicy::B4 {
             global_version += 1;
             let all_fresh = Variable::ALL
@@ -721,7 +761,12 @@ pub fn run_closed_loop_with_options(
                 })
                 .map_err(error)?;
         }
-        if name == "hazard-recovery" && now == ms(2000) {
+        if (name == "hazard-recovery" && now == ms(2000))
+            || config
+                .variant
+                .and_then(|v| v.revoke_ms)
+                .is_some_and(|at| now == ms(at))
+        {
             permission_version += 1;
             runtime
                 .update_permission(EvidenceAtom {
@@ -964,9 +1009,27 @@ pub fn run_closed_loop_with_options(
             }
         }
         loop {
+            let check_start = runtime.audit().len();
             match runtime.take_command() {
                 Ok(Some(command)) => {
                     let c = &command.model_command;
+                    if options.policy == RefinementPolicy::B6 {
+                        let check = runtime.audit()[check_start..]
+                            .iter()
+                            .rev()
+                            .find(|a| matches!(a.phase, "candidate" | "recovery-release"))
+                            .ok_or("release without model check")?;
+                        let checked_at = check.check.checked_at;
+                        if checked_at != now
+                            || check.recorded_at != now
+                            || runtime.runtime().now() != now
+                        {
+                            return Err("atomic check and release timestamps differ".into());
+                        }
+                        events.push(event(now, "atomic-release-check", format!(
+                            "{{\"id\":{},\"checked_ms\":{},\"release_ms\":{},\"atomic_monitor\":{}}}",
+                            c.id, checked_at.as_millis(), now.as_millis(), options.atomic_monitor)));
+                    }
                     let existing = candidates.iter_mut().find(|row| {
                         row.action == c.action
                             && row.response == PolicyResponse::PendingCensored
@@ -1121,7 +1184,17 @@ pub fn run_closed_loop_with_options(
             break;
         }
         plant.step(benchmark::noise(seed, now));
+        events.push(event(
+            plant.state.at,
+            "runtime-advance-before-delivery-start",
+            "{}".into(),
+        ));
         runtime.advance_to(plant.state.at).map_err(error)?;
+        events.push(event(
+            plant.state.at,
+            "runtime-advance-before-delivery-end",
+            "{}".into(),
+        ));
     }
     // This is the first scorer call, after every runtime/plant decision is fixed.
     let score =
@@ -1211,6 +1284,17 @@ pub fn run_closed_loop_with_options(
         events.join(","),
         rows.join(",")
     );
+    let json = format!(
+        "{{\"atomic_monitor\":{},{}",
+        options.atomic_monitor,
+        &json[1..]
+    );
+    let variant_json = options.variant.map_or("null".into(), |v| format!(
+        "{{\"version\":{},\"generator_seed\":{},\"no_invalidation\":{},\"propose_ms\":{},\"initial_pressure\":{},\"initial_door\":{},\"sensor_delay_ms\":{},\"pressure_gap_start_ms\":{},\"pressure_gap_end_ms\":{},\"revoke_ms\":{}}}",
+        quote(BUILDING_GENERATOR_VERSION), v.generator_seed, v.no_invalidation, v.propose_ms,
+        v.initial_pressure, v.initial_door, v.sensor_delay_ms, v.pressure_gap_start_ms,
+        v.pressure_gap_end_ms, v.revoke_ms.map_or("null".into(), |at| at.to_string())));
+    let json = format!("{{\"generated_variant\":{variant_json},{}", &json[1..]);
     let json = format!(
         "{{\"policy_schema\":{},\"policy\":{},\"policy_name\":{},\"autonomous\":{},\"broader_recovery\":{},\"benchmark_ttl_ms\":{},{}",
         quote(POLICY_SCHEMA),

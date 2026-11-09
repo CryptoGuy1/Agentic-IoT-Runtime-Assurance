@@ -8,7 +8,10 @@ import uuid
 ROOT=Path(__file__).resolve().parents[1]
 SCENARIOS=('normal','short-gap','recovery','uncertain','lost-feedback','delayed-command','delayed-reading','hazard-recovery','replanning')
 class ModelService:
-    def __init__(self):self.slots=threading.BoundedSemaphore(2)
+    def __init__(self, bin_dir=None, output_dir=None):
+        self.bin_dir = Path(bin_dir) if bin_dir else ROOT / 'target/debug'
+        self.output_dir = Path(output_dir) if output_dir else ROOT / 'output'
+        self.slots = threading.BoundedSemaphore(2)
     def run(self,request):
         if not isinstance(request,dict) or set(request)-{'scenario','policy','seed','autonomous','broader_recovery'}:
             raise ValueError('Invalid experiment fields')
@@ -19,9 +22,9 @@ class ModelService:
         if any(type(request.get(k,False)) is not bool for k in ('autonomous','broader_recovery')):raise ValueError('Planner and recovery options must be boolean')
         if not self.slots.acquire(blocking=False):raise RuntimeError('Two experiments are already running; try again shortly')
         try:
-            run_id=str(uuid.uuid4());parent=ROOT/'output/model-dashboard';parent.mkdir(parents=True,exist_ok=True)
+            run_id=str(uuid.uuid4());parent=self.output_dir/'model-dashboard';parent.mkdir(parents=True,exist_ok=True)
             destination=parent/run_id
-            args=[str(ROOT/'target/debug/model_demo'),'--scenario',scenario,'--seed',str(seed),'--policy',policy,'--out',str(destination)]
+            args=[str(self.bin_dir/'model_demo'),'--scenario',scenario,'--seed',str(seed),'--policy',policy,'--out',str(destination)]
             if request.get('autonomous'):args.append('--autonomous')
             if request.get('broader_recovery'):args.append('--broader-recovery')
             result=subprocess.run(args,cwd=ROOT,capture_output=True,text=True,timeout=30)
@@ -30,8 +33,8 @@ class ModelService:
             return data
         finally:self.slots.release()
     def benchmark(self):
-        pointer=ROOT/'output/refinement-latest.json'
+        pointer=self.output_dir/'refinement-latest.json'
         if not pointer.exists():return {'available':False,'message':'The frozen benchmark campaign has not completed yet.'}
         location=json.loads(pointer.read_text());path=Path(location['summary_path']).resolve()
-        if not path.is_relative_to(ROOT/'output'):raise RuntimeError('Invalid benchmark output location')
+        if not path.is_relative_to(self.output_dir.resolve()):raise RuntimeError('Invalid benchmark output location')
         data=json.loads(path.read_text());return {'available':True,'summary':data}

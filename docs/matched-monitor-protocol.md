@@ -115,6 +115,19 @@ dependency, not an already integrated comparator.
 
 ## Current timing and event order
 
+Use default B6 mode (`benchmark=false`) with pressure freshness of **500 ms
+from generation** for both arms. Record the mode and freshness in the protocol
+commit and run metadata. The October 1,176-run refinement campaign used
+`--policy`, which enables benchmark mode and sets pressure freshness to 750 ms.
+Keep its results separate from this default-mode study.
+
+With 300 ms delivery delay and no outage, direct pressure evidence is fresh
+from generation + 300 ms through generation + 500 ms (exclusive). This leaves
+300 ms per 500 ms cycle without fresh direct evidence. With 750 ms freshness,
+the continuous-time gap is 50 ms. Runtime decisions still use the 100 ms grid.
+Drop samples by generation time in the half-open outage interval. A queued
+sample survives an outage that starts after it was generated.
+
 The model tick is 100 ms. Ordinary sensors sample every 500 ms; hazard samples
 every 1000 ms. Sensor delivery is normally immediate, or delayed 300 ms in
 `delayed-reading`. Command delivery is normally 100 ms, or 600 ms in
@@ -186,8 +199,7 @@ results are conditional on a boundary opportunity or on an actual invalidation.
 
 Reserve generator seeds 0–999 for development only; use 0–299 for generated
 zero-window negative controls, 300–399 for both the 500 ms pilot and paired 200 ms
-sanity check. At the planning effect size this check expects only about 10 and 4
-discordances, respectively, and can detect only gross departures from linearity.
+pilot. Use the 200 ms results directly for primary sample-size planning.
 These are development data and must never
 enter confirmatory inference. Reserve 100000–109999 for held-out runs; select
 the final fixed prefix length after the development pilot, before inspecting any
@@ -206,18 +218,18 @@ stop and amend the development allocation before any held-out execution.
 The cap is 2000 independent eligible variants. Candidate sample sizes are multiples
 of 50 from 500 through 2000. Freeze one fixed prefix of the held-out range; no
 extension, early significance stopping or replacement after outcomes are inspected.
-The initial floor is ceil(10/(0.4*L_d)), where L_d is the one-sided 95% exact
-binomial lower bound for total safety discordance at 500 ms. This floor alone
+The initial floor is ceil(10/L_d), where L_d is the one-sided 95% exact
+binomial lower bound for total safety discordance at 200 ms. This floor alone
 does not establish power because it ignores discordance direction.
 
 For directional planning, obtain one-sided 97.5% exact binomial lower/upper bounds
-on favourable/reverse safety probabilities from the 500 ms development pilot and
-multiply each by 0.4. Use these conservative directional probabilities in the
+on favourable/reverse safety probabilities from the 200 ms pressure-only development pilot.
+Use these conservative directional probabilities in the
 paired multinomial model. For each candidate n above the floor, sum multinomial
 probabilities over (b,c) satisfying b>c and the exact McNemar p<0.05; require at
 least 90% model-based safety power. Thus reverse discordances are included rather
 than assumed absent. For reference b=7,c=1 gives p=0.0703125; b=8,c=1 gives
-p=0.0390625. A model-based calculation remains conditional on the scaling model.
+p=0.0390625.
 
 For completion, use the 200 ms pilot and the same multinomial enumeration with
 monitor-only completion probability at its one-sided 97.5% upper bound and
@@ -225,10 +237,9 @@ EVIDRA-only completion probability at its one-sided 97.5% lower bound. Sum over
 counts passing the exact conservative completion rule in section 6, requiring
 90% model-based completion power. Choose the smallest candidate n meeting both
 targets and the floor; 90% per component gives at least 80% joint model-based
-power by the union bound. Impossible probability pairs or a failed scaling sanity
-check invalidate these planning assumptions, rather than justify a favourable n.
+power by the union bound. Impossible probability pairs invalidate these planning assumptions.
 
-If L_d=0, 0.4*L_d<0.02, the directional effect is not favourable, or no n<=2000
+If L_d=0, L_d<0.02, the directional effect is not favourable, or no n<=2000
 meets both criteria, label the planned run underpowered/descriptive before it
 begins. In that case use n=2000 as the fixed descriptive run, with no confirmatory
 overall-win claim. Do not relax the rules after inspecting held-out results.
@@ -252,28 +263,24 @@ overall-win claim. Do not relax the rules after inspecting held-out results.
 
 ## Planning model and inference
 
-For one periodic source with random delivery/check phase and `0 <= w <= Ts`,
-`p_d ~= (w/Ts) * pi * q`. Here pi is the probability a candidate delivered sample
-invalidates support and q is the probability of an unsafe outcome conditional on
-that invalidation in the window, under the declared generator. This estimates
-paired safety discordance only if release attempts and the other arm's successful
-interception also satisfy those assumptions; measure discordance directly in pilot.
+The primary family contains a pressure-message outage on every draw. Explicit
+pressure-only selection is required before either pilot. Keep revocation
+descriptive and report unauthorized releases separately from physical harm.
 
-For small, non-overlapping source probabilities, source contributions may be
-approximated by summation: `(w/Ts_k)*pi_k*q_k` for periodic sources and
-`lambda_k*w*pi_k*q_k` for event-driven sources. Correlated sources require joint
-empirical accounting. A scripted revocation is not an observed stochastic rate.
-Log each source separately and avoid double-counting a disagreement caused by
-several events. Do not extrapolate this single-arrival model beyond its period.
-500 ms is the upper pressure window here, not a universal architecture bound.
+Enumerate the 2,100 timing tuples (5 proposal times, 2 delivery delays, 10 outage
+onsets, 21 durations) for direct pressure freshness. Stratify by delivery delay
+and compare against a no-outage timing replay to identify routine direct gaps.
+Record the primary opportunity flag before the paired policy runs using a
+reference replay on each full variant: the candidate is admitted at the initial
+check and final revalidation would block at scheduled dispatch because its
+support is absent. Include the model, initial conditions, and disturbance trace
+in that replay. Direct expiry alone cannot establish this flag.
 
-With pi*q = 0.1 and Ts = 500 ms, expected discordance is 2%, 4%, 10% at
-100, 200, 500 ms. Eight expected discordances require 400, 200, 80 variants;
-ten require 500, 250, 100. Under a Poisson count approximation with no reverse
-discordances, means 8 and 10 give about 81% and 93% probability of at least six
-discordances. These are optimistic planning probabilities, not formal achieved
-power or promised significance. Seeds are not intrinsically non-independent:
-independence comes from the generator's independent variant draws.
+Estimate the opportunity rate and conditional paired safety discordance by
+delivery delay in the pilot. Their product estimates opportunity-mediated
+discordance. Check for discordances outside that flag and report them separately.
+Keep action-attributable physical harm as the primary endpoint even if its pilot
+rate is too low to power the study. Release without valid support is secondary.
 
 Report separate paired outcomes for safety and useful completion, with explicitly
 defined common scenario denominators and separate discordant counts. For safety,
@@ -283,13 +290,12 @@ Completion uses its own paired counts; never combine it with safety into a score
 Report effect sizes and intervals. The single-primary-window rule and the
 completion requirement in sections 4 and 6 govern confirmatory claims.
 
-At 500 ms, invert observed discordance to estimate pi*q only within the single-
-source planning assumptions. Compare 200 ms discordance against 0.4 times the
-500 ms estimate using paired uncertainty. Zero discordances in 100 independent
-variants gives a one-sided 95% exact upper bound `1 - 0.05^(1/100)` = 2.95%.
-This bounds discordance for that generated family, not all real-world hazards.
-
 ## Outstanding work
+
+The timing enumerator, opportunity logging and pressure-only selector remain
+unimplemented. The planned 200 ms positive control must show model-backed
+support absent at scheduled dispatch and independently establish physical harm.
+Declare the expected split-stage release and EVIDRA block before running it.
 
 The nine fixed scenarios at seed 42 have now passed the atomic smoke test with
 zero release-decision disagreements and identical execution scores. This is not
